@@ -17,9 +17,9 @@
 #'
 #' @examples
 #'
-#' pca(data)
+#' pca_run(data)
 #'
-pca <- function(rlogMat, sample, ehbio_output_prefix){
+pca_run <- function(rlogMat, sample, ehbio_output_prefix){
 
   #print("PCA analysis")
   formulaV <- c("conditions")

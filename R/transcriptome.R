@@ -230,7 +230,7 @@ readscount2deseq <- function(count_matrix_file, sampleFile, design, covariate=NU
 #' @param output_prefix A string, will be used as output file name prefix.
 #' @param rlog Get "rlog" transformed value for downstream correlation like analysis.
 #' @param vst Get "vst" transformed value for downstream correlation like analysis. Normally faster than "rlog".
-#' @param savemat Save normalized and rlog/vst matrix to file. Default T. 
+#' @param savemat Save normalized and rlog/vst matrix to file. Default T.
 #' The file would be named like <output_prefix.DESeq2.normalized.xls>, <output_prefix.DESeq2.normalized.rlog.xls>.
 #'
 #' @return A list containing normalized expression values and/or rlog, vst transformed normalized expression values.
@@ -257,7 +257,7 @@ deseq2normalizedExpr <- function(dds, output_prefix='ehbio', rlog=T, vst=F, save
 	print("Output normalized counts")
     write.table(normalized_counts_output, file=paste0(output_prefix,".DESeq2.normalized.xls"),
                 quote=F, sep="\t", row.names=F, col.names=T)
-  }	
+  }
 
   normexpr <- list(normalized=normalized_counts, normalizedSave=normalized_counts_output)
 
@@ -370,14 +370,14 @@ twoGroupDEgenes <- function
   #print(sampleV)
   #groupA <- as.vector(sampleV$sampA)
   #groupB <- as.vector(sampleV$sampB)
-  groupA = 'trt'
-  groupB = 'untrt'
-  design = "conditions"
-  padj = 0.05
-  log2FC = 1
+  #groupA = 'trt'
+  #groupB = 'untrt'
+  #design = "conditions"
+  #padj = 0.05
+  #log2FC = 1
   # "ID", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj"
-  dropCol = c("lfcSE", "stat")
-  output_prefix = "ehbio"
+  #dropCol = c("lfcSE", "stat")
+  #output_prefix = "ehbio"
 
   print(paste("DE genes between", groupA, groupB, sep=" "))
   contrastV <- c(design, groupA, groupB)

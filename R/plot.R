@@ -332,6 +332,7 @@ base_plot_save <- function(saveplot, ...) {
 #'
 #' @inheritParams Matrix2colCorrelation
 #' @inheritParams base_plot_save
+#' @inheritParams dataFilter
 #'
 #'
 #' @return Nothing
@@ -347,6 +348,8 @@ clusterSampleHeatmap2 <- function (mat, method="pearson", digits=4,
   print("Performing sample clustering")
 
   hmcol <- colorRampPalette(RColorBrewer::brewer.pal(9, "GnBu"))(100)
+
+  mat <- dataFilter(mat, ...)
 
   pearson_cor_hc <- Matrix2colCorrelation(mat, method, digits, cor_file)
   pearson_cor <-  pearson_cor_hc$pearson_cor
