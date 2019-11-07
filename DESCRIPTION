@@ -15,10 +15,10 @@ URL:http://www.ehbio.com/Training
 Depends:
     R (>= 3.1)
 Imports:
-    ggplot2
+    ggplot2,
+	pheatmap
 Suggests:
     WGCNA,
-    pheatmap,
     DESeq2,
     RColorBrewer,
     gplots,
@@ -28,6 +28,7 @@ Suggests:
     BiocParallel,
     cowplot,
     readr,
-    dplyr
+    dplyr,
+	knitr
 
 

@@ -35,7 +35,8 @@
 #'
 #' @param categoricalTrait Categorical attributes file with format described below.
 #' The program will transferred it to 0-1 matrix like them in "traitData".
-#'
+#' One can give only `traitData` or `categoricalTrait` or both (the program will
+#' bind them together).
 #' ```
 #' ID group family
 #' samp1 WT A
@@ -59,7 +60,7 @@
 #' traitData <- 'trait.file'
 #' wgcnaL <- WGCNA_readindata(exprMat, traitData)
 #'
-WGCNA_readindata <- function(ExprMat, traitData=NULL, categoricalTrait=NULL,
+WGCNA_readindata <- function(exprMat, traitData=NULL, categoricalTrait=NULL,
                              sep="\t", row.names=1, header=T,
                              quote="", comment="", check.names=F, ...){
 
@@ -70,6 +71,7 @@ WGCNA_readindata <- function(ExprMat, traitData=NULL, categoricalTrait=NULL,
 
   continuous = 0
   category = 0
+  traitColors = NULL
   result <- list(datExpr=datExpr, traitData=NULL, traitColors=NULL)
   if(!is.null(traitData)) {
     traitData <- read.table(file=traitData, sep=sep, row.names=row.names, header=header,
@@ -94,13 +96,14 @@ WGCNA_readindata <- function(ExprMat, traitData=NULL, categoricalTrait=NULL,
     traitData = categoricalTrait
   }
 
-  # Convert traits to a color representation:
-  # white means low, red means high, grey means missing entry
-  traitColors = WGCNA::numbers2colors(traitData, signed = FALSE)
+  if(continuous+category >= 1) {
+	  # Convert traits to a color representation:
+	  # white means low, red means high, grey means missing entry
+	  traitColors = WGCNA::numbers2colors(traitData, signed = FALSE)
 
-  colnames(traitColors) <- colnames(traitData)
-  rownames(traitColors) <- rownames(traitData)
-
+	  colnames(traitColors) <- colnames(traitData)
+	  rownames(traitColors) <- rownames(traitData)
+  }
   result <- list(datExpr=datExpr, traitData=traitData, traitColors=traitColors)
 
   return(result)
@@ -427,6 +430,8 @@ WGCNA_softpower <- function(datExpr, networkType="signed", saveplot=NULL, maxPow
 
   if (is.na(power)){
     print("Using experience power since no suitable power found.")
+
+    nSamples = nrow(datExpr)
     power = ifelse(nSamples<20, ifelse(networkType == "unsigned", 9, 18),
                    ifelse(nSamples<30, ifelse(networkType == "unsigned", 8, 16),
                           ifelse(nSamples<40, ifelse(networkType == "unsigned", 7, 14),
@@ -1164,6 +1169,27 @@ WGCNA_GeneModuleTraitCoorelation <- function(datExpr, MEs_col, geneTraitCor,
     MMPvalue   = geneModuleMembershipA$p
   }
 
+
+  geneModuleMembershipMelt = as.data.frame(geneModuleMembership)
+  write.table(geneModuleMembershipMelt,file=paste0(exprMat,".gene_module_correlation.xls"),
+              sep="\t",quote=F)
+  geneModuleMembershipMelt$ID = rownames(geneModuleMembership)
+  geneModuleMembershipMelt = reshape2::melt(geneModuleMembershipMelt)
+  colnames(geneModuleMembershipMelt) <- c("Gene","Module","PersonCorrelationValue")
+  # geneTraitPMelt = as.data.frame(geneTraitP)
+  # write.table(geneTraitPMelt,file=paste0(prefix,".gene_module_correlationMelt.xls"),
+  #             sep="\t",quote=F)
+  #
+  # MMPvalueMelt$ID = rownames(MMPvalue)
+  # MMPvalueMelt = reshape2::melt(MMPvalueMelt)
+  # colnames(MMPvalueMelt) <- c("Gene","Module","Pvalue")
+  # #geneModuleMembershipP = cbind(geneModuleMembershipMelt, Pvalue=MMPvalueMelt$Pvalue)
+  # geneModuleMembershipP = merge(geneModuleMembershipMelt, MMPvalueMelt, by=c("Gene","Trait"))
+  # write.table(geneModuleMembershipP,
+  #             file=paste0(prefix,".gene_module_correlationPvalueMelt.xls"),
+  #             sep="\t",quote=F,row.names=F)
+
+
   modNames = substring(colnames(MEs_col), 3)
   # 最后把两个相关性矩阵联合起来,指定感兴趣模块进行分析
   #module = "red"
@@ -1172,6 +1198,7 @@ WGCNA_GeneModuleTraitCoorelation <- function(datExpr, MEs_col, geneTraitCor,
   phenoName = colnames(traitData)
   moduleLabels = net$colors
   moduleColors = WGCNA::labels2colors(moduleLabels)
+
 
   for(module in modNames) {
     if(module=="grey"){
@@ -1183,6 +1210,14 @@ WGCNA_GeneModuleTraitCoorelation <- function(datExpr, MEs_col, geneTraitCor,
       pheno_column = match(pheno,colnames(traitData))
       # 获取模块内的基因
       moduleGenes = moduleColors == module
+
+	  file <- paste(prefix,'gene_module_trait_cor', module,pheno,'xls',sep=".")
+	  gene_trait_module_cor <- cbind(geneModuleMembership=geneModuleMembership[moduleGenes,  module_column],
+	                                 geneTraitCor=geneTraitCor[moduleGenes,  pheno_column])
+	  gene_trait_module_cor = data.frame(ID=rownames(gene_trait_module_cor),gene_trait_module_cor)
+	  write.table(gene_trait_module_cor,
+				  file=file,  sep="\t",quote=F,row.names=F)
+
 
       base_plot_save(
           paste(prefix,'gene_module_trait_cor', module,pheno,'pdf',sep="."),

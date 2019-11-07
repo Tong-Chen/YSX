@@ -41,7 +41,7 @@ datExpr <- WGCNA_sampleClusterDetectOutlier(datExpr, traitColors=wgcnaL$traitCol
 
 power <- WGCNA_softpower(datExpr, saveplot="WGCNA_softpower.pdf")
 
-net <- WGCNA_coexprNetwrok(datExpr, power, saveplot="WGCNA_module_generation_plot.pdf")
+net <- WGCNA_coexprNetwork(datExpr, power, saveplot="WGCNA_module_generation_plot.pdf")
 
 MEs_col <- WGCNA_saveModuleAndMe(net, datExpr, saveplot="WGCNA_module_correlation_plot.pdf")
 

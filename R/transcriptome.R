@@ -379,6 +379,16 @@ twoGroupDEgenes <- function
   #dropCol = c("lfcSE", "stat")
   #output_prefix = "ehbio"
 
+  # print(groupA)
+  # if(is.list(groupA)){
+  #   groupA <- unlist(groupA)
+  # }
+  # print(groupA)
+  # print(groupB)
+  # if(is.list(groupB)){
+  #   groupB <- unlist(groupB)
+  # }
+  # print(groupB)
   print(paste("DE genes between", groupA, groupB, sep=" "))
   contrastV <- c(design, groupA, groupB)
   print(contrastV)
@@ -578,7 +588,7 @@ multipleGroupDEgenes <- function(
   }
 
   unused <- by(compare_data, 1:nrow(compare_data), function (x)
-    twoGroupDEgenes(dds, groupA=x[1,1], groupB=x[1,2], design=design, padj=padj,
+    twoGroupDEgenes(dds, groupA=unlist(x[1,1]), groupB=unlist(x[1,2]), design=design, padj=padj,
                     log2FC=log2FC, dropCol=dropCol,
                     output_prefix=output_prefix, ...))
 
