@@ -87,6 +87,11 @@ WGCNA_readindata <- function(exprMat, traitData=NULL, categoricalTrait=NULL,
                             quote=quote, comment=comment, check.names=check.names)
 
     categoricalTrait = categoricalTrait[match(sampleName, rownames(categoricalTrait)), ]
+
+    formula = as.formula(paste(c("~0",colnames(categoricalTrait)), collapse="+"))
+
+    categoricalTrait = as.data.frame(model.matrix(formula, data=categoricalTrait))
+
     category = 1
   }
 
