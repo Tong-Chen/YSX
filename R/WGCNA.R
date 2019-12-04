@@ -83,15 +83,10 @@ WGCNA_readindata <- function(exprMat, traitData=NULL, categoricalTrait=NULL,
 
   if(!is.null(categoricalTrait)) {
     categoricalTrait <- read.table(file=categoricalTrait, sep=sep, row.names=row.names,
-                            header=header,
-                            quote=quote, comment=comment, check.names=check.names)
+                                   header=header,
+                                   quote=quote, comment=comment, check.names=check.names)
 
     categoricalTrait = categoricalTrait[match(sampleName, rownames(categoricalTrait)), ]
-
-    formula = as.formula(paste(c("~0",colnames(categoricalTrait)), collapse="+"))
-
-    categoricalTrait = as.data.frame(model.matrix(formula, data=categoricalTrait))
-
     category = 1
   }
 
@@ -102,12 +97,12 @@ WGCNA_readindata <- function(exprMat, traitData=NULL, categoricalTrait=NULL,
   }
 
   if(continuous+category >= 1) {
-	  # Convert traits to a color representation:
-	  # white means low, red means high, grey means missing entry
-	  traitColors = WGCNA::numbers2colors(traitData, signed = FALSE)
+    # Convert traits to a color representation:
+    # white means low, red means high, grey means missing entry
+    traitColors = WGCNA::numbers2colors(traitData, signed = FALSE)
 
-	  colnames(traitColors) <- colnames(traitData)
-	  rownames(traitColors) <- rownames(traitData)
+    colnames(traitColors) <- colnames(traitData)
+    rownames(traitColors) <- rownames(traitData)
   }
   result <- list(datExpr=datExpr, traitData=traitData, traitColors=traitColors)
 
@@ -234,10 +229,10 @@ WGCNA_dataFilter <- function (datExpr, ...){
     # Optionally, print the gene and sample names that were removed:
     if (sum(!gsg$goodGenes)>0)
       print(paste("Removing genes:",
-                       paste(names(datExpr)[!gsg$goodGenes], collapse = ",")));
+                  paste(names(datExpr)[!gsg$goodGenes], collapse = ",")));
     if (sum(!gsg$goodSamples)>0)
       print(paste("Removing samples:",
-                       paste(rownames(datExpr)[!gsg$goodSamples], collapse = ",")));
+                  paste(rownames(datExpr)[!gsg$goodSamples], collapse = ",")));
     # Remove the offending genes and samples from the data:
     datExpr = datExpr[gsg$goodSamples, gsg$goodGenes]
   }
@@ -255,8 +250,7 @@ WGCNA_dataFilter <- function (datExpr, ...){
 #'
 #' @param datExpr A transformed gene expression matrix normally output by \code{WGCNA_dataFilter}.
 #' Samples x Genes.
-#' @param thresholdZ.k Threashold for defining abnormal samples. Default -2.5 meaning
-#' samples with standardized network connectivity less than "-2.5 sd" as outliers.
+#' @param thresholdZ.k
 #' @param traitColors Sample attributes data frame transferred by
 #' \code{\link[WGCNA]{numbers2colors}} or generated in \code{\link{WGCNA_readindata}}.
 #' @inheritParams base_plot_save
@@ -319,8 +313,8 @@ WGCNA_sampleClusterDetectOutlier <- function(datExpr, thresholdZ.k = -2.5,
   }
 
   WGCNA::plotDendroAndColors(sampleTree, groupLabels = names(datColors),
-                      colors = datColors,
-                      main = "Sample dendrogram with/without trait heatmap")
+                             colors = datColors,
+                             main = "Sample dendrogram with/without trait heatmap")
 
   if(!is.null(saveplot)) {
     dev.off()
@@ -391,8 +385,8 @@ WGCNA_softpower <- function(datExpr, networkType="signed", saveplot=NULL, maxPow
   powers = c(c(1:10), seq(from = 12, to=maxPower, by=2))
 
   sft = WGCNA::pickSoftThreshold(datExpr, powerVector=powers,
-                          networkType=networkType, verbose=5,
-                          RsquaredCut=RsquaredCut)
+                                 networkType=networkType, verbose=5,
+                                 RsquaredCut=RsquaredCut)
 
   if(!is.null(saveplot)) {
     base_plot_save(saveplot, ...)
@@ -509,17 +503,17 @@ WGCNA_softpower <- function(datExpr, networkType="signed", saveplot=NULL, maxPow
 #' net <- WGCNA_coexprNetwork(datExpr, power)
 #'
 WGCNA_coexprNetwork <- function(datExpr, power, maxBlockSize = NULL,
-                                  minModuleSize = 25, networkType = "signed",
-                                  mergeCutHeight = 0.2,
-                                  numericLabels = TRUE, pamRespectsDendro = FALSE,
-                                  saveTOMs=TRUE, corType = "bicor",
-                                  maxPOutliers=NULL, loadTOM=TRUE,
-                                  TOMDenom = "min",  deepSplit = 1,
-                                  stabilityCriterion = "Individual fraction",
-                                  saveTOMFileBase = "blockwiseTOM", verbose = 3,
-                                  randomSeed=1117,
-                                  saveplot=NULL, width=14, height=7, noplot=FALSE,
-                                  dynamicCutPlot=TRUE, ...) {
+                                minModuleSize = 25, networkType = "signed",
+                                mergeCutHeight = 0.2,
+                                numericLabels = TRUE, pamRespectsDendro = FALSE,
+                                saveTOMs=TRUE, corType = "bicor",
+                                maxPOutliers=NULL, loadTOM=TRUE,
+                                TOMDenom = "min",  deepSplit = 1,
+                                stabilityCriterion = "Individual fraction",
+                                saveTOMFileBase = "blockwiseTOM", verbose = 3,
+                                randomSeed=1117,
+                                saveplot=NULL, width=14, height=7, noplot=FALSE,
+                                dynamicCutPlot=TRUE, ...) {
 
 
   if(is.null(maxBlockSize)){
@@ -534,15 +528,15 @@ WGCNA_coexprNetwork <- function(datExpr, power, maxBlockSize = NULL,
   }
 
   net = WGCNA::blockwiseModules(datExpr, power = power, maxBlockSize = maxBlockSize,
-                         TOMType = networkType, minModuleSize = minModuleSize,
-                         networkType = networkType, mergeCutHeight = mergeCutHeight,
-                         numericLabels = numericLabels, pamRespectsDendro = pamRespectsDendro,
-                         saveTOMs=saveTOMs, corType = corType,
-                         maxPOutliers=maxPOutliers, loadTOM=loadTOM,
-                         TOMDenom = TOMDenom,  deepSplit = deepSplit,
-                         stabilityCriterion = stabilityCriterion,
-                         saveTOMFileBase = saveTOMFileBase,
-                         verbose = verbose, randomSeed=randomSeed)
+                                TOMType = networkType, minModuleSize = minModuleSize,
+                                networkType = networkType, mergeCutHeight = mergeCutHeight,
+                                numericLabels = numericLabels, pamRespectsDendro = pamRespectsDendro,
+                                saveTOMs=saveTOMs, corType = corType,
+                                maxPOutliers=maxPOutliers, loadTOM=loadTOM,
+                                TOMDenom = TOMDenom,  deepSplit = deepSplit,
+                                stabilityCriterion = stabilityCriterion,
+                                saveTOMFileBase = saveTOMFileBase,
+                                verbose = verbose, randomSeed=randomSeed)
 
   if(noplot) {
     return(net)
@@ -568,14 +562,14 @@ WGCNA_coexprNetwork <- function(datExpr, power, maxBlockSize = NULL,
   if(dynamicCutPlot) {
     dynamicColors <- WGCNA::labels2colors(net$unmergedColors)
     WGCNA::plotDendroAndColors(net$dendrograms[[1]], cbind(dynamicColors,moduleColors),
-                        c("Dynamic Tree Cut", "Module colors"),
-                        dendroLabels = FALSE, hang = 0.5,
-                        addGuide = TRUE, guideHang = 0.05)
+                               c("Dynamic Tree Cut", "Module colors"),
+                               dendroLabels = FALSE, hang = 0.5,
+                               addGuide = TRUE, guideHang = 0.05)
   } else {
     WGCNA::plotDendroAndColors(net$dendrograms[[1]], moduleColors,
-                      "Module colors",
-                      dendroLabels = FALSE, hang = 0.5,
-                      addGuide = TRUE, guideHang = 0.05)
+                               "Module colors",
+                               dendroLabels = FALSE, hang = 0.5,
+                               addGuide = TRUE, guideHang = 0.05)
   }
 
   if(!is.null(saveplot)) {
@@ -658,9 +652,9 @@ WGCNA_saveModuleAndMe <- function(net, datExpr, prefix="ehbio", saveplot=NULL, .
   }
   # marDendro/marHeatmap 设置下、左、上、右的边距
   WGCNA::plotEigengeneNetworks(MEs_col, "Eigengene adjacency heatmap",
-                        marDendro = c(3,3,2,4),
-                        marHeatmap = c(3,4,2,2), plotDendrograms = T,
-                        xLabelsAngle = 90)
+                               marDendro = c(3,3,2,4),
+                               marHeatmap = c(3,4,2,2), plotDendrograms = T,
+                               xLabelsAngle = 90)
 
   if(!is.null(saveplot)) {
     dev.off()
@@ -710,8 +704,8 @@ WGCNA_MEs_traitCorrelationHeatmap <- function(MEs_col, traitData, saveplot=NULL,
   }
   MEs_colpheno = orderMEs(cbind(MEs_col, traitData))
   WGCNA::plotEigengeneNetworks(MEs_colpheno, "Eigengene adjacency heatmap",
-                        marDendro = c(3,3,2,4), marHeatmap = c(3,4,2,2),
-                        plotDendrograms = T, xLabelsAngle = 90)
+                               marDendro = c(3,3,2,4), marHeatmap = c(3,4,2,2),
+                               plotDendrograms = T, xLabelsAngle = 90)
   if(!is.null(saveplot)) {
     dev.off()
   }
@@ -722,6 +716,7 @@ WGCNA_MEs_traitCorrelationHeatmap <- function(MEs_col, traitData, saveplot=NULL,
 #' @inheritParams WGCNA_saveModuleAndMe
 #' @inheritParams WGCNA_coexprNetwork
 #' @param TOM_plot Get TOM plot and save to file given here like 'tomplot.pdf'.
+#' @param fulledge Output all edges (very large). Default FALSE. Only output edges whithin modules.
 #'
 #' @return A list with edgeData and nodeData as two elements.
 #' @export
@@ -753,7 +748,7 @@ WGCNA_MEs_traitCorrelationHeatmap <- function(MEs_col, traitData, saveplot=NULL,
 #' WGCNA_MEs_traitCorrelationHeatmap(MEs_col, traitData=wgcnaL$traitData)
 #' cyt <- WGCNA_cytoscape(net, power, datExpr)
 #'
-WGCNA_cytoscape <- function(net, power, datExpr, TOM_plot=NULL, prefix="ehbio"){
+WGCNA_cytoscape <- function(net, power, datExpr, TOM_plot=NULL, prefix="ehbio", fulledge=F){
   ## 获取TOM矩阵，导出Cytoscape可用的数据方便网络图绘制
   # 如果采用分步计算，或设置的blocksize>=总基因数，直接load计算好的TOM结果
   # 否则需要再计算一遍，比较耗费时间
@@ -777,7 +772,7 @@ WGCNA_cytoscape <- function(net, power, datExpr, TOM_plot=NULL, prefix="ehbio"){
   if(!is.null(TOM_plot)){
     base_plot_save(TOM_plot, width=20, height=20)
     TOMplot(plotTOM, net$dendrograms, moduleColors,
-           main = "Network heatmap plot, all genes")
+            main = "Network heatmap plot, all genes")
     dev.off()
   }
 
@@ -789,15 +784,16 @@ WGCNA_cytoscape <- function(net, power, datExpr, TOM_plot=NULL, prefix="ehbio"){
   # threshold 默认为0.5, 可以根据自己的需要调整，也可以都导出后在
   # cytoscape中再调整
   cyt = WGCNA::exportNetworkToCytoscape(TOM,
-                                 weighted = TRUE, threshold = 0.01,
-                                 nodeNames = probes, nodeAttr = moduleColors)
+                                        weighted = TRUE, threshold = 0.01,
+                                        nodeNames = probes, nodeAttr = moduleColors)
 
   edgeData <- cyt$edgeData[,c(1:3)]
   colnames(edgeData) <- c("Source","Target","Correlation")
 
-  write.table(edgeData, paste0(prefix, ".cytoscape_full_edges.txt"),
-              quote=F, sep="\t", row.names=F)
-
+  if (fulledge){
+    write.table(edgeData, paste0(prefix, ".cytoscape_full_edges.txt"),
+                quote=F, sep="\t", row.names=F)
+  }
   nodeData <- cyt$nodeData[,c(1,3)]
   colnames(nodeData) <- c("nodeName", "Module")
   write.table(nodeData, paste0(prefix, ".cytoscape_full_nodes.txt"),
@@ -1056,7 +1052,7 @@ WGCNA_moduleTraitPlot <- function(MEs_col, traitData, corType="bicor", saveplot=
 #'
 #'
 WGCNA_ModuleGeneTraitHeatmap <- function(datExpr, traitData, net, corType="bicor",
-                                           prefix="ehbio", saveplot=NULL, ...) {
+                                         prefix="ehbio", saveplot=NULL, ...) {
   # 计算性状与基因的相关性矩阵
 
   ## 只有连续型性状才能进行计算，如果是离散变量，在构建样品表时就转为0-1矩阵。
@@ -1091,6 +1087,11 @@ WGCNA_ModuleGeneTraitHeatmap <- function(datExpr, traitData, net, corType="bicor
               file=paste0(prefix,".gene_trait_correlationPvalueMelt.xls"),
               sep="\t",quote=F,row.names=F)
 
+  #geneTraitCorP = merge(geneTraitCorMelt, geneTraitPMelt, by=c("Gene","Trait"))
+  write.table(geneTraitCorP[geneTraitCorP$Pvalue<0.01,],
+              file=paste0(prefix,".gene_trait_correlationPvalueMelt.p0.01.xls"),
+              sep="\t",quote=F,row.names=F)
+
   #plot_me_trat <- cbind(dynamicColors,moduleColors,geneTraitCor)
   geneTraitCorColor <- WGCNA::numbers2colors(geneTraitCor)
 
@@ -1103,10 +1104,10 @@ WGCNA_ModuleGeneTraitHeatmap <- function(datExpr, traitData, net, corType="bicor
   dynamicColors <- WGCNA::labels2colors(net$unmergedColors)
 
   WGCNA::plotDendroAndColors(net$dendrograms[[1]],
-                      cbind(dynamicColors,moduleColors,geneTraitCorColor),
-                      c("Dynamic Tree Cut", "Module colors", colnames(geneTraitCor)),
-                      dendroLabels = FALSE, hang = 0.5,
-                      addGuide = TRUE, guideHang = 0.05)
+                             cbind(dynamicColors,moduleColors,geneTraitCorColor),
+                             c("Dynamic Tree Cut", "Module colors", colnames(geneTraitCor)),
+                             dendroLabels = FALSE, hang = 0.5,
+                             addGuide = TRUE, guideHang = 0.05)
 
   if(!is.null(saveplot)) {
     dev.off()
@@ -1216,27 +1217,28 @@ WGCNA_GeneModuleTraitCoorelation <- function(datExpr, MEs_col, geneTraitCor,
       # 获取模块内的基因
       moduleGenes = moduleColors == module
 
-	  file <- paste(prefix,'gene_module_trait_cor', module,pheno,'xls',sep=".")
-	  gene_trait_module_cor <- cbind(geneModuleMembership=geneModuleMembership[moduleGenes,  module_column],
-	                                 geneTraitCor=geneTraitCor[moduleGenes,  pheno_column])
-	  gene_trait_module_cor = data.frame(ID=rownames(gene_trait_module_cor),gene_trait_module_cor)
-	  write.table(gene_trait_module_cor,
-				  file=file,  sep="\t",quote=F,row.names=F)
+      file <- paste(prefix,'gene_module_trait_cor', module,pheno,'xls',sep=".")
+      gene_trait_module_cor <- cbind(geneModuleMembership=geneModuleMembership[moduleGenes,  module_column],
+                                     geneTraitCor=geneTraitCor[moduleGenes,  pheno_column])
+      gene_trait_module_cor = data.frame(ID=rownames(gene_trait_module_cor),gene_trait_module_cor)
+      write.table(gene_trait_module_cor,
+                  file=file,  sep="\t",quote=F,row.names=F)
 
 
       base_plot_save(
-          paste(prefix,'gene_module_trait_cor', module,pheno,'pdf',sep="."),
-          bg="white", ...)
+        paste(prefix,'gene_module_trait_cor', module,pheno,'pdf',sep="."),
+        bg="white", ...)
 
       sizeGrWindow(7, 7)
       par(mfrow = c(1,1))
       # 与性状高度相关的基因，也是与性状相关的模型的关键基因
       WGCNA::verboseScatterplot(abs(geneModuleMembership[moduleGenes, module_column]),
-                         abs(geneTraitCor[moduleGenes, pheno_column]),
-                         xlab = paste("Module Membership in", module, "module"),
-                         ylab = paste("Gene significance for", pheno),
-                         main = paste("Module membership vs. gene significance\n"),
-                         cex.main = 1.2, cex.lab = 1.2, cex.axis = 1.2, col = module)
+                                geneTraitCor[moduleGenes, pheno_column],
+                                #abs(geneTraitCor[moduleGenes, pheno_column]),
+                                xlab = paste("Module Membership in", module, "module"),
+                                ylab = paste("Gene significance for", pheno),
+                                main = paste("Module membership vs. gene significance\n"),
+                                cex.main = 1.2, cex.lab = 1.2, cex.axis = 1.2, col = module)
 
       dev.off()
 
@@ -1310,7 +1312,7 @@ WGCNA_onestep <- function(exprMat, traitData=NULL, categoricalTrait=NULL,
   datExpr <- WGCNA_sampleClusterDetectOutlier(datExpr, traitColors=wgcnaL$traitColors,
                                               thresholdZ.k = thresholdZ.k,
                                               removeOutlier=removeOutlier,
-                        saveplot=paste0(prefix, ".WGCNA_sampleClusterDetectOutlier.pdf"))
+                                              saveplot=paste0(prefix, ".WGCNA_sampleClusterDetectOutlier.pdf"))
 
   power <- WGCNA_softpower(datExpr, saveplot=paste0(prefix, ".WGCNA_softpower.pdf"),
                            networkType=networkType, maxPower=maxPower,
@@ -1321,27 +1323,27 @@ WGCNA_onestep <- function(exprMat, traitData=NULL, categoricalTrait=NULL,
   }
 
   net <- WGCNA_coexprNetwork(datExpr, power,
-                      saveplot=paste0(prefix, ".WGCNA_module_generation_plot.pdf"),
-                      maxBlockSize = maxBlockSize,
-                      minModuleSize = minModuleSize, networkType = networkType,
-                      mergeCutHeight = mergeCutHeight,
-                      numericLabels = numericLabels,
-                      pamRespectsDendro = pamRespectsDendro,
-                      saveTOMs=saveTOMs, corType = corType,
-                      maxPOutliers=maxPOutliers, loadTOM=loadTOM,
-                      TOMDenom = TOMDenom, deepSplit = deepSplit,
-                      stabilityCriterion = stabilityCriterion,
-                      saveTOMFileBase = paste0(prefix,".blockwiseTOM"),
-                      verbose = verbose, randomSeed=randomSeed,
-                      dynamicCutPlot=dynamicCutPlot)
+                             saveplot=paste0(prefix, ".WGCNA_module_generation_plot.pdf"),
+                             maxBlockSize = maxBlockSize,
+                             minModuleSize = minModuleSize, networkType = networkType,
+                             mergeCutHeight = mergeCutHeight,
+                             numericLabels = numericLabels,
+                             pamRespectsDendro = pamRespectsDendro,
+                             saveTOMs=saveTOMs, corType = corType,
+                             maxPOutliers=maxPOutliers, loadTOM=loadTOM,
+                             TOMDenom = TOMDenom, deepSplit = deepSplit,
+                             stabilityCriterion = stabilityCriterion,
+                             saveTOMFileBase = paste0(prefix,".blockwiseTOM"),
+                             verbose = verbose, randomSeed=randomSeed,
+                             dynamicCutPlot=dynamicCutPlot)
 
   MEs_col <- WGCNA_saveModuleAndMe(net, datExpr, prefix=prefix,
-                     saveplot=paste0(prefix, ".WGCNA_module_correlation_plot.pdf"))
+                                   saveplot=paste0(prefix, ".WGCNA_module_correlation_plot.pdf"))
 
   net$MEs_col <- MEs_col
 
   WGCNA_MEs_traitCorrelationHeatmap(MEs_col, traitData=wgcnaL$traitData,
-                     saveplot=paste0(prefix,".WGCNA_moduletrait_correlation_plot.pdf"))
+                                    saveplot=paste0(prefix,".WGCNA_moduletrait_correlation_plot.pdf"))
 
   cyt <- WGCNA_cytoscape(net, power, datExpr, TOM_plot=TOM_plot, prefix=prefix)
 
@@ -1356,8 +1358,8 @@ WGCNA_onestep <- function(exprMat, traitData=NULL, categoricalTrait=NULL,
                         corType=corType, prefix=prefix, ...)
 
   geneTraitCor <- WGCNA_ModuleGeneTraitHeatmap(datExpr, traitData=wgcnaL$traitData,
-                        net=net, prefix=prefix,
-                        saveplot=paste0(prefix,".WGCNA_ModuleGeneTraitHeatmap.pdf"))
+                                               net=net, prefix=prefix,
+                                               saveplot=paste0(prefix,".WGCNA_ModuleGeneTraitHeatmap.pdf"))
 
   net$geneTraitCor <- geneTraitCor
 
