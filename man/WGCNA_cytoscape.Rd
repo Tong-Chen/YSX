@@ -4,7 +4,8 @@
 \alias{WGCNA_cytoscape}
 \title{Export WGCNA resullt for cytoscape input edges and nodes.}
 \usage{
-WGCNA_cytoscape(net, power, datExpr, TOM_plot = NULL, prefix = "ehbio")
+WGCNA_cytoscape(net, power, datExpr, TOM_plot = NULL, prefix = "ehbio",
+  fulledge = F)
 }
 \arguments{
 \item{net}{\code{\link{WGCNA_coexprNetwork}} or \code{\link[WGCNA]{blockwiseModules}} returned WGCNA object.}
@@ -18,6 +19,8 @@ allowed, but not too many. See \code{checkMissingData} below and details.}
 \item{TOM_plot}{Get TOM plot and save to file given here like 'tomplot.pdf'.}
 
 \item{prefix}{prefix for output files.}
+
+\item{fulledge}{Output all edges (very large). Default FALSE. Only output edges whithin modules.}
 }
 \value{
 A list with edgeData and nodeData as two elements.

@@ -90,8 +90,11 @@ correlation analysis.}
 
 \item{minimal_mad}{Minimal allowed mad value.}
 
-\item{thresholdZ.k}{Threashold for defining abnormal samples. Default -2.5 meaning
-samples with standardized network connectivity less than "-2.5 sd" as outliers.}
+\item{thresholdZ.k}{Threshold for defining outliers. First compute the overall
+corelation of one sample to other samples. Then do Z-score transfer for all
+correlation values. The samples with corelation values less than given value
+would be treated as outliers.
+Default -2.5 meaning -2.5 std.}
 
 \item{TOM_plot}{Get TOM plot and save to file given here like 'tomplot.pdf'.}
 
