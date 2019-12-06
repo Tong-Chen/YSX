@@ -56,7 +56,7 @@ widedataframe2boxplot <- function(widedataframe, saveplot=NULL, ylab="", ...) {
 #' Or a named vector to label specified points with new names.
 #' @param colorvector A vector with length 2 to speicfy low and high colors.
 #' Or a vector with length 3 to specify low, middle and high colors.
-#' Default \code{c("dark green","yellow","dark red")}.
+#' Default \code{c("green","yellow","red")}.
 #' @param alpha Transparency value.
 #' @param width Picture width in "cm".
 #' @param height Picture height in "cm".
@@ -98,7 +98,7 @@ rankPlot <- function(data, order_col="log2FoldChange",
                      # Or a named vector to label new symbols
                      label=NULL,
                      alpha=0.5,
-                     colorvector=c("dark green","yellow","dark red"),
+                     colorvector=c("green","yellow","red"),
                      width=13.5, height=15, ...){
   data_line <- data[order(data[[order_col]]),,drop=F]
   row_num <- nrow(data_line)
