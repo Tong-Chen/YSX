@@ -325,7 +325,7 @@ WGCNA_sampleClusterDetectOutlier <- function(datExpr, thresholdZ.k = -2.5,
   }
 
   if(removeOutlier) {
-    datExpr <- datExpr[which(Z.k < thresholdZ.k),]
+    datExpr <- datExpr[which(Z.k >= thresholdZ.k),]
   }
   return(datExpr)
 }
