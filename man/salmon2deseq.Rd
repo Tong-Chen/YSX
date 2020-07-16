@@ -4,8 +4,15 @@
 \alias{salmon2deseq}
 \title{Iniitialize a DESeq2 object from salmon output.}
 \usage{
-salmon2deseq(salmon_file_list, sampleFile, design, covariate = NULL,
-  tx2gene = NULL, filter = NULL, rundeseq = T)
+salmon2deseq(
+  salmon_file_list,
+  sampleFile,
+  design,
+  covariate = NULL,
+  tx2gene = NULL,
+  filter = NULL,
+  rundeseq = T
+)
 }
 \arguments{
 \item{salmon_file_list}{A two-column file with the first column as sample names and

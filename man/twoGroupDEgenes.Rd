@@ -4,9 +4,17 @@
 \alias{twoGroupDEgenes}
 \title{DE genes analysis for two groups.}
 \usage{
-twoGroupDEgenes(dds, groupA, groupB, design = "conditions",
-  padj = 0.05, log2FC = 1, dropCol = c("lfcSE", "stat"),
-  output_prefix = "ehbio", ...)
+twoGroupDEgenes(
+  dds,
+  groupA,
+  groupB,
+  design = "conditions",
+  padj = 0.05,
+  log2FC = 1,
+  dropCol = c("lfcSE", "stat"),
+  output_prefix = "ehbio",
+  ...
+)
 }
 \arguments{
 \item{dds}{\code{\link{DESeq}} function returned object.}

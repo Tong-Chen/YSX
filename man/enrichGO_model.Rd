@@ -4,9 +4,15 @@
 \alias{enrichGO_model}
 \title{GO enrichment for model organism.}
 \usage{
-enrichGO_model(de_file, org_db = "org.Hs.eg.db", output_prefix = NULL,
-  pvalueCutoff = 0.05, qvalueCutoff = 0.2, setReadable = TRUE,
-  typeL = c("BP", "MF", "CC"))
+enrichGO_model(
+  de_file,
+  org_db = "org.Hs.eg.db",
+  output_prefix = NULL,
+  pvalueCutoff = 0.05,
+  qvalueCutoff = 0.2,
+  setReadable = TRUE,
+  typeL = c("BP", "MF", "CC")
+)
 }
 \arguments{
 \item{de_file}{Two columns file with first column containing DE genes and second column with group names.}

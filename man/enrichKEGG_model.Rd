@@ -4,9 +4,15 @@
 \alias{enrichKEGG_model}
 \title{KEGG enrichment for model organism.}
 \usage{
-enrichKEGG_model(de_file, org_db = "org.Hs.eg.db",
-  output_prefix = NULL, organism = "human", pvalueCutoff = 0.05,
-  qvalueCutoff = 0.2, setReadable = TRUE)
+enrichKEGG_model(
+  de_file,
+  org_db = "org.Hs.eg.db",
+  output_prefix = NULL,
+  organism = "human",
+  pvalueCutoff = 0.05,
+  qvalueCutoff = 0.2,
+  setReadable = TRUE
+)
 }
 \arguments{
 \item{org_db}{R annotation package like org.Hs.eg.db.}

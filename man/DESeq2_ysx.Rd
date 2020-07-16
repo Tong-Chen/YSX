@@ -4,10 +4,22 @@
 \alias{DESeq2_ysx}
 \title{One step DEseq2 DE genes analysis for salmon output.}
 \usage{
-DESeq2_ysx(file, sampleFile, design, type, covariate = NULL,
-  tx2gene = NULL, filter = NULL, output_prefix = "ehbio", rlog = T,
-  vst = F, comparePairFile = NULL, padj = 0.05, log2FC = 1,
-  dropCol = c("lfcSE", "stat"))
+DESeq2_ysx(
+  file,
+  sampleFile,
+  design,
+  type,
+  covariate = NULL,
+  tx2gene = NULL,
+  filter = NULL,
+  output_prefix = "ehbio",
+  rlog = T,
+  vst = F,
+  comparePairFile = NULL,
+  padj = 0.05,
+  log2FC = 1,
+  dropCol = c("lfcSE", "stat")
+)
 }
 \arguments{
 \item{file}{A file containing salmon output file lists if "type=salmon"

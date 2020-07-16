@@ -5,8 +5,7 @@
 \title{Get ordered column correlation matrix from input dataframe. Normally used
 to do sample corealtion of gene expression or OTU abundance matrix.}
 \usage{
-Matrix2colCorrelation(mat, method = "pearson", digits = 4,
-  cor_file = NULL)
+Matrix2colCorrelation(mat, method = "pearson", digits = 4, cor_file = NULL)
 }
 \arguments{
 \item{mat}{A dataframe.}

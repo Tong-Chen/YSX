@@ -24,15 +24,23 @@ Sox3 2 3
 
 }}
 
-\item{x}{List of name value pairs giving aesthetics to map to
-variables. The names for x and y aesthetics are typically omitted because
-they are so common; all other aesthetics must be named.}
+\item{x}{List of name-value pairs in the form \code{aesthetic = variable}
+describing which variables in the layer data should be mapped to which
+aesthetics used by the paired geom/stat. The expression \code{variable} is
+evaluated within the layer data, so there is no need to refer to
+the original dataset (i.e., use \code{ggplot(df, aes(variable))}
+instead of \code{ggplot(df, aes(df$variable))}). The names for x and y aesthetics
+are typically omitted because they are so common; all other aesthetics must be named.}
 
-\item{y}{List of name value pairs giving aesthetics to map to
-variables. The names for x and y aesthetics are typically omitted because
-they are so common; all other aesthetics must be named.}
+\item{y}{List of name-value pairs in the form \code{aesthetic = variable}
+describing which variables in the layer data should be mapped to which
+aesthetics used by the paired geom/stat. The expression \code{variable} is
+evaluated within the layer data, so there is no need to refer to
+the original dataset (i.e., use \code{ggplot(df, aes(variable))}
+instead of \code{ggplot(df, aes(df$variable))}). The names for x and y aesthetics
+are typically omitted because they are so common; all other aesthetics must be named.}
 
-\item{facets}{A set of variables or expressions quoted by \code{\link[=vars]{vars()}}
+\item{facets}{A set of variables or expressions quoted by \code{\link[ggplot2:vars]{vars()}}
 and defining faceting groups on the rows or columns dimension.
 The variables can be named (the names are passed to \code{labeller}).
 
@@ -48,7 +56,7 @@ Get stack violin plot for a normal matrix
 }
 \examples{
 
-random_v <- c(rnorm(10, mean=1, sd=0.1), rnorm(10, mean=10), rnorm(20, mean=10),
+random_v <- c(rnorm(10, mean=1, sd=0.1), rnorm(10, mean=5), rnorm(20, mean=10),
               rnorm(10, mean=10), rnorm(10, mean=0.2, sd=0.01), rnorm(20, mean=1))
 data <- data.frame(Gene=c(paste0('SOX', rep(2,40)), paste0('SOX', rep(3,40))),
                    Expr=random_v, Cluster=rep(c(rep(1,10), rep(2,10),rep(3,20)),2))

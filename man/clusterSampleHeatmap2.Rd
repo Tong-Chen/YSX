@@ -5,8 +5,14 @@
 \title{Compute and plot column correlation matrix. Normally used
 to do sample corealtion of gene expression or OTU abundance matrix.}
 \usage{
-clusterSampleHeatmap2(mat, method = "pearson", digits = 4,
-  cor_file = NULL, saveplot = NULL, ...)
+clusterSampleHeatmap2(
+  mat,
+  method = "pearson",
+  digits = 4,
+  cor_file = NULL,
+  saveplot = NULL,
+  ...
+)
 }
 \arguments{
 \item{mat}{A dataframe.}

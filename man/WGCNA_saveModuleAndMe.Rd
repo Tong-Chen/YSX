@@ -4,8 +4,7 @@
 \alias{WGCNA_saveModuleAndMe}
 \title{Save gene-module relationships, MEs and plot module correlations.}
 \usage{
-WGCNA_saveModuleAndMe(net, datExpr, prefix = "ehbio", saveplot = NULL,
-  ...)
+WGCNA_saveModuleAndMe(net, datExpr, prefix = "ehbio", saveplot = NULL, ...)
 }
 \arguments{
 \item{net}{\code{\link{WGCNA_coexprNetwork}} or \code{\link[WGCNA]{blockwiseModules}} returned WGCNA object.}

@@ -4,9 +4,18 @@
 \alias{WGCNA_readindata}
 \title{Read in expression matrix and trait data (if possible).}
 \usage{
-WGCNA_readindata(exprMat, traitData = NULL, categoricalTrait = NULL,
-  sep = "\\t", row.names = 1, header = T, quote = "",
-  comment = "", check.names = F, ...)
+WGCNA_readindata(
+  exprMat,
+  traitData = NULL,
+  categoricalTrait = NULL,
+  sep = "\\t",
+  row.names = 1,
+  header = T,
+  quote = "",
+  comment = "",
+  check.names = F,
+  ...
+)
 }
 \arguments{
 \item{exprMat}{Gene expression matrix in format as "Genes x Samples".
@@ -90,7 +99,7 @@ samp6 OE B
 \item{...}{Other parameters given to \code{\link{read.table}}.}
 }
 \value{
-A lsit with three elements: <datExpr> and <traitData>, <traitColors>.
+A lsit with three elements: \code{datExpr} and \code{traitData}, \code{traitColors}.
 }
 \description{
 Read in expression matrix and trait data (if possible).

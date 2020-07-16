@@ -4,8 +4,14 @@
 \alias{WGCNA_cytoscape}
 \title{Export WGCNA resullt for cytoscape input edges and nodes.}
 \usage{
-WGCNA_cytoscape(net, power, datExpr, TOM_plot = NULL, prefix = "ehbio",
-  fulledge = F)
+WGCNA_cytoscape(
+  net,
+  power,
+  datExpr,
+  TOM_plot = NULL,
+  prefix = "ehbio",
+  fulledge = F
+)
 }
 \arguments{
 \item{net}{\code{\link{WGCNA_coexprNetwork}} or \code{\link[WGCNA]{blockwiseModules}} returned WGCNA object.}

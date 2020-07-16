@@ -4,9 +4,16 @@
 \alias{multipleGroupDEgenes}
 \title{DE genes analysis for multiple groups.}
 \usage{
-multipleGroupDEgenes(dds, comparePairFile = NULL,
-  design = "conditions", padj = 0.05, log2FC = 1,
-  dropCol = c("lfcSE", "stat"), output_prefix = "ehbio", ...)
+multipleGroupDEgenes(
+  dds,
+  comparePairFile = NULL,
+  design = "conditions",
+  padj = 0.05,
+  log2FC = 1,
+  dropCol = c("lfcSE", "stat"),
+  output_prefix = "ehbio",
+  ...
+)
 }
 \arguments{
 \item{dds}{\code{\link{DESeq}} function returned object.}

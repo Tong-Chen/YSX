@@ -5,8 +5,13 @@
 \title{Filter low variance genes by given minimal \code{\link{mad}} value or keep top
 number/percent genes with bigger variances.}
 \usage{
-dataFilter(datExpr, minimal_mad = NULL, top_mad_n = 0.75,
-  rmVarZero = T)
+dataFilter(
+  datExpr,
+  minimal_mad = NULL,
+  top_mad_n = 0.75,
+  rmVarZero = T,
+  noLessThan = NULL
+)
 }
 \arguments{
 \item{datExpr}{Normal gene expression matrix (gene x sample).}
@@ -19,6 +24,8 @@ all genes).}
 
 \item{rmVarZero}{Default TRUE. Remove genes with variance as 0. Normally for PCA or
 correlation analysis.}
+
+\item{noLessThan}{Specify the lowest number of genes to be kept. Default \code{NULL} meaining no lower limit.}
 }
 \value{
 A dataframe.

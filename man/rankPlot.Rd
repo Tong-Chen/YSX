@@ -4,10 +4,18 @@
 \alias{rankPlot}
 \title{Rankplot for given column.}
 \usage{
-rankPlot(data, order_col = "log2FoldChange", midpoint = 0,
-  saveplot = NULL, label = NULL, alpha = 0.5,
-  colorvector = c("dark green", "yellow", "dark red"), width = 13.5,
-  height = 15, ...)
+rankPlot(
+  data,
+  order_col = "log2FoldChange",
+  midpoint = 0,
+  saveplot = NULL,
+  label = NULL,
+  alpha = 0.5,
+  colorvector = c("green", "yellow", "red"),
+  width = 13.5,
+  height = 15,
+  ...
+)
 }
 \arguments{
 \item{data}{A dataframe with effective row names.}
@@ -26,7 +34,7 @@ Or a named vector to label specified points with new names.}
 
 \item{colorvector}{A vector with length 2 to speicfy low and high colors.
 Or a vector with length 3 to specify low, middle and high colors.
-Default \code{c("dark green","yellow","dark red")}.}
+Default \code{c("green","yellow","red")}.}
 
 \item{width}{Picture width in "cm".}
 

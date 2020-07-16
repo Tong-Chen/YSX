@@ -5,9 +5,16 @@
 \title{Compute and plot column correlation matrix. Normally used
 to do sample corealtion of gene expression or OTU abundance matrix.}
 \usage{
-clusterSamplePheatmap(mat, method = "pearson", digits = 4,
-  sampleAnno = NA, cellsize = NULL, cor_file = NULL, saveplot = NA,
-  ...)
+clusterSamplePheatmap(
+  mat,
+  method = "pearson",
+  digits = 4,
+  sampleAnno = NA,
+  cellsize = NULL,
+  cor_file = NULL,
+  saveplot = NA,
+  ...
+)
 }
 \arguments{
 \item{mat}{A dataframe.}

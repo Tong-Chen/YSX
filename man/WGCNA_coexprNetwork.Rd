@@ -4,15 +4,32 @@
 \alias{WGCNA_coexprNetwork}
 \title{WGCNA main function.}
 \usage{
-WGCNA_coexprNetwork(datExpr, power, maxBlockSize = NULL,
-  minModuleSize = 25, networkType = "signed", mergeCutHeight = 0.2,
-  numericLabels = TRUE, pamRespectsDendro = FALSE, saveTOMs = TRUE,
-  corType = "bicor", maxPOutliers = NULL, loadTOM = TRUE,
-  TOMDenom = "min", deepSplit = 1,
+WGCNA_coexprNetwork(
+  datExpr,
+  power,
+  maxBlockSize = NULL,
+  minModuleSize = NULL,
+  networkType = "signed",
+  mergeCutHeight = 0.2,
+  numericLabels = TRUE,
+  pamRespectsDendro = FALSE,
+  saveTOMs = TRUE,
+  corType = "bicor",
+  maxPOutliers = NULL,
+  loadTOM = TRUE,
+  TOMDenom = "min",
+  deepSplit = 1,
   stabilityCriterion = "Individual fraction",
-  saveTOMFileBase = "blockwiseTOM", verbose = 3, randomSeed = 1117,
-  saveplot = NULL, width = 14, height = 7, noplot = FALSE,
-  dynamicCutPlot = TRUE, ...)
+  saveTOMFileBase = "blockwiseTOM",
+  verbose = 3,
+  randomSeed = 1117,
+  saveplot = NULL,
+  width = 14,
+  height = 7,
+  noplot = FALSE,
+  dynamicCutPlot = TRUE,
+  ...
+)
 }
 \arguments{
 \item{datExpr}{ Expression data. A matrix (preferred) or 
@@ -29,7 +46,7 @@ will be pre-clustered into blocks whose size should not exceed \code{maxBlockSiz
 \code{\link[dynamicTreeCut]{cutreeDynamic}} for more details.  }
 
 \item{networkType}{ network type. Allowed values are (unique abbreviations of) \code{"unsigned"},
-\code{"signed"}, \code{"signed hybrid"}. See \code{\link{adjacency}}. }
+\code{"signed"}, \code{"signed hybrid"}. See \code{\link[WGCNA]{adjacency}}. }
 
 \item{mergeCutHeight}{ dendrogram cut height for module merging. }
 

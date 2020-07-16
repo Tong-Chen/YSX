@@ -4,8 +4,14 @@
 \alias{readscount2deseq}
 \title{Iniitialize a DESeq2 object from raw reads count matrix.}
 \usage{
-readscount2deseq(count_matrix_file, sampleFile, design, covariate = NULL,
-  filter = NULL, rundeseq = T)
+readscount2deseq(
+  count_matrix_file,
+  sampleFile,
+  design,
+  covariate = NULL,
+  filter = NULL,
+  rundeseq = T
+)
 }
 \arguments{
 \item{count_matrix_file}{A multiple column file with the first column as gene

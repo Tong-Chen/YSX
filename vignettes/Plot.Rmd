@@ -1,0 +1,527 @@
+---
+title: "Plotting functions"
+author: "Fan Mingjie, Chen Tong"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+  fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{Plotting fucntions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Heatmap plot
+
+### Transfer a file to heatmap
+
+```{r}
+library(YSX)
+library(pheatmap)
+library(RColorBrewer)
+library(grid)
+sp_pheatmap("exprTable.txt", xtics_angle = 90, cluster_rows = T, cluster_cols = T)
+```
+
+
+### Transfer a matrix to heatmap
+
+```{r}
+exprTable <- read.table("exprTable.txt", sep="\t", row.names=1, header=T)
+exprTable
+sp_pheatmap(exprTable, manual_color_vector="Set2")
+```
+
+```{r}
+sp_pheatmap(exprTable, manual_color_vector=c("green","red"), scale="row")
+```
+
+
+```{r}
+sp_pheatmap(exprTable, cluster_rows = T, logv="log2", manual_color_vector="YlOrRd")
+```
+
+### Heatmap add side color bars
+
+```{r}
+# Row annotation
+# Can be a dataframe or a file
+annotation_row = data.frame(Type=c("TF","TF","TF","TF","Enzyme","Enzyme"), row.names=rownames(exprTable))
+
+# sp_writeTable(annotation_row, "exprTable.annorow.txt")
+
+annotation_col = data.frame(Count=c(1,2,4,8,16,32), row.names=colnames(exprTable))
+
+# sp_writeTable(annotation_col, "exprTable.annocol.txt")
+
+sp_pheatmap(exprTable, xtics_angle = 90, cluster_rows = T, cluster_cols = T,
+            annotation_row = annotation_row, annotation_col = annotation_col)
+```
+
+
+
+### Heatmap changing colors of side color bars
+
+```{r}
+annotation_colors <- list(Type=c(TF="red",Enzyme="green"), Count=c("grey","blue"))
+sp_pheatmap(exprTable, xtics_angle = 90, cluster_rows = T, cluster_cols = T,
+            annotation_row = annotation_row, annotation_col = annotation_col,
+            manual_annotation_colors_sidebar = annotation_colors)
+```
+
+```{r}
+pheatmap(exprTable, cluster_rows = T, cluster_cols = T,
+            annotation_row = annotation_row, annotation_col = annotation_col,
+            annotation_colors = annotation_colors, clustering_distance_rows = "correlation",
+         clustering_distance_cols = "correlation")
+```
+
+### Heatmap set breaks
+
+```{r}
+sp_pheatmap(exprTable, breaks="quantile", breaks_mid = 20)
+```
+
+```{r}
+sp_pheatmap(exprTable, breaks=c(0,5,10,20,40), manual_color_vector = "YlGnBu")
+```
+
+
+
+## Flower plot
+
+```{r}
+library(YSX)
+library(plotrix)
+library(RColorBrewer)
+
+set_data = "Set.data"
+
+flower_plot(set_data)
+# flower_plot(set_data, saveplot="Set.data.flower.pdf")
+```
+
+
+## Volcano plot
+
+```{r}
+library(YSX)
+library(ggplot2)
+library(ggrepel)
+
+set.seed(1)
+
+res_output <- data.frame(log2FoldChange=rnorm(3000), row.names=paste0("YSX",1:3000))
+res_output$padj <- 20 ^ (-1*(res_output$log2FoldChange^2))
+
+padj = 0.05
+log2FC = 1
+res_output$level <- ifelse(res_output$padj<=padj,
+                           ifelse(res_output$log2FoldChange>=log2FC,
+                                  paste("groupA","UP"),
+                                  ifelse(res_output$log2FoldChange<=(-1)*(log2FC),
+                                         paste("groupB","UP"), "NoDiff")) , "NoDiff")
+# sp_writeTable(res_output, file="volcano.txt", keep_rownames = T)
+
+head(res_output)
+
+# data=res_output;
+# log2fc_var="log2FoldChange";
+# fdr_var="padj";
+#            coordinate_flip = FALSE;
+#            status_col = NULL;
+#            significance_threshold = c(0.05, 1);
+#            status_col_level = c();
+#            point_color_vector = c("red", "green", "grey");
+#            log10_transform_fdr = TRUE;
+#            max_allowed_log10p = Inf;
+#            title='';
+#            point_label_var = 'CTctctCT';
+#            log2fc_symmetry = TRUE;
+#            alpha = NA;
+#            point_size = 0.8;
+#            extra_ggplot2_cmd = NULL;
+#            file_name = NULL;
+#            xtics_angle = 0;
+#            x_label = 'Log2 fold change';
+#            y_label = 'Negative log10 transformed qvalue';
+#            legend.position = "right"
+
+sp_volcano_plot(data=res_output,
+           log2fc_var="log2FoldChange",
+           fdr_var="padj",
+           status_col_var = 'level',
+           filename = "1.pdf"
+           )
+
+```
+
+
+```{r}
+sp_volcano_plot(data=res_output,
+           log2fc_var="log2FoldChange",
+           fdr_var="padj",
+           significance_threshold = c(0.05, 1),
+           point_color_vector = c("red","blue","black")
+           )
+```
+
+
+```{r}
+sp_volcano_plot(data=res_output,
+           log2fc_var="log2FoldChange",
+           fdr_var="padj",
+           significance_threshold = c(0.05, 1),
+           point_color_vector = c("red","blue","black"),
+           coordinate_flip = TRUE
+           )
+```
+
+
+```{r}
+# Generate one column containing genes to be labels with their symbol.
+# One can also create this column easily using Excel.
+
+label = c("Pou5f1","Gata2")
+names(label) = c("YSX14","YSX4")
+res_output$Symbol <- label[match(rownames(res_output), names(label))]
+head(res_output)
+
+sp_writeTable(res_output, file="volcano.txt", keep_rownames = T)
+
+
+sp_volcano_plot(data=res_output,
+           log2fc_var="log2FoldChange",
+           fdr_var="padj",
+           status_col_var = 'level',
+           point_label_var = "Symbol"
+           )
+```
+
+## manhattan2 plot
+
+```{r}
+library(YSX)
+library(ggplot2)
+library(dplyr)
+
+manhattan_data = "manhattan.data"
+
+sp_manhattan2_plot(data=manhattan_data, ID_var='ID', FDR_var='FDR', title="test1", point_size=2, point_label_var = "Labels")
+```
+
+## lines plot
+
+### Melted data with xvariable, yvariable, legend_variable specified
+
+```{r}
+library(YSX)
+library(ggplot2)
+library(reshape2)
+library(grid)
+
+set.seed(131)
+res_output <- data.frame(Pos=1:10,value =runif(20))
+value=0.5
+res_output$Group <- ifelse(res_output$value<=value,"groupA", "groupB")
+head(res_output)
+sp_lines(data=res_output, xvariable="Pos", melted=T, yvariable="value", legend_variable="Group")
+
+```
+
+
+
+### Melted data with xvariable, yvariable specified
+
+```{r}
+sp_lines(data=res_output, xvariable="Pos", melted=T, yvariable="value")
+```
+### Read in long format matrix file
+
+```{r}
+lines_data_melted = "line.data"
+
+sp_lines(data=lines_data_melted, xvariable = "Pos", yvariable = "value", legend_variable="Variable", melted = T)
+```
+
+### Read in long format matrix file (smooth lines, manually set colors and xtics)
+
+```{r}
+sp_lines(data=lines_data_melted, xvariable = "Pos", yvariable = "value", 
+         legend_variable="Variable", melted = T, smooth_method = "auto",
+         manual_color_vector = c("cyan","purple"), manual_xtics_pos = c(-5000,0,5000),
+         manual_xtics_value = c("-5 kb","TSS","5 kb"), xintercept=c(-1000,1000), 
+         custom_vline_anno=c("-1 kb","1 kb"))
+```
+
+### Specify line_size using a number
+
+```{r}
+sp_lines(data="exprTable.txt", manual_color_vector = "Set2", alpha=1, line_size = 1)
+```
+### Transform data when necessary
+
+```{r}
+exprTable <- read.table("exprTable.txt", row.names=1, header=T, sep="\t")
+exprTable <- as.data.frame(t(exprTable))
+sp_lines(data=exprTable, manual_color_vector = "Set2", alpha=1, line_size = 1)
+```
+### Log transfer Y-axis
+
+```{r}
+exprTable <- read.table("exprTable.txt", row.names=1, header=T, sep="\t")
+exprTable <- as.data.frame(t(exprTable))
+sp_lines(data=exprTable, manual_color_vector = "Set2", alpha=1, line_size = 1, yaxis_scale_mode = "log2")
+```
+```{r}
+exprTable <- read.table("exprTable.txt", row.names=1, header=T, sep="\t")
+exprTable <- as.data.frame(t(exprTable))
+sp_lines(data=exprTable, manual_color_vector = "Set2", alpha=1, line_size = 1, yaxis_scale_mode = "scale_y_log10()")
+```
+
+### Specify line size using one column
+
+```{r}
+sp_lines(data=exprTable, manual_color_vector = "Set2", alpha=1, line_size = "value")
+```
+
+```{r}
+sp_lines(data=exprTable, manual_color_vector = "Set2", alpha=1, line_size = "value", coordinate_flip = T)
+```
+
+## Bar plot
+
+```{r}
+library(YSX)
+library(ggplot2)
+library(RColorBrewer)
+
+bar_test_data <- data.frame(ID = letters[1:4],Gene = letters[c(8,8,9,9,10,10,11,11)], Exper = runif(16))
+sp_barplot(data = bar_test_data, xvariable = "ID", value = "Exper", variable = "Gene")
+
+
+
+
+bar_data = "bar.data"
+
+sp_barplot(data = bar_data, xvariable = "ID", value = "Exper", variable = "Gene")
+```
+
+## Box plot
+
+### Simple box-plot with one input file
+
+```{r}
+library(ggplot2)
+library(reshape2)
+library(scales)
+library(ggbeeswarm)
+library(multcompView)
+library(dplyr)
+
+
+box_data = "box.data"
+sp_boxplot(data = box_data, melted=T, xvariable = "Gene", yvariable = "Expr", legend_variable="Group", statistics = T, violin_nb = T)
+```
+
+```{r}
+sp_boxplot(data = box_data, melted=T, xvariable = "Gene", yvariable = "Expr", legend_variable="Group", manual_color_vector = "Set3", violin = T, coordinate_flip = T)
+```
+
+### Test for digital xvariable and digital legend_variable
+
+```{r}
+set.seed(3)
+box_test_data <- data.frame(Gene = 1:4, Expr = runif(16), Group=1:4)
+head(box_test_data)
+sp_boxplot(data = box_test_data, melted=T, xvariable = "Gene", yvariable = "Expr",  manual_color_vector = c("green","yellow","red"), jitter_bp = T, statistics = T, violin = T)
+```
+
+
+
+Different types of color assignment
+
+```{r}
+sp_boxplot(data = box_test_data, melted=T, xvariable = "Gene", yvariable = "Expr", legend_variable="Group", manual_color_vector = c("green","red"), violin_nb = T, statistics=T)
+```
+
+```{r}
+box_test_data2 <- box_test_data[box_test_data$Gene %in% c(1,2),]
+sp_boxplot(data = box_test_data2, melted=T, xvariable = "Gene", yvariable = "Expr", legend_variable="Group", manual_color_vector = c("green","red"), violin_nb = T, statistics=T)
+```
+
+### Test for unmelted data
+
+```{r}
+exprTableWithReps = "exprTableWithReps.txt"
+metadata = "metadata.txt"
+sp_boxplot(data = exprTableWithReps, melted=F, metadata = metadata,
+           legend_variable = "Group", statistics = T)
+```
+
+```{r}
+sp_boxplot(data = exprTableWithReps, melted=F, metadata = metadata,
+           legend_variable = "Class")
+```
+
+## Enrichment plot
+
+```{r}
+library(YSX)
+library(stringr)
+enrichment_data <- "enrichment.data"
+
+sp_enrichment(data = enrichment_data, xvariable = "SampleGroup", 
+              yvariable = "Description", color_variable = "Qvalue", 
+              log10_transform_variable="Qvalue", size_variable = "Count")
+```
+
+
+```{r}
+enrichment.data <- sp_readTable(enrichment_data) 
+head(enrichment.data)
+sp_enrichment(data = enrichment.data, xvariable = "GeneRatio", yvariable = "Description",
+              log10_transform_variable = "Qvalue", sqrt_transform_variable = "Count",
+              shape_variable = "SampleGroup")
+```
+
+```{r}
+library(YSX)
+enrichment_data <- "goeast.enrich.txt"
+enrichment.data <- sp_readTable(enrichment_data) 
+head(enrichment.data)
+
+p <- sp_enrichment(data = enrichment.data, xvariable = "log_odds_ratio", 
+              yvariable = "Term", color_variable = "p", 
+              log10_transform_variable="p", size_variable = "q",
+              sqrt_transform_variable = "q",
+              shape_variable = "Ontology")
+```
+
+
+
+## Histogram plot
+
+```{r}
+library(ggplot2)
+library(reshape2)
+library(grid)
+library(plyr)
+
+histogram_test_data <- data.frame(Type = letters[1:2], Value = runif(80))
+sp_histogram(data = histogram_test_data, yAxis_variable = "Value", legend_variable = "Type", type_p = "both", type_hist = "count/sum(count)")
+
+histogram_data <- "histogram.data"
+sp_histogram(data = histogram_data, yAxis_variable = "Value", legend_variable = "Type", type_p = "both", type_hist = "count/sum(count)")
+
+```
+
+## pca plot
+
+```{r}
+library(plyr)
+library(ggplot2)
+library(grid)
+library(data.table, quietly=T)
+library(ggfortify)
+library(ggrepel)
+
+pca_test_data <- matrix(runif(3000,0,100000),ncol=6)
+colnames(pca_test_data) <- c(paste("wt",1:3,sep = ""),paste("ko",1:3,sep = ""))
+rownames(pca_test_data) <- c(ID = paste0("ENSG",c(1:500)))
+pca_data <- as.data.frame(pca_test_data)
+sp_pca(data = pca_data, grp_file = NULL) 
+ 
+ 
+data = "pca.data"
+group_data = "pca_group.data"
+sp_pca(data = data, grp_file = group_data, color="Conditions", size = "Diameters", shape = "Batch", label = TRUE) 
+ 
+```
+
+
+## Tree plot
+
+Simple Tree
+
+```{r}
+library(ggtree)
+library(ggplot2)
+library(YSX)
+library(treeio)
+
+treefile <- "iqtree.treefile"
+sp_tree_plot(treefile,debug=T)
+```
+
+
+Color branches using node attributes.
+
+```{r}
+tree_attrib <- "tree.attribute"
+tree_msa = "iqtree.aligned.fa"
+sp_tree_plot(treefile,
+           tree_type = 'iqtree',
+           tree_attrib = tree_attrib,
+           tree_msa = NULL,
+           color_branches = "Spe",
+           layout = "fan",
+           ladderize = F,
+           branch.length = "none",
+           tip_text = "Name",
+           tip_text_size = 3,
+           bootstrap = TRUE,
+           bootstrap_variable = NULL,
+           legend.position = "bottom",
+           bootstrap_size = 3,
+           bootstrap_color = 'red')
+```
+
+```{r, width=10, height=10}
+tree_msa = "iqtree.aligned.fa"
+sp_tree_plot(treefile,
+           tree_type = 'iqtree',
+           tree_attrib = tree_attrib,
+           tree_msa = tree_msa,
+           layout = "circular",
+           ladderize = F,
+           branch.length = "none",
+           tip_text = 'label',
+           tip_text_size = 3,
+           bootstrap = TRUE,
+           bootstrap_variable = NULL,
+           legend.position = "bottom",
+           bootstrap_size = 3,
+           bootstrap_color = 'red')
+```
+
+## Some codes for generating test data
+
+Gene expression table 3 gene x 20 samples (each with 10 replicates)
+
+```{r}
+expr_matrix <- as.data.frame(round(matrix(c(runif(10, min=1, max=5),
+                                      runif(10, min=3, max=7),
+                                      runif(10, min=5, max=9),
+                                      runif(10, min=1, max=5),
+                                      runif(10, min=3, max=7),
+                                      runif(10, min=5, max=9)), 
+                                    nrow=3, byrow=T),2))
+rownames(expr_matrix) <- paste0("Gene_", letters[1:3])
+colnames(expr_matrix) <- paste(rep(c("SampleA","SampleB"), each=10),1:20,sep="_")
+sp_writeTable(expr_matrix, file="exprTableWithReps.txt")
+```
+
+Metadata table with 20 samples and two attributes
+
+```{r}
+sampleGroup = data.frame(Sample=paste(rep(c("SampleA","SampleB"), each=10),1:20,sep="_"), Group=rep(c("GroupA","GroupB"), each=10), Class=rep(c("ConditionC","ConditionD"), each=5))
+sp_writeTable(sampleGroup, file="metadata.txt", keep_rownames = F)
+```

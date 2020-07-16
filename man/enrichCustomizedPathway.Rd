@@ -4,8 +4,13 @@
 \alias{enrichCustomizedPathway}
 \title{Enrichment of customrized pathway or annotation for any organism.}
 \usage{
-enrichCustomizedPathway(de_file, anno_file, output_prefix = NULL,
-  pvalueCutoff = 0.05, qvalueCutoff = 0.2)
+enrichCustomizedPathway(
+  de_file,
+  anno_file,
+  output_prefix = NULL,
+  pvalueCutoff = 0.05,
+  qvalueCutoff = 0.2
+)
 }
 \arguments{
 \item{de_file}{Two columns file with first column containing DE genes and second column with group names.}

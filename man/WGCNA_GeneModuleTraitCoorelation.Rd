@@ -4,8 +4,16 @@
 \alias{WGCNA_GeneModuleTraitCoorelation}
 \title{Genes correlated with both traits an modules.}
 \usage{
-WGCNA_GeneModuleTraitCoorelation(datExpr, MEs_col, geneTraitCor, traitData,
-  net, corType = "bicor", prefix = "ehbio", ...)
+WGCNA_GeneModuleTraitCoorelation(
+  datExpr,
+  MEs_col,
+  geneTraitCor,
+  traitData,
+  net,
+  corType = "bicor",
+  prefix = "ehbio",
+  ...
+)
 }
 \arguments{
 \item{datExpr}{ Expression data. A matrix (preferred) or 

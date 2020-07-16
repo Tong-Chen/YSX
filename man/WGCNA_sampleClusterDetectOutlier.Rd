@@ -4,8 +4,14 @@
 \alias{WGCNA_sampleClusterDetectOutlier}
 \title{Sample cluster and outlier detection}
 \usage{
-WGCNA_sampleClusterDetectOutlier(datExpr, thresholdZ.k = -2.5,
-  saveplot = NULL, removeOutlier = F, traitColors = NULL, ...)
+WGCNA_sampleClusterDetectOutlier(
+  datExpr,
+  thresholdZ.k = -2.5,
+  saveplot = NULL,
+  removeOutlier = F,
+  traitColors = NULL,
+  ...
+)
 }
 \arguments{
 \item{datExpr}{A transformed gene expression matrix normally output by \code{WGCNA_dataFilter}.

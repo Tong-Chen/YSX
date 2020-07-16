@@ -4,8 +4,15 @@
 \alias{WGCNA_ModuleGeneTraitHeatmap}
 \title{Plot gene module relationship and correlation with traits.}
 \usage{
-WGCNA_ModuleGeneTraitHeatmap(datExpr, traitData, net, corType = "bicor",
-  prefix = "ehbio", saveplot = NULL, ...)
+WGCNA_ModuleGeneTraitHeatmap(
+  datExpr,
+  traitData,
+  net,
+  corType = "bicor",
+  prefix = "ehbio",
+  saveplot = NULL,
+  ...
+)
 }
 \arguments{
 \item{datExpr}{ Expression data. A matrix (preferred) or 

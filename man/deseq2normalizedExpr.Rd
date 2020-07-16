@@ -5,8 +5,13 @@
 \title{To output normalized results to files named by given "output_prefix",
 and also return a list containing normalized counts for downstream analysis.}
 \usage{
-deseq2normalizedExpr(dds, output_prefix = "ehbio", rlog = T, vst = F,
-  savemat = T)
+deseq2normalizedExpr(
+  dds,
+  output_prefix = "ehbio",
+  rlog = T,
+  vst = F,
+  savemat = T
+)
 }
 \arguments{
 \item{dds}{\code{\link{salmon2deseq}} or \code{\link{readscount2deseq}} or

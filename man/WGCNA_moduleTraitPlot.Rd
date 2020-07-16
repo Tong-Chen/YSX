@@ -4,8 +4,17 @@
 \alias{WGCNA_moduleTraitPlot}
 \title{Module-trait heatmap}
 \usage{
-WGCNA_moduleTraitPlot(MEs_col, traitData, corType = "bicor",
-  saveplot = NULL, prefix = "ehbio", ...)
+WGCNA_moduleTraitPlot(
+  MEs_col,
+  traitData,
+  corType = "bicor",
+  saveplot = NULL,
+  prefix = "ehbio",
+  angle_x = 90,
+  up_color = c("red", "white", "blue"),
+  down_color = c("green", "white"),
+  ...
+)
 }
 \arguments{
 \item{MEs_col}{Module epigenes generated in \code{\link{WGCNA_saveModuleAndMe}}.}
@@ -20,6 +29,12 @@ midcorrelation, respectively. Missing values are handled using the \code{pairwis
 \item{saveplot}{Save plot to given file "a.pdf", "b.png".}
 
 \item{prefix}{prefix for output files.}
+
+\item{angle_x}{Rotation angle for x-axis labels}
+
+\item{up_color}{Vector of colours to use for upper triangles (which representing pearson correlations values).}
+
+\item{down_color}{Vector of colours to use for lower triangles (which representing significance p-values).}
 
 \item{...}{Additional parameters given to plot output (\code{\link{pdf}}, \code{\link{png}},...) like "width", "height", .etc.}
 }

@@ -5,8 +5,16 @@
 \title{Compute and plot column correlation matrix. Normally used
 to do sample corealtion of gene expression or OTU abundance matrix.}
 \usage{
-clusterSampleUpperTriPlot(mat, method = "pearson", digits = 4,
-  cor_file = NULL, saveplot = NULL, width = 13.5, height = 15, ...)
+clusterSampleUpperTriPlot(
+  mat,
+  method = "pearson",
+  digits = 4,
+  cor_file = NULL,
+  saveplot = NULL,
+  width = 13.5,
+  height = 15,
+  ...
+)
 }
 \arguments{
 \item{mat}{A dataframe.}

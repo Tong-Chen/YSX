@@ -4,8 +4,7 @@
 \alias{WGCNA_MEs_traitCorrelationHeatmap}
 \title{Heatmap showing correlation among MEs and traits.}
 \usage{
-WGCNA_MEs_traitCorrelationHeatmap(MEs_col, traitData, saveplot = NULL,
-  ...)
+WGCNA_MEs_traitCorrelationHeatmap(MEs_col, traitData, saveplot = NULL, ...)
 }
 \arguments{
 \item{MEs_col}{Module epigenes generated in \code{\link{WGCNA_saveModuleAndMe}}.}

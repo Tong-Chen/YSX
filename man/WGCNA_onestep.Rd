@@ -4,17 +4,42 @@
 \alias{WGCNA_onestep}
 \title{WGCNA onestep}
 \usage{
-WGCNA_onestep(exprMat, traitData = NULL, categoricalTrait = NULL,
-  prefix = "ehbio", corType = "bicor", networkType = "signed",
-  maxPower = NULL, maxBlockSize = NULL, top_mad_n = 0.75,
-  rmVarZero = T, minimal_mad = NULL, thresholdZ.k = -2.5,
-  TOM_plot = NULL, top_hub_n = 10, removeOutlier = F,
-  RsquaredCut = 0.85, minModuleSize = 25, mergeCutHeight = 0.2,
-  numericLabels = TRUE, pamRespectsDendro = FALSE, saveTOMs = TRUE,
-  maxPOutliers = NULL, loadTOM = TRUE, TOMDenom = "min",
-  deepSplit = 1, stabilityCriterion = "Individual fraction",
-  verbose = 3, os_system = NULL, randomSeed = 11521,
-  dynamicCutPlot = TRUE, power_min = NULL, ...)
+WGCNA_onestep(
+  exprMat,
+  traitData = NULL,
+  categoricalTrait = NULL,
+  prefix = "ehbio",
+  corType = "bicor",
+  networkType = "signed",
+  maxPower = NULL,
+  maxBlockSize = NULL,
+  top_mad_n = 0.75,
+  rmVarZero = T,
+  minimal_mad = NULL,
+  thresholdZ.k = -2.5,
+  TOM_plot = NULL,
+  top_hub_n = 20,
+  removeOutlier = F,
+  RsquaredCut = 0.85,
+  minModuleSize = NULL,
+  mergeCutHeight = 0.2,
+  numericLabels = TRUE,
+  pamRespectsDendro = FALSE,
+  saveTOMs = TRUE,
+  maxPOutliers = NULL,
+  loadTOM = TRUE,
+  TOMDenom = "min",
+  deepSplit = 1,
+  stabilityCriterion = "Individual fraction",
+  verbose = 0,
+  os_system = NULL,
+  randomSeed = 11521,
+  dynamicCutPlot = TRUE,
+  power_min = NULL,
+  up_color = c("red", "white", "blue"),
+  down_color = c("green", "white"),
+  ...
+)
 }
 \arguments{
 \item{exprMat}{Gene expression matrix in format as "Genes x Samples".
@@ -75,7 +100,7 @@ follows:
 and for type = "distance", adjacency = (1-(dist/max(dist))^2)^power.}
 
 \item{maxPower}{Specify maximum power to check. Default 30 for "unsigned" network
-and 40 for other type.}
+and 40 for other type. Any number less than 20 would be treated as 20.}
 
 \item{maxBlockSize}{integer giving maximum block size for module detection. Ignored if \code{blocks}
 above is non-NULL. Otherwise, if the number of genes in \code{datExpr} exceeds \code{maxBlockSize}, genes
@@ -101,7 +126,7 @@ Default -2.5 meaning -2.5 std.}
 \item{removeOutlier}{Remove outlier samples. Normally this should be only performed if
 no suitable soft power can be found.}
 
-\item{RsquaredCut}{R2 for defining scale-free network.}
+\item{RsquaredCut}{R2 for defining scale-free network (default 0.85). Any number larger than 1 would be treated as 0.99.}
 
 \item{minModuleSize}{ minimum module size for module detection. See
 \code{\link[dynamicTreeCut]{cutreeDynamic}} for more details.  }
@@ -153,7 +178,7 @@ since it was the (only) method available prior to WGCNA version 1.60.}
 \item{verbose}{ integer level of verbosity. Zero means silent, higher values make the output
 progressively more and more verbose. }
 
-\item{os_system}{Default the program will detect system type to choose which multiple thread function will be used. <enableWGCNAThreads> is recommended, but only work in some linux os. <allowWGCNAThreads> is not recommended if enableWGCNAThreads works. However for max and windows os, this is the only one can be used. Even for some linux system, using <enableWGCNAThreads> will make programs stuck in <pickSoftThreshold> step. So if stucked, supply any string other than <linux> to enable the uages of <allowWGCNAThreads>.}
+\item{os_system}{Default the program will detect system type to choose which multiple thread function will be used. \code{\link[WGCNA]{enableWGCNAThreads}} is recommended, but only work in some linux os. \code{\link[WGCNA]{allowWGCNAThreads}} is not recommended if enableWGCNAThreads works. However for max and windows os, this is the only one can be used. Even for some linux system, using \code{\link[WGCNA]{enableWGCNAThreads}} will make programs stuck in \code{\link[WGCNA]{pickSoftThreshold}} step. So if stucked, supply any string other than \code{linux} to enable the uages of \code{\link[WGCNA]{allowWGCNAThreads}}.}
 
 \item{randomSeed}{integer to be used as seed for the random number generator before the function
 starts. If a current seed exists, it is saved and restored upon exit. If \code{NULL} is given, the 
@@ -162,6 +187,10 @@ function will not save and restore the seed. }
 \item{dynamicCutPlot}{Plot merged modules as well as dynamic cutted modules before merge.}
 
 \item{power_min}{For some data type, default selected power is a small number. Mostly this is due to unnormalized expression value, batch effects or small amount of total samples. When this happens, we may want to assign a power as 6 or other common numbers for downstream analysis. Here is where to specify it. Be careful to use this parameter unless you know what you are doing.}
+
+\item{up_color}{Vector of colours to use for upper triangles (which representing pearson correlations values).}
+
+\item{down_color}{Vector of colours to use for lower triangles (which representing significance p-values).}
 
 \item{...}{Other parameters given to \code{\link{read.table}}.}
 }

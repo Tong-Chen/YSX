@@ -4,8 +4,13 @@
 \alias{generateAbundanceDF}
 \title{Generate gene expression table or otu abundance table with given samle information for test.}
 \usage{
-generateAbundanceDF(type = "Gene", mean = 20, nGene = 15, nGrp = 2,
-  nSample = 3)
+generateAbundanceDF(
+  type = "Gene",
+  mean = 20,
+  nGene = 15,
+  nGrp = 2,
+  nSample = 3
+)
 }
 \arguments{
 \item{type}{Generate gene expression or OTU abundance. Only affect rownames.}

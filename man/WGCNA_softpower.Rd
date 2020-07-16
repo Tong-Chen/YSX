@@ -4,8 +4,14 @@
 \alias{WGCNA_softpower}
 \title{Select soft power, the minimum number to get scale Free Topology Model Fit value (R2) larger than 0.85.}
 \usage{
-WGCNA_softpower(datExpr, networkType = "signed", saveplot = NULL,
-  maxPower = NULL, RsquaredCut = 0.85, ...)
+WGCNA_softpower(
+  datExpr,
+  networkType = "signed",
+  saveplot = NULL,
+  maxPower = NULL,
+  RsquaredCut = 0.85,
+  ...
+)
 }
 \arguments{
 \item{datExpr}{A transformed gene expression matrix normally output by \code{WGCNA_dataFilter}.
@@ -25,9 +31,9 @@ and for type = "distance", adjacency = (1-(dist/max(dist))^2)^power.}
 \item{saveplot}{Save plot to given file "a.pdf", "b.png".}
 
 \item{maxPower}{Specify maximum power to check. Default 30 for "unsigned" network
-and 40 for other type.}
+and 40 for other type. Any number less than 20 would be treated as 20.}
 
-\item{RsquaredCut}{R2 for defining scale-free network.}
+\item{RsquaredCut}{R2 for defining scale-free network (default 0.85). Any number larger than 1 would be treated as 0.99.}
 
 \item{...}{Additional parameters given to plot output (\code{\link{pdf}}, \code{\link{png}},...) like "width", "height", .etc.}
 }

@@ -4,9 +4,18 @@
 \alias{volcanoPlot}
 \title{Volcano plot}
 \usage{
-volcanoPlot(data, log2FoldChange = "log2FoldChange", padj = "padj",
-  colour = "red", saveplot = NULL, size = 1, padjLimit = 10,
-  width = 13.5, height = 15, ...)
+volcanoPlot(
+  data,
+  log2FoldChange = "log2FoldChange",
+  padj = "padj",
+  colour = "red",
+  saveplot = NULL,
+  size = 1,
+  padjLimit = 10,
+  width = 13.5,
+  height = 15,
+  ...
+)
 }
 \arguments{
 \item{data}{A dataframe.}
