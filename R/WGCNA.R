@@ -138,7 +138,7 @@ WGCNA_readindata <-
       traitData = traitData[match(sampleName, rownames(traitData)),,drop=FALSE]
       #colnames(traitData) <- coln
 
-      traitfile <- as.data.frame(array(dim = c(dim(traitData)[1], 1)))
+      traitfile <- data.frame(row.names=rownames(traitData))
       for (name in coln) {
         # print (name)
         if (is.numeric(traitData[, name])) {
@@ -168,7 +168,7 @@ WGCNA_readindata <-
           traitfile <- cbind(traitfile, everycol)
         }
       }
-      traitData <- subset(traitfile, select = -V1)
+      traitData <- traitfile
       continuous = 1
     }
 
@@ -319,6 +319,7 @@ dataFilter <-
 #' many information.
 #'
 #' @inheritParams dataFilter
+#' @wgcnaL A matrix or an object return by \code{WGCNA_readindata}.
 #' @param ... Parameters given to \code{dataFilter}.
 #'
 #' @return A dataframe (samples x genes).
@@ -335,8 +336,13 @@ dataFilter <-
 #' WGCNA_dataCheck(datExpr)
 #' datExpr <- WGCNA_dataFilter(datExpr)
 #'
-WGCNA_dataFilter <- function (datExpr, ...) {
+WGCNA_dataFilter <- function (wgcnaL, ...) {
   cat(sp_current_time(), "Start filtering data.\n")
+  if(class(wgcnaL) == "list"){
+    datExpr = wgcnaL$datExpr
+  } else {
+    datExpr = datExpr
+  }
   datExpr <- dataFilter(datExpr, noLessThan = 1000, ...)
 
   ## 转换为样品在行，基因在列的矩阵
@@ -367,8 +373,14 @@ WGCNA_dataFilter <- function (datExpr, ...) {
       'genes x',
       nSamples,
       "samples remained.\n")
-
-  return(datExpr)
+  if(class(wgcnaL) == "list"){
+    wgcnaL$traitData = wgcnaL$traitData[rownames(datExpr),,drop=F]
+    wgcnaL$traitColor = wgcnaL$traitColor[rownames(datExpr),,drop=F]
+    wgcnaL$datExpr = datExpr
+  } else {
+    wgcnaL = datExpr
+  }
+  return(wgcnaL)
 }
 
 #' Keep samples in trait data the same of exprMat.
@@ -390,7 +402,7 @@ WGCNA_filterTrait <- function(datExpr, trait){
 
 #' Sample cluster and outlier detection
 #'
-#' @param datExpr A transformed gene expression matrix normally output by \code{WGCNA_dataFilter}.
+#' @param wgcnaL A matrix or an object return by \code{WGCNA_readindata}. A transformed gene expression matrix normally output by \code{WGCNA_dataFilter}.
 #' Samples x Genes.
 #' @param thresholdZ.k Threshold for defining outliers. First compute the overall
 #' corelation of one sample to other samples. Then do Z-score transfer for all
@@ -425,13 +437,18 @@ WGCNA_filterTrait <- function(datExpr, trait){
 #' datExpr <- WGCNA_sampleClusterDetectOutlier(datExpr, traitColors=wgcnaL$traitColors)
 #'
 WGCNA_sampleClusterDetectOutlier <-
-  function(datExpr,
+  function(wgcnaL,
            thresholdZ.k = -2.5,
            saveplot = NULL,
            removeOutlier = F,
            traitColors = NULL,
            ...) {
     cat(sp_current_time(), "Detect outlier samples.\n")
+    if(class(wgcnaL) == "list"){
+      datExpr = wgcnaL$datExpr
+    } else {
+      datExpr = datExpr
+    }
     ## 样本层级聚类，查看有无离群值
     # sample network based on squared Euclidean distance note that we
     # transpose the data
@@ -487,8 +504,16 @@ WGCNA_sampleClusterDetectOutlier <-
 
       cat("\tAfter removing outlier samples, ", nrow(datExpr), "samples kept.\n")
     }
+    if(class(wgcnaL) == "list"){
+      wgcnaL$traitData = wgcnaL$traitData[rownames(datExpr),,drop=F]
+      wgcnaL$traitColor = wgcnaL$traitColor[rownames(datExpr),,drop=F]
+      wgcnaL$datExpr = datExpr
+    } else {
+      wgcnaL = datExpr
+    }
+
     cat(sp_current_time(), "Finish detecting outlier samples.\n")
-    return(datExpr)
+    return(wgcnaL)
   }
 
 
@@ -928,10 +953,11 @@ WGCNA_saveModuleAndMe <-
     MEs_colt = as.data.frame(t(MEs_col))
     colnames(MEs_colt) = rownames(datExpr)
     write.table(
-      MEs_colt,
+      data.frame(Module=rownames(MEs_colt),MEs_colt),
       file = paste0(prefix, ".module_eipgengene.xls"),
       sep = "\t",
-      quote = F
+      quote = F,
+      row.names = F
     )
 
     if (ncol(MEs_col) < 3) {
@@ -1007,6 +1033,7 @@ WGCNA_MEs_traitCorrelationHeatmap <-
       # MEs_colpheno = orderMEs(MEs_col)
       MEs_colpheno = MEs_col
     } else {
+      traitData <- WGCNA_filterTrait(MEs_col, traitData)
       MEs_colpheno = cbind(MEs_col, traitData)
       # MEs_colpheno = orderMEs(cbind(MEs_col, traitData))
       #ggcorr_MEs_colpheno  <- ggcorr(MEs_colpheno, hjust = 0.75, size = 5, color = "grey50", layout.exp = 1)
@@ -1305,7 +1332,7 @@ WGCNA_hubgene <- function(cyt,
 #'
 WGCNA_moduleTraitPlot <-
   function(MEs_col,
-           traitData,
+           traitData=NULL,
            corType = "bicor",
            saveplot = NULL,
            prefix = 'ehbio',
@@ -1318,6 +1345,8 @@ WGCNA_moduleTraitPlot <-
     if (is.null(traitData)) {
       cat(sp_current_time(), "No plot since no trait data available.\n")
       return(1)
+    }else{
+      traitData <- WGCNA_filterTrait(MEs_col, traitData)
     }
     nSamples <- nrow(traitData)
     robustY = ifelse(corType == "pearson", T, F)
@@ -1467,7 +1496,7 @@ WGCNA_moduleTraitPlot <-
 #'
 WGCNA_ModuleGeneTraitHeatmap <-
   function(datExpr,
-           traitData,
+           traitData=NULL,
            net,
            corType = "bicor",
            prefix = "ehbio",
@@ -1480,6 +1509,8 @@ WGCNA_ModuleGeneTraitHeatmap <-
     if (is.null(traitData)) {
       cat(sp_current_time(), "No module-gene-trait correlation heatmap plot since no trait data.\n")
       return(1)
+    }else{
+      traitData <- WGCNA_filterTrait(datExpr, traitData)
     }
 
     robustY = ifelse(corType == "pearson", T, F)
@@ -1614,6 +1645,13 @@ WGCNA_GeneModuleTraitCoorelation <-
            prefix = "ehbio",
            ...) {
     ### 计算模块与基因的相关性矩阵
+
+    if (is.null(traitData)) {
+      cat(sp_current_time(), "No module-gene-trait correlation plot since no trait data.\n")
+      return(1)
+    }else{
+      traitData <- WGCNA_filterTrait(datExpr, traitData)
+    }
     cat(sp_current_time(), "Plot interest genes for each module-trait combination group.\n")
     robustY = ifelse(corType == "pearson", T, F)
     if (corType == "pearson") {
