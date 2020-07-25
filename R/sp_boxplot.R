@@ -1,43 +1,3 @@
-melted = FALSE
-xvariable = NULL
-yvariable = NULL
-legend_variable = NULL
-statistics= FALSE
-xtics_angle = 0
-legend_variable_order = NULL
-legend_variable_cut = NULL
-xvariable_order = NULL
-xvariable_cut = NULL
-y_add = 0
-yaxis_scale_mode = ''
-notch = FALSE
-par = NULL
-outlier = FALSE
-out_scale = 1.05
-legend.position = 'right'
-manual_color_vector = NULL
-violin = FALSE
-violin_nb = FALSE
-scale_violin = 'width'
-ID_var = c()
-jitter = FALSE
-jitter_bp =  FALSE
-colormodel = 'srgb'
-coordinate_flip = FALSE
-facet = NULL
-facet_level = NULL
-x_label = NULL
-y_label = NULL
-title = NULL
-nrow = NULL
-ncol = NULL
-scales = 'fixed'
-gene = NULL
-metadata = NULL
-debug = F
-width=0
-height=0
-
 #' Generating box plot
 #'
 #' `metadata`
@@ -159,6 +119,7 @@ sp_boxplot <- function(data,
                        debug = F,
                        width=0,
                        height=0,
+					   extra_ggplot2_cmd=NULL,
                        ...) {
   if (debug) {
     argg <- c(as.list(environment()), list(...))
@@ -284,7 +245,7 @@ sp_boxplot <- function(data,
       ) +
       stat_summary(
         aes(group = !!legend_variable_en),
-        fun.y = mean,
+        fun = mean,
         geom = "point",
         fill = "black",
         shape = 19,
@@ -312,7 +273,7 @@ sp_boxplot <- function(data,
       p + stat_summary(
         fun = "mean",
         geom = "text",
-        label = "----",
+        label = "+",
         size = 10,
         color = "black",
         position = position_dodge(width = .9)
@@ -346,10 +307,11 @@ sp_boxplot <- function(data,
 
   if (jitter_bp) {
     p <-
-      p + geom_quasirandom(
+      #p + geom_quasirandom(
+      p + geom_point(
         aes(group = !!legend_variable_en),
         varwidth = T,
-        groupOnX = NULL,
+        groupOnX = TRUE,
         # dodge.width = 0.9,
         position = position_dodge(width = .9)
       )
@@ -457,7 +419,7 @@ sp_boxplot <- function(data,
   }
 
   if (outlier) {
-    stats <- boxplot.stats(data[[value]])$stats
+    stats <- boxplot.stats(data[[yvariable]])$stats
     ylim_zoomin <- c(stats[1] / out_scale , stats[5] * out_scale)
     p <- p + coord_cartesian(ylim = ylim_zoomin)
   }
@@ -472,7 +434,6 @@ sp_boxplot <- function(data,
                         scale = scales)
   }
   p <- sp_ggplot_layout(p,
-                        filename = filename,
                         xtics_angle = xtics_angle,
                         legend.position = legend.position,
                           extra_ggplot2_cmd = extra_ggplot2_cmd,

@@ -21,6 +21,7 @@ options(scipen = 999)
 #' of levels of `status_col_var`.
 #' @param log10_transform_fdr Get `-log10(pvalue)` or `-log10(fdr)` for column given to `fdr_var`. Default FALSE, accept TRUE.
 #' @param max_allowed_log10p Maximum allowed `-log10(pvalue)`. Default `Inf` meaning no limitation. Normally this should be set to 3 or 4 to make the output picture beautiful.
+#' @param max_allowed_log2fc Maximum allowed `log2(foldchange)`. Default `Inf` meaning no limitation. Normally this should be set to 3 or 4 to make the output picture beautiful.
 #' @param point_label_var Name of columns containing labels for points (representing genes, proteins or OTUs) to be labeled. Points with `NA`,`-` or `` value in this column will not be labeled.
 #' @param point_size Point size. Default 0.8. Accept a number of name of one column.
 #' @param alpha Transparency of points (0-1). 0: opaque; 1: transparent.
@@ -70,6 +71,7 @@ sp_volcano_plot <-
            point_color_vector = c("red", "green", "grey"),
            log10_transform_fdr = TRUE,
            max_allowed_log10p = Inf,
+           max_allowed_log2fc = Inf,
            title=NULL,
            point_label_var = 'CTctctCT',
            log2fc_symmetry = TRUE,
@@ -147,9 +149,44 @@ sp_volcano_plot <-
       fdr <- -1*(log10(fdr))
     }
 
+    data[[fdr_var]] <- sapply(data[[fdr_var]], function(x) {
+      if (x > max_allowed_log10p)
+        max_allowed_log10p + log10(abs(x))/3
+      else
+        x
+    })
 
-    data[[fdr_var]] <-
-        replace(data[[fdr_var]], data[[fdr_var]] > max_allowed_log10p,  max_allowed_log10p + log10(max_allowed_log10p))
+    data[[log2fc_var]] <- sapply(data[[log2fc_var]], function(x) {
+      if (x > max_allowed_log2fc)
+        max_allowed_log2fc + log10(abs(x))/3
+      else
+        x
+    })
+
+    data[[log2fc_var]] <- sapply(data[[log2fc_var]], function(x) {
+      if (x < (-1)* max_allowed_log2fc)
+        (-1)*max_allowed_log2fc - log10(abs(x))/3
+      else
+        x
+    })
+
+    # data[[fdr_var]] <-
+    #   replace(data[[fdr_var]],
+    #           data[[fdr_var]] > max_allowed_log10p,
+    #           max_allowed_log10p + log10(max_allowed_log10p))
+    #
+    # data[[log2fc_var]] <-
+    #   replace(data[[log2fc_var]],
+    #           data[[log2fc_var]] > max_allowed_log2fc,
+    #           max_allowed_log2fc + log10(max_allowed_log2fc))
+    #
+    # data[[log2fc_var]] <-
+    #   replace(
+    #     data[[log2fc_var]],
+    #     data[[log2fc_var]] < (-1) * max_allowed_log2fc,
+    #     (-1) * max_allowed_log2fc - log10(max_allowed_log2fc)
+    #   )
+
 
     # Below codes can be referenced if one want to extend the function
     # of labeling points.
@@ -205,29 +242,45 @@ sp_volcano_plot <-
     }
 
     if (point_label_var != "CTctctCT") {
-      data.l <- data[data[[point_label_var]] != "-" & data[[point_label_var]] != "", ]
-      label_en = sym(point_label_var)
-      checkAndInstallPackages(list(packages1=c("ggrepel")))
-      suppressPackageStartupMessages(library(ggrepel))
-      p <-
-        p + geom_text_repel(
-          data = data.l,
-          aes(
-            x = !!log2fc_var_en,
-            y = !!fdr_var_en,
-            label = !!label_en
-          ),
-          colour = "black",
-          show.legend = F,
-          min.segment.length = unit(0, 'lines')
-        )
-    }
-    if(length(significance_threshold) ==  2){
-      if(!is.null(xintercept) && xintercept=='fc'){
-       xintercept = c(-1*fc,fc)
+      data.l <- data[data[[point_label_var]] != "-" & data[[point_label_var]] != "" & data[[point_label_var]] != "NA", ]
+      if (dim(data.l)[1]>0){
+        label_en = sym(point_label_var)
+        checkAndInstallPackages(list(packages1=c("ggrepel")))
+        suppressPackageStartupMessages(library(ggrepel))
+        p <-
+          p + geom_text_repel(
+            data = data.l,
+            aes(
+              x = !!log2fc_var_en,
+              y = !!fdr_var_en,
+              label = !!label_en
+            ),
+            colour = "black",
+            show.legend = F,
+            min.segment.length = unit(0, 'lines')
+          )
       }
-      if(!is.null(yintercept) && yintercept=='fdr'){
-        yintercept = c(fdr)
+    }
+    if(!is.null(xintercept)) {
+      if(xintercept=='fc'){
+        if(length(significance_threshold) ==  2){
+          xintercept = c(-1*fc,fc)
+        }else{
+          xintercept = NULL
+        }
+      } else {
+        xintercept = as.numeric(sp_string2vector(xintercept))
+      }
+    }
+    if(!is.null(yintercept)){
+      if(yintercept=='fdr'){
+        if(length(significance_threshold) ==  2){
+          yintercept = c(fdr)
+        } else {
+          yintercept = NULL
+        }
+      } else {
+        yintercept = as.numeric(sp_string2vector(yintercept))
       }
     }
 
@@ -250,3 +303,4 @@ sp_volcano_plot <-
     p
 
   }
+

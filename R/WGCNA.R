@@ -318,8 +318,7 @@ dataFilter <-
 #' Filter data for WGCNA input to increase computing efficiency without loosing too
 #' many information.
 #'
-#' @inheritParams dataFilter
-#' @wgcnaL A matrix or an object return by \code{WGCNA_readindata}.
+#' @param wgcnaL A matrix or an object return by \code{WGCNA_readindata}.
 #' @param ... Parameters given to \code{dataFilter}.
 #'
 #' @return A dataframe (samples x genes).
@@ -1777,7 +1776,7 @@ WGCNA_GeneModuleTraitCoorelation <-
 #' @inheritParams WGCNA_coexprNetwork
 #' @inheritParams WGCNA_cytoscape
 #' @inheritParams WGCNA_moduleTraitPlot
-#' @param os_system Default the program will detect system type to choose which multiple thread function will be used. \code{\link[WGCNA]{enableWGCNAThreads}} is recommended, but only work in some linux os. \code{\link[WGCNA]{allowWGCNAThreads}} is not recommended if enableWGCNAThreads works. However for max and windows os, this is the only one can be used. Even for some linux system, using \code{\link[WGCNA]{enableWGCNAThreads}} will make programs stuck in \code{\link[WGCNA]{pickSoftThreshold}} step. So if stucked, supply any string other than `linux` to enable the uages of \code{\link[WGCNA]{allowWGCNAThreads}}.
+#' @param os_system Default the program will detect system type to choose which multiple thread function will be used. \code{enableWGCNAThreads} is recommended, but only work in some linux os. \code{\link[WGCNA]{allowWGCNAThreads}} is not recommended if enableWGCNAThreads works. However for max and windows os, this is the only one can be used. Even for some linux system, using \code{\link[WGCNA]{enableWGCNAThreads}} will make programs stuck in \code{\link[WGCNA]{pickSoftThreshold}} step. So if stucked, supply any string other than `linux` to enable the uages of \code{\link[WGCNA]{allowWGCNAThreads}}.
 #' @param power_min For some data type, default selected power is a small number. Mostly this is due to unnormalized expression value, batch effects or small amount of total samples. When this happens, we may want to assign a power as 6 or other common numbers for downstream analysis. Here is where to specify it. Be careful to use this parameter unless you know what you are doing.
 #'
 #' @return net

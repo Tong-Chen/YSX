@@ -98,6 +98,8 @@ flower_plot <- function(input, sep="\t", row.names=NULL, header=T,
 #' like OTUs or genes among all groups and total items (or total items excluding common
 #' items) for each group.
 #'
+#' Modified from http://blog.sciencenet.cn/blog-3406804-1159241.html
+#'
 #' This function is not planned for public usages.
 #'
 #' @param sample A vector of sample names.

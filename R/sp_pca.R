@@ -1,9 +1,11 @@
 
 
+
+
 #' Generating pca plot
 #'
 #' @param data Data file. With header line, the first column is the rowname, tab seperated. Each row represents variable (normally genes), each column represents samples.
-#' @param grp_file Sample group file with first column as sample names, other columns as sample attributes. Below, color, size, shape variable should be existed in this file.
+#' @param group_data Sample group file with first column as sample names, other columns as sample attributes. Below, color, size, shape variable should be existed in this file.
 #' @param title Title of picture. Default empty title
 #' @param scale Scale data for PCA analysis. In defaut, prcomp will centralized data by minus mean value and
 #' normalize data by column standard deviation dividing.
@@ -23,12 +25,13 @@
 #' @param alpha Transparency value for points. Optional, such as a number or a variable indicating one data column, normally should be number column.
 #' @param label Label points (using geom_text_repel). Default no-label (FALSE), accept TRUE.
 #' @param label_font_size Label font size. Default system default. Accept numbers less than 5 to shrink fonts.
-#' @param facet The formula for facets. Default no facets,
-#' facet_grid(level ~ .) means divide by levels of 'level' vertcally.
-#' facet_grid(. ~ level) means divide by levels of 'level' horizontally.
-#' facet_grid(lev1 ~ lev2) means divide by lev1 vertically and lev2 horizontally.
-#' facet_wrap(~level, ncol=2) means wrap horizontally with 2 columns.
-#' Example: facet_wrap(~Size,ncol=6,scale='free')
+#' @param facet Wrap plots by given column. This is used to put multiple plot in one picture.
+#' @param nrow 	The number of rows one want when `melted` is used. Default NULL.
+#' @param ncol The number of columns one want when `melted` is used. Default NULL.
+#' @param scales Paramter for scales for facet. Default `fixed` meaning each inner graph
+#' use same scale (x,y range), `free` (variable x, y ranges for each sub-plot),
+#' `free_x` (variable x ranges for each sub-plot), `free_y` (variable y ranges for each sub-plot).
+
 #' @param ...
 #'
 #' @return pdf and xls files.
@@ -45,13 +48,15 @@
 #' ## Not run:
 #' data = "pca.data"
 #' group_data = "pca_group.data"
-#' sp_pca(data = data, grp_file = group_data, color="Conditions", size = "Diameters", shape = "Batch", label = TRUE)
+#' sp_pca(data = data, group_data = group_data, color="Conditions", size = "Diameters", shape = "Batch", label = TRUE)
+#'
+#' sp_pca(data = data, group_data = group_data, color="Conditions", size = "Diameters", shape = "Batch", label = FALSE,dimensions = 3)
 #' ## End(Not run)
 #'
-#'
+
 sp_pca <- function(data,
-                   grp_file = NULL,
-                   title = '',
+                   group_data = NULL,
+                   title = NULL,
                    scale = TRUE,
                    color = 'c_t_c_t0304',
                    color_v = c(),
@@ -64,49 +69,52 @@ sp_pca <- function(data,
                    shape_order = c(),
                    dimensions = 2,
                    alpha = 1,
+                   nrow = NULL,
+                   ncol = NULL,
+                   scales = 'fixed',
                    mid = ".pca",
                    label = FALSE,
                    log_add = 1,
                    label_font_size = NULL,
                    minimum_mad = 0.5,
                    debug = FALSE,
-                   saveplot = NULL,
-                   filename = "data",
+                   filename = NULL,
+                   legend.position = "right",
                    ...) {
   if (scale) {
     mid = ".pca.scale"
   }
   if (class(data) == "character") {
-    filename <- data
+    filenames <- data
     data <- sp_readTable(data, row.names = NULL)
     rownames_data <- make.unique(as.vector(data[, 1]))
     data <- data[, -1, drop = F]
     rownames(data) <- rownames_data
   }
-
+  
   data <- data[rowSums(abs(data)) != 0, ]
-
+  
   data$mad <- apply(data, 1, mad)
-
+  
   data <- data[data$mad > minimum_mad , ]
-
+  
   data <-
     data[order(data$mad, decreasing = T), 1:(dim(data)[2] - 1)]
-
+  
   dim_data <- dim(data)
-
+  
   data_row_num <- dim_data[1]
-
+  
   if (top_n != 0 & top_n < data_row_num) {
     data <- data[1:top_n, ]
   }
-
+  
   data <- as.data.frame(t(data))
-
+  
   sampleL = rownames(data)
-
-
-  if (is.null(grp_file)) {
+  
+  
+  if (sp.is.null(grp_file)) {
     data_t_label <- data
     data_t_label$group = sampleL
     data_t_label$Row.names = sampleL
@@ -120,7 +128,7 @@ sp_pca <- function(data,
         data_t_label[match(sampleL, data_t_label$Row.names), ]
     }
   }
-
+  
   if (shape != "c_t_c_t0304") {
     if (length(shape_order) > 1) {
       data_t_label[[shape]] <-
@@ -129,67 +137,67 @@ sp_pca <- function(data,
       data_t_label[[shape]] <- factor(data_t_label[[shape]])
     }
   }
-
+  
   if (length(color_order) > 1) {
     data_t_label[[color]] <-
       factor(data_t_label[[color]], levels = color_order, ordered = T)
   }
-
-
+  
+  
   if (log != "nolog") {
     data <- log(data + log_add)
   }
-
-
+  
+  
   if (shape  != "c_t_c_t0304") {
     shape_level <- length(unique(data_t_label[[shape]]))
     shapes = (1:shape_level) %% 30
   }
-
+  
   pca <- prcomp(data, scale = scale)
-
+  
   rotation = pca$rotation
-
+  
   write.table(
     data.frame(ID = rownames(rotation), rotation),
-    file = paste0(filename, mid, ".weights.xls"),
+    file = paste0(filenames, mid, ".weights.xls"),
     sep = "\t",
     quote = F,
     row.names = F,
     col.names = T
   )
-
-
+  
+  
   x = pca$x
-
+  
   write.table(
     data.frame(ID = rownames(x), x),
-    file = paste0(filename, mid, ".pcs.xls"),
+    file = paste0(filenames, mid, ".pcs.xls"),
     sep = "\t",
     quote = F,
     row.names = F,
     col.names = T
   )
-
+  
   percentVar <- pca$sdev ^ 2 / sum(pca$sdev ^ 2)
-
+  
   percentVar2 <- as.data.frame(percentVar)
   rownames(percentVar2) <- colnames(x)
-
+  
   write.table(
     percentVar2,
-    file = paste0(filename, mid, ".pc_variance.xls"),
+    file = paste0(filenames, mid, ".pc_variance.xls"),
     sep = "\t",
     quote = F,
     row.names = T
   )
-
-
+  
+  
   if (dimensions == 2) {
     p <-
       autoplot(pca, data = data_t_label, alpha = alpha) + ggtitle(title) + coord_fixed()
-
-    if (!is.null(size)) {
+    
+    if (!sp.is.null(size)) {
       size_en = sym(size)
       p <- p + aes(size = !!size_en)
     }
@@ -207,7 +215,7 @@ sp_pca <- function(data,
         }
       }
     }
-
+    
     if (shape  != "c_t_c_t0304") {
       shape_en = sym(shape)
       p <- p + aes(shape = !!shape_en)
@@ -215,9 +223,9 @@ sp_pca <- function(data,
         p <- p + scale_shape_manual(values = shapes)
       }
     }
-
+    
     if (label) {
-      if (!is.null(label_font_size)) {
+      if (!sp.is.null(label_font_size)) {
         p <-
           p + geom_text_repel(aes(label = Row.names),
                               show.legend = F,
@@ -226,52 +234,51 @@ sp_pca <- function(data,
         p <- p + geom_text_repel(aes(label = Row.names), show.legend = F)
       }
     }
-
+    
     x_label = paste0("PC1 (", round(percentVar[1] * 100), "% variance)")
     y_label = paste0("PC2 (", round(percentVar[2] * 100), "% variance)")
-
-    p <- p + xlab(x_label) + ylab(y_label)
-
-    p <- p + facet
-
-    if (is.null(saveplot)) {
-      p
-    } else {
-      ggsave(p,
-             filename = saveplot,
-             units = c("cm"))
-    }
-
+    
+    # if (!sp.is.null(facet)) {
+    #   p <- p + facet_wrap(~  .data[[facet]],
+    #                       nrow = nrow ,
+    #                       ncol = ncol ,
+    #                       scale = scales)
+    # }
+    
+    p <- sp_ggplot_layout(
+      p,
+      filename = filename,
+      legend.position = legend.position,
+      x_label = x_label,
+      y_label = y_label,
+      title = title
+    )
+    
   } else {
     library(scatterplot3d)
     if (color != "c_t_c_t0304") {
-      # 根据分组数目确定颜色变量
       group = data_t_label[[color]]
       colorA <- rainbow(length(unique(group)))
-
-      # 根据每个样品的分组信息获取对应的颜色变量
+      
       colors <- colorA[as.factor(group)]
-
-      # 根据样品分组信息获得legend的颜色
+      
       colorl <- colorA[as.factor(unique(group))]
     }
-
+    
     if (shape != "c_t_c_t0304") {
-      # 获得PCH symbol列表
       group <- data_t_label[[shape]]
       pch_l <- as.numeric(as.factor(unique(group)))
-      # 产生每个样品的pch symbol
       pch <- pch_l[as.factor(group)]
     }
-
+    
     pc <- as.data.frame(pca$x)
-
-    saveplot = paste0(filename, mid, ".pdf")
-
-    if (!is.null(saveplot)) {
+    
+    saveplot = paste0(filenames, mid, ".pdf")
+    
+    if (!sp.is.null(saveplot)) {
       base_plot_save(saveplot, ...)
     }
-
+    
     # pdf(paste0(filename,mid,"sds.pdf"))
     scatterplot3d(
       x = pc$PC1,
@@ -283,7 +290,7 @@ sp_pca <- function(data,
       ylab = paste0("PC2 (", round(percentVar[2] * 100), "% variance)"),
       zlab = paste0("PC3 (", round(percentVar[3] * 100), "% variance)")
     )
-
+    
     legend(
       -3,
       8,
@@ -294,12 +301,12 @@ sp_pca <- function(data,
       horiz = F,
       ncol = 6
     )
-
-    if (!is.null(saveplot)) {
+    
+    if (!sp.is.null(saveplot)) {
       dev.off()
     }
   }
-
+  
   if (debug) {
     argg <- c(as.list(environment()), list(...))
     print(argg)

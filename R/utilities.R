@@ -187,19 +187,20 @@ sp_readTable <-
     invisible(data)
   }
 
-#' Write datafrmae to file with names of first column filled.
+#' Write dataframe to file with names of first column filled.
 #'
 #' @param df A dataframe
 #' @param file Filename
 #' @param keep_rownames Default TRUE meaning output rownames as the first column
-#' with column name is `ID`. If FALSE, ignor rownames.
+#' with column name is \code{ID}. If FALSE, ignore rownames.
 #'
 #' @return NA
 #' @export
 #'
 #' @examples
 #'
-#'
+#' # Not run
+#' sp_writeTable(df, "a.txt")
 #'
 sp_writeTable <- function(df,
                           file = '',

@@ -321,6 +321,9 @@ sp_pheatmap <- function(data,
       row_cor = cor(t(data))
     } else if (clustering_distance_rows  == "spearman") {
       row_cor = cor(t(data), method = "spearman")
+    } else {
+      row_cor = as.data.frame(as.matrix(dist(data,
+                                             method = clustering_distance_rows)))
     }
     data = round(row_cor, 2)
     annotation_col = annotation_row
@@ -334,6 +337,9 @@ sp_pheatmap <- function(data,
       col_cor = cor(data)
     } else if (clustering_distance_cols == "spearman") {
       col_cor = cor(data, method = "spearman")
+    }  else {
+      col_cor = as.data.frame(as.matrix(dist(t(data),
+                                             method = clustering_distance_cols)))
     }
     data = round(col_cor, 2)
     cor_data = T
@@ -455,7 +461,6 @@ sp_pheatmap <- function(data,
       if (any(is.na(row_cor))) {
         row_dist = dist(data)
       }
-      cluster_rows_results = hclust(row_dist, method = clustering_method)
     } else if (clustering_distance_rows == "spearman") {
       if (!cor_data) {
         row_cor = cor(t(data), method = "spearman")
@@ -466,8 +471,18 @@ sp_pheatmap <- function(data,
       if (any(is.na(row_cor))) {
         row_dist = dist(data)
       }
-      cluster_rows_results = hclust(row_dist, method = clustering_method)
+    } else {
+      if (!cor_data) {
+        row_dist = dist(data, method = clustering_distance_rows)
+      } else {
+        row_cor = data
+        row_dist <- as.dist(1 - row_cor)
+        if (any(is.na(row_cor))) {
+          row_dist = dist(data)
+        }
+      }
     }
+    cluster_rows_results = hclust(row_dist, method = clustering_method)
     row_order = cluster_rows_results$order
   }
 
@@ -482,7 +497,6 @@ sp_pheatmap <- function(data,
       if (any(is.na(col_cor))) {
         col_dist = dist(t(data))
       }
-      cluster_cols_results = hclust(col_dist, method = clustering_method)
     } else if (clustering_distance_cols  == "spearman") {
       if (!cor_data) {
         col_cor = cor(data, method = "spearman")
@@ -493,8 +507,18 @@ sp_pheatmap <- function(data,
       if (any(is.na(col_cor))) {
         col_dist = dist(t(data))
       }
-      cluster_cols_results = hclust(col_dist, method = "${clustering_method}")
+    } else {
+      if (!cor_data) {
+        col_dist = dist(t(data), method = clustering_distance_cols)
+      } else {
+        col_cor = data
+        col_dist <- as.dist(1 - col_cor)
+        if (any(is.na(col_cor))) {
+          col_dist = dist(t(data))
+        }
+      }
     }
+    cluster_cols_results = hclust(col_dist, method = clustering_method)
     col_order = cluster_cols_results$order
   }
 
