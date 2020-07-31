@@ -5,10 +5,10 @@
 \title{Filter data for WGCNA input to increase computing efficiency without loosing too
 many information.}
 \usage{
-WGCNA_dataFilter(datExpr, ...)
+WGCNA_dataFilter(wgcnaL, ...)
 }
 \arguments{
-\item{datExpr}{Normal gene expression matrix (gene x sample).}
+\item{wgcnaL}{A matrix or an object return by \code{WGCNA_readindata}.}
 
 \item{...}{Parameters given to \code{dataFilter}.}
 }

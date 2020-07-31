@@ -193,6 +193,7 @@ sp_readTable <-
 #' @param file Filename
 #' @param keep_rownames Default TRUE meaning output rownames as the first column
 #' with column name is \code{ID}. If FALSE, ignore rownames.
+#' @inheritParams write.table
 #'
 #' @return NA
 #' @export
@@ -204,7 +205,8 @@ sp_readTable <-
 #'
 sp_writeTable <- function(df,
                           file = '',
-                          keep_rownames = T) {
+                          keep_rownames = T,
+                          col.names=T) {
   if (keep_rownames) {
     write.table(
       data.frame(ID = rownames(df), df),
@@ -212,7 +214,7 @@ sp_writeTable <- function(df,
       sep = "\t",
       quote = F,
       row.names = F,
-      col.names = T
+      col.names = col.names
     )
   } else {
     write.table(
@@ -221,7 +223,7 @@ sp_writeTable <- function(df,
       sep = "\t",
       quote = F,
       row.names = F,
-      col.names = T
+      col.names = col.names
     )
   }
 }
@@ -908,6 +910,13 @@ get_matched_columns_based_on_value <-
     if (length(df2) == 1) {
       df2['__extra_s_p_column__'] = '__extra_s_p_column2__'
     }
+    df1_rownames = rownames(df1)
+    df2_rownames = rownames(df2)
+
+    if(value.identical(df1_rownames, df2_rownames, treat_fully_contain_as_identical)){
+      return(c(0,0))
+    }
+
     matches <-
       sapply(df2, function(x)
         sapply(

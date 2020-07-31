@@ -6,73 +6,65 @@
 \usage{
 sp_pca(
   data,
-  grp_file = NULL,
-  title = "",
+  group_data = NULL,
+  title = NULL,
   scale = TRUE,
-  color = "c_t_c_t0304",
-  color_v = c(),
-  log = "nolog",
+  color_variable = NULL,
+  manual_color_vector = NULL,
+  log_transform = NULL,
   facet = NULL,
-  size = NULL,
-  shape = "c_t_c_t0304",
-  color_order = c(),
-  top_n = 5000,
-  shape_order = c(),
+  size_variable = NULL,
+  shape_variable = NULL,
+  color_variable_order = NULL,
+  top_n = 0,
+  shape_variable_order = NULL,
   dimensions = 2,
   alpha = 1,
-  mid = ".pca",
-  label = FALSE,
-  log_add = 1,
+  label_points = FALSE,
+  log_add = 0,
   label_font_size = NULL,
-  minimum_mad = 0.5,
+  minimum_mad = 0,
   debug = FALSE,
-  saveplot = NULL,
-  filename = "data",
+  filename = NULL,
+  legend.position = "right",
   ...
 )
 }
 \arguments{
-\item{data}{Data file. With header line, the first column is the rowname, tab seperated. Each row represents variable (normally genes), each column represents samples.}
+\item{data}{Data file. With header line, the first column is the rowname, tab separated. Each row represents variable (normally genes), each column represents samples.}
 
-\item{grp_file}{Sample group file with first column as sample names, other columns as sample attributes. Below, color, size, shape variable should be existed in this file.}
+\item{group_data}{Sample group file with first column as sample names, other columns as sample attributes. Below, color, size, shape variable should be existed in this file.}
 
 \item{title}{Title of picture. Default empty title}
 
-\item{scale}{Scale data for PCA analysis. In defaut, prcomp will centralized data by minus mean value and
+\item{scale}{Scale data for PCA analysis. Default, prcomp will centralized data by minus mean value and
 normalize data by column standard deviation dividing.
 Often, we would normalize data. Only when we care about the real number changes other than the trends,
-we do not need scale. When this happens, we expect the changin ranges of data is small for example log-transformed data.}
+we do not need scale. When this happens, we expect the ranges of data is small for example log-transformed data.}
 
-\item{color}{The variable for point color. Optional, such as color.}
+\item{color_variable}{The variable for point color. Optional, such as color.}
 
-\item{color_v}{Manually specified colors. Default system default. Accept string in format like <'"green", "red"'> (both types of quotes needed).}
+\item{manual_color_vector}{Manually specified colors. Default system default. Accept string in format like <'"green", "red"'> (both types of quotes needed).}
 
-\item{log}{Log-transform data before principle component analysis.}
+\item{log_transform}{Log-transform data before principle component analysis. Accept NULL, log2, log10.}
 
-\item{facet}{The formula for facets. Default no facets,
-facet_grid(level ~ .) means divide by levels of 'level' vertcally.
-facet_grid(. ~ level) means divide by levels of 'level' horizontally.
-facet_grid(lev1 ~ lev2) means divide by lev1 vertically and lev2 horizontally.
-facet_wrap(~level, ncol=2) means wrap horizontally with 2 columns.
-Example: facet_wrap(~Size,ncol=6,scale='free')}
+\item{size_variable}{The variable for point size. Optional, such as a number or a variable like count, normally should be number column.}
 
-\item{size}{The variable for point size. Optional, such as a number or a variable like count, normally should be number column.}
+\item{shape_variable}{The variable for point shape. Optional, such as shape.}
 
-\item{shape}{The variable for point shape. Optional, such as shape.}
+\item{color_variable_order}{The order for color variable. Default alphabetical order, accept a string like "'K562','hESC','GM12878','HUVEC','NHEK','IMR90','HMEC'".}
 
-\item{color_order}{The order for color variable. Default alphabetical order, accept a string like "'K562','hESC','GM12878','HUVEC','NHEK','IMR90','HMEC'".}
+\item{top_n}{Use top n most changed variables for PCA computation. Default 0 meaning use all variables.}
 
-\item{top_n}{Use top n most changed variables for PCA computation. Default 5000. Giving 0 to use all variables.}
-
-\item{shape_order}{The order for shape variable. Default alphabetical order, accept a string like "'K562','hESC','GM12878','HUVEC','NHEK','IMR90','HMEC'".}
+\item{shape_variable_order}{The order for shape variable. Default alphabetical order, accept a string like "'K562','hESC','GM12878','HUVEC','NHEK','IMR90','HMEC'".}
 
 \item{dimensions}{Dimensions to plot. Default 2.    Accept 3 (both color and shape variable needed and should be same variable).}
 
 \item{alpha}{Transparency value for points. Optional, such as a number or a variable indicating one data column, normally should be number column.}
 
-\item{label}{Label points (using geom_text_repel). Default no-label (FALSE), accept TRUE.}
+\item{label_points}{Label points (using geom_text_repel). Default no-label (FALSE), accept TRUE.}
 
-\item{log_add}{Add a value before log-transform to avoid log(0). Default 1.}
+\item{log_add}{Add a value before log-transform to avoid log(0). Default 0 meaning the minimum non-zero value would be used.}
 
 \item{label_font_size}{Label font size. Default system default. Accept numbers less than 5 to shrink fonts.}
 
@@ -91,14 +83,15 @@ pca_test_data <- matrix(runif(3000,0,100000),ncol=6)
 colnames(pca_test_data) <- c(paste("wt",1:3,sep = ""),paste("ko",1:3,sep = ""))
 rownames(pca_test_data) <- c(ID = paste0("ENSG",c(1:500)))
 pca_data <- as.data.frame(pca_test_data)
-sp_pca(data = pca_data, grp_file = NULL)
+sp_pca(data = pca_data, group_data = NULL)
 
 
 ## Not run:
 data = "pca.data"
 group_data = "pca_group.data"
-sp_pca(data = data, grp_file = group_data, color="Conditions", size = "Diameters", shape = "Batch", label = TRUE)
-## End(Not run)
+sp_pca(data = data, group_data = group_data, color_variable="Conditions", size = "Diameters", shape_variable = "Batch", label = TRUE)
 
+sp_pca(data = data, group_data = group_data, color_variable="Conditions", size = "Diameters", shape_variable = "Batch", label = FALSE,dimensions = 3)
+## End(Not run)
 
 }

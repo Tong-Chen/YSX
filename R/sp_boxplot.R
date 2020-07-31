@@ -90,6 +90,7 @@ sp_boxplot <- function(data,
                        legend_variable_cut = NULL,
                        xvariable_order = NULL,
                        xvariable_cut = NULL,
+                       group_variable_for_line = NULL,
                        y_add = 0,
                        yaxis_scale_mode = '',
                        notch = FALSE,
@@ -145,17 +146,37 @@ sp_boxplot <- function(data,
       data <-
         melt(data, id.vars = c(ID_var, first_column_variable))
     }
-  } else if (class(data) != "data.frame") {
-    stop("Unknown input format for `data` parameter.")
+  } else if (class(data) == "data.frame") {
     if (!melted) {
       if(sp.is.null(xvariable)) {
         xvariable = colnames(data)[1]
       }
     }
+  } else if (class(data) != "data.frame") {
+    stop("Unknown input format for `data` parameter.")
   }
 
   if(sp.is.null(xvariable) || sp.is.null(yvariable)){
     stop('xvariable or yvariable must be specified!')
+  }
+
+  if(sp.is.null(legend_variable)) {
+    legend_variable = xvariable
+  }
+
+  # print(data)
+  if(!sp.is.null(metadata)){
+    if (class(metadata) == "character"){
+      metadata <- sp_readTable(metadata, row.names = NULL)
+   }else if (class(metadata) != "data.frame") {
+      stop("Unknown input format for `metadata` parameter.")
+    }
+    # return(list(data=data, metadata=metadata))
+    matched_column <- get_matched_columns_based_on_value(data, metadata,
+                                                         only_allow_one_match=T)
+
+    # return(list(data=data, metadata=metadata, matched_column=matched_column))
+    data <- merge(data, metadata, by.x=matched_column[1], by.y=matched_column[2])
   }
 
   data_colnames <- colnames(data)
@@ -165,20 +186,6 @@ sp_boxplot <- function(data,
   }
 
 
-  if(sp.is.null(legend_variable)) {
-    legend_variable = xvariable
-  }
-
-  # print(data)
-  if(!sp.is.null(metadata)){
-    metadata <- sp_readTable(metadata, row.names = NULL)
-    # return(list(data=data, metadata=metadata))
-    matched_column <- get_matched_columns_based_on_value(data, metadata,
-                                                         only_allow_one_match=T)
-
-    # return(list(data=data, metadata=metadata, matched_column=matched_column))
-    data <- merge(data, metadata, by.x=matched_column[1], by.y=matched_column[2])
-  }
 
   if (yaxis_scale_mode != "") {
     # print(y_add)
@@ -200,7 +207,7 @@ sp_boxplot <- function(data,
   if (!sp.is.null(legend_variable_cut)) {
     data[[legend_variable]] <- cut(data[[legend_variable]], legend_variable_cut)
   } else if (!sp.is.null(legend_variable_order)) {
-    data = sp_set_factor_order(data, legend_variable, legend_variable)
+    data = sp_set_factor_order(data, legend_variable, legend_variable_order)
   }
 
   # May be not needed. Comment out first.
@@ -290,6 +297,7 @@ sp_boxplot <- function(data,
       } else{
         p <- p + geom_boxplot(aes(fill = !!legend_variable_en),
                               notch = TRUE,
+                              outlier.colour = 'red',
                               notchwidth = 0.3,
                               position = position_dodge(width = .9))
       }
@@ -300,6 +308,7 @@ sp_boxplot <- function(data,
                               position = position_dodge(width = .9))
       } else{
         p <- p + geom_boxplot(aes(fill = !!legend_variable_en),
+                              outlier.colour = 'red',
                               position = position_dodge(width=0.9))
       }
     }
@@ -307,15 +316,38 @@ sp_boxplot <- function(data,
 
   if (jitter_bp) {
     p <-
-      #p + geom_quasirandom(
-      p + geom_point(
+      p + geom_quasirandom(
+      # p + geom_point(
         aes(group = !!legend_variable_en),
         varwidth = T,
         groupOnX = TRUE,
-        # dodge.width = 0.9,
+        dodge.width = 0.9,
         position = position_dodge(width = .9)
       )
+    # p <- p + geom_dotplot(binaxis = 'y',
+    #                       aes(group = !!legend_variable_en),
+    #                       position = position_dodge(width = .9),
+    #              stackdir = 'center',
+    #              stackratio = 1.5,
+    #              binwidth = .1,
+    #              binpositions = "all",
+    #              dotsize = 0.6,
+    #              alpha = .75,
+    #              fill = "lightseagreen",
+    #              colour = "lightseagreen",
+    #              na.rm = TRUE)
   }
+
+  if(!sp.is.null(group_variable_for_line)){
+    group_variable_for_line_en = sym(group_variable_for_line)
+    if(! (group_variable_for_line %in% data_colnames)){
+      stop(paste(group_variable_for_line,'must be column names of data!'))
+    }
+    p <- p + geom_line(aes(group=!!group_variable_for_line_en,
+                           color=!!group_variable_for_line_en),
+                           position=position_quasirandom())
+  }
+
 
   if (!sp.is.null(yaxis_scale_mode) && (yaxis_scale_mode  != "log2") &&
       (yaxis_scale_mode  != "log10")) {

@@ -62,6 +62,9 @@ Additional arguments passed to \code{\link{polygon}}.
 A pdf image.
 }
 \description{
+Modified from http://blog.sciencenet.cn/blog-3406804-1159241.html
+}
+\details{
 This function is not planned for public usages.
 }
 \examples{

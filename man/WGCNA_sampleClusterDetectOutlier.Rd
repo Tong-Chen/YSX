@@ -5,7 +5,7 @@
 \title{Sample cluster and outlier detection}
 \usage{
 WGCNA_sampleClusterDetectOutlier(
-  datExpr,
+  wgcnaL,
   thresholdZ.k = -2.5,
   saveplot = NULL,
   removeOutlier = F,
@@ -14,7 +14,7 @@ WGCNA_sampleClusterDetectOutlier(
 )
 }
 \arguments{
-\item{datExpr}{A transformed gene expression matrix normally output by \code{WGCNA_dataFilter}.
+\item{wgcnaL}{A matrix or an object return by \code{WGCNA_readindata}. A transformed gene expression matrix normally output by \code{WGCNA_dataFilter}.
 Samples x Genes.}
 
 \item{thresholdZ.k}{Threshold for defining outliers. First compute the overall

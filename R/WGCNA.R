@@ -1415,36 +1415,36 @@ WGCNA_moduleTraitPlot <-
       quote = F,
       row.names = F
     )
-    checkAndInstallPackages(list(package1=c("ggmatrix","houyunhuang/ggmatrix")))
-
-    modTraitCorP_ggmatrix <-
-      ggplot(
-        modTraitCorP,
-        aes(
-          x = Module,
-          y = Trait,
-          fill.upper = PersonCorrelationValue,
-          fill.lower = Pvalue
-        )
-      ) +
-      ggmatrix::geom_triangle() +
-      ggmatrix::scale_fill_upper_gradientn(colours = up_color) +
-      ggmatrix::scale_fill_lower_gradientn(colours = down_color) +
-      theme(
-        legend.position = "top",
-        axis.text.x = element_text(
-          angle = angle_x,
-          hjust = 1,
-          vjust = 0.3
-        )
-      ) + labs(x = "Module", y = "Trait")
-    ggsave(
-      paste0(prefix, ".modTraitCorP_ggmatrix.pdf"),
-      plot = modTraitCorP_ggmatrix,
-      width = 15,
-      height = 15,
-      units = "cm"
-    )
+    # checkAndInstallPackages(list(package1=c("ggmatrix","houyunhuang/ggmatrix")))
+    #
+    # modTraitCorP_ggmatrix <-
+    #   ggplot(
+    #     modTraitCorP,
+    #     aes(
+    #       x = Module,
+    #       y = Trait,
+    #       fill.upper = PersonCorrelationValue,
+    #       fill.lower = Pvalue
+    #     )
+    #   ) +
+    #   ggmatrix::geom_triangle() +
+    #   ggmatrix::scale_fill_upper_gradientn(colours = up_color) +
+    #   ggmatrix::scale_fill_lower_gradientn(colours = down_color) +
+    #   theme(
+    #     legend.position = "top",
+    #     axis.text.x = element_text(
+    #       angle = angle_x,
+    #       hjust = 1,
+    #       vjust = 0.3
+    #     )
+    #   ) + labs(x = "Module", y = "Trait")
+    # ggsave(
+    #   paste0(prefix, ".modTraitCorP_ggmatrix.pdf"),
+    #   plot = modTraitCorP_ggmatrix,
+    #   width = 15,
+    #   height = 15,
+    #   units = "cm"
+    # )
     cat(sp_current_time(), "Finish plotting correlation heatmap among all traits and modules.\n")
   }
 

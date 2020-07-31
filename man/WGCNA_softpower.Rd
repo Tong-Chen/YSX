@@ -14,9 +14,6 @@ WGCNA_softpower(
 )
 }
 \arguments{
-\item{datExpr}{A transformed gene expression matrix normally output by \code{WGCNA_dataFilter}.
-Samples x Genes.}
-
 \item{networkType}{Default "signed". Allowed values are (unique abbreviations of)
 "unsigned", "signed", "signed hybrid". Correlation and distance are transformed as
 follows:

@@ -45,7 +45,7 @@ sp_pheatmap(exprTable, manual_color_vector=c("green","red"), scale="row")
 
 
 ```{r}
-sp_pheatmap(exprTable, cluster_rows = T, logv="log2", manual_color_vector="YlOrRd")
+sp_pheatmap(exprTable, cluster_rows = T, logv="log2", manual_color_vector="YlOrRd", clustering_distance_rows = "binary")
 ```
 
 ### Heatmap add side color bars
@@ -105,6 +105,8 @@ library(RColorBrewer)
 set_data = "Set.data"
 
 flower_plot(set_data)
+flower_plot(set_data,group_color = c("Set2"),r = 1)
+flower_plot(set_data,label_total_num_items = T,a=1)
 # flower_plot(set_data, saveplot="Set.data.flower.pdf")
 ```
 
@@ -169,7 +171,8 @@ sp_volcano_plot(data=res_output,
            log2fc_var="log2FoldChange",
            fdr_var="padj",
            significance_threshold = c(0.05, 1),
-           point_color_vector = c("red","blue","black")
+           point_color_vector = c("red","blue","black"),
+           max_allowed_log10p = 10
            )
 ```
 
@@ -328,7 +331,7 @@ library(dplyr)
 
 
 box_data = "box.data"
-sp_boxplot(data = box_data, melted=T, xvariable = "Gene", yvariable = "Expr", legend_variable="Group", statistics = T, violin_nb = T)
+sp_boxplot(data = box_data, melted=T, xvariable = "Gene", yvariable = "Expr", legend_variable="Group", statistics = T, violin_nb = F, violin=T, jitter_bp = T)
 ```
 
 ```{r}
@@ -443,9 +446,27 @@ sp_pca(data = pca_data, grp_file = NULL)
 data = "pca.data"
 group_data = "pca_group.data"
 sp_pca(data = data, grp_file = group_data, color="Conditions", size = "Diameters", shape = "Batch", label = TRUE) 
- 
+
+
+sp_pca(data = data, grp_file = group_data, color="Conditions", size = "Diameters", shape = "Batch", label = FALSE, dimensions = 3)  
 ```
 
+
+## pcoa plot
+
+```{r}
+suppressMessages(library("optparse"))
+suppressMessages(library("reshape2"))
+suppressMessages(library("ggplot2"))
+suppressMessages(library("vegan"))
+suppressMessages(library("digest"))
+suppressMessages(library("ggrepel"))
+suppressMessages(library("ggpubr"))
+
+pcoa_data = "pcoa.data"
+group_pcoa_data = "group_pcoa.data"
+sp_pcoa(data=pcoa_data,grp_file = group_pcoa_data, color = "genotype") 
+```
 
 ## Tree plot
 

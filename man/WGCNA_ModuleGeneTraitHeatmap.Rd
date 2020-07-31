@@ -6,7 +6,7 @@
 \usage{
 WGCNA_ModuleGeneTraitHeatmap(
   datExpr,
-  traitData,
+  traitData = NULL,
   net,
   corType = "bicor",
   prefix = "ehbio",

@@ -16,6 +16,7 @@ sp_boxplot(
   legend_variable_cut = NULL,
   xvariable_order = NULL,
   xvariable_cut = NULL,
+  group_variable_for_line = NULL,
   y_add = 0,
   yaxis_scale_mode = "",
   notch = FALSE,
@@ -45,6 +46,7 @@ sp_boxplot(
   debug = F,
   width = 0,
   height = 0,
+  extra_ggplot2_cmd = NULL,
   ...
 )
 }
@@ -155,6 +157,8 @@ to tell the group information for each sample.}
 \item{width}{Picture width (units: cm)}
 
 \item{height}{Picture height (units: cm)}
+
+\item{extra_ggplot2_cmd}{Extra ggplot2 commands (currently unsupported)}
 
 \item{...}{Parametes given to \code{sp_ggplot_layout}}
 

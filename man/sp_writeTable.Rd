@@ -2,9 +2,9 @@
 % Please edit documentation in R/utilities.R
 \name{sp_writeTable}
 \alias{sp_writeTable}
-\title{Write datafrmae to file with names of first column filled.}
+\title{Write dataframe to file with names of first column filled.}
 \usage{
-sp_writeTable(df, file = "", keep_rownames = T)
+sp_writeTable(df, file = "", keep_rownames = T, col.names = T)
 }
 \arguments{
 \item{df}{A dataframe}
@@ -12,16 +12,17 @@ sp_writeTable(df, file = "", keep_rownames = T)
 \item{file}{Filename}
 
 \item{keep_rownames}{Default TRUE meaning output rownames as the first column
-with column name is \code{ID}. If FALSE, ignor rownames.}
+with column name is \code{ID}. If FALSE, ignore rownames.}
 }
 \value{
 NA
 }
 \description{
-Write datafrmae to file with names of first column filled.
+Write dataframe to file with names of first column filled.
 }
 \examples{
 
-
+# Not run
+sp_writeTable(df, "a.txt")
 
 }

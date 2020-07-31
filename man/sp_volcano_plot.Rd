@@ -15,6 +15,7 @@ sp_volcano_plot(
   point_color_vector = c("red", "green", "grey"),
   log10_transform_fdr = TRUE,
   max_allowed_log10p = Inf,
+  max_allowed_log2fc = Inf,
   title = NULL,
   point_label_var = "CTctctCT",
   log2fc_symmetry = TRUE,
@@ -56,6 +57,8 @@ of levels of \code{status_col_var}.}
 \item{log10_transform_fdr}{Get \code{-log10(pvalue)} or \code{-log10(fdr)} for column given to \code{fdr_var}. Default FALSE, accept TRUE.}
 
 \item{max_allowed_log10p}{Maximum allowed \code{-log10(pvalue)}. Default \code{Inf} meaning no limitation. Normally this should be set to 3 or 4 to make the output picture beautiful.}
+
+\item{max_allowed_log2fc}{Maximum allowed \code{log2(foldchange)}. Default \code{Inf} meaning no limitation. Normally this should be set to 3 or 4 to make the output picture beautiful.}
 
 \item{title}{Title of picture.}
 

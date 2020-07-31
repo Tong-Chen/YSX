@@ -1,12 +1,23 @@
+line.r -f line.data -x Pos -y value -l Variable -c Variable -m TRUE
+line.r -f line.data -x Pos -y value -m TRUE
+line.r -f line.data -x Pos -y value -l Variable -m TRUE -s auto -V "cyan,purple"
+# 下行代码在R脚本中运行，图中文字带反斜线
+line.r -f line.data -x Pos -y value -l Variable -m TRUE -s auto -V "cyan,purple" -b "1000,2000" -P "100
+0,4000" -B '\-1 kb,1 kb' -U "\-5 kb,5 kb"
+
+splot_line.sh -f line.data -x Pos -y value -l Variable -c Variable -m TRUE
+splot_line.sh -f line.data -x Pos -y value -m TRUE
+splot_line.sh -f line.data -x Pos -y value -l Variable -m TRUE -s auto -V "cyan,purple"
+splot_line.sh -f line.data -x Pos -y value -l Variable -m TRUE -s auto -V "cyan,purple" -P "-5000,0,5000" -
+b "-1000,1000" -B "-1 kb,1 kb" -U "-5 kb,TSS,5 kb"
+
+
 flowerplot.r -f flower.txt -c green
 flowerplot.r -f flower.txt -A 1 -B 1.5 -r 1 -n FALSE -c Set2
 
 
 splot_flowerplot.sh -f flower.txt -c green
 splot_flowerplot.sh -f flower.txt -A 1 -B 1.5 -r 1 -n FALSE -c Set2
-
-
-
 
 
 

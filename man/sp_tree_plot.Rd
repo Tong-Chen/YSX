@@ -37,6 +37,13 @@ A tree with Multiple-Sequence-Alignment plot would be generated when given.}
 
 \item{color_branches}{Name of columns in \code{tree_attrib} used for color branches.}
 
+\item{layout}{one of 'rectangular', 'slanted', 'fan', 'circular', 'radial', 'equal_angle' or 'daylight'}
+
+\item{ladderize}{logical (default \code{TRUE}). Should the tree be re-organized to have a 'ladder'
+aspect?}
+
+\item{branch.length}{variable for scaling branch, if 'none' draw cladogram}
+
 \item{tip_text}{Show branch labels or supply a name of columns in \code{tree_attrib} to be
 shown as branch labels, Or \code{label} to show default labels, or NULL to not show
 branch labels.}
@@ -55,7 +62,7 @@ be used for \code{tree_type=iqtree}.}
 
 \item{bootstrap_color}{Text color of bootstrap labels.}
 
-\item{...}{Extra parameters to \code{\link[ggplot2]{ggsave}}.}
+\item{...}{additional parameter}
 }
 \value{
 A ggplot2 object
