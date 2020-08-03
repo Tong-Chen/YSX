@@ -13,6 +13,11 @@ sp_writeTable(df, file = "", keep_rownames = T, col.names = T)
 
 \item{keep_rownames}{Default TRUE meaning output rownames as the first column
 with column name is \code{ID}. If FALSE, ignore rownames.}
+
+\item{col.names}{either a logical value indicating whether the column
+    names of \code{x} are to be written along with \code{x}, or a
+    character vector of column names to be written.  See the section on
+    \sQuote{CSV files} for the meaning of \code{col.names = NA}.}
 }
 \value{
 NA

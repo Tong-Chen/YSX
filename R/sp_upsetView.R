@@ -1,12 +1,38 @@
 #' Generating upsetView plot
 #'
+#' Input file is a matrix:
+
+#' vennFormat 0
+#'
+#' (First row would be treated as header line. First column is just a normal column (but needed). 0 represents the sample does not contain the genes in row. 1 represents the containing relationship)
+
+#' ID	Samp1	Samp2	Samp3	Samp4	Samp5
+#'
+#' G1	1	0	1	0	1
+#'
+#' G2	0	0	1	1	1
+#'
+#' G3	1	1	1	0	1
+#'
+#' G4	1	1	1	0	0
+#'
+#' G5	0	1	0	1	1
+#'
+#' G6	1	0	1	0	0
+
+#' vennFormat 1 or 2
+#'
+#' The output contains two barplots, horizontal bar represents the number of genes in each sample, which is the sum of all 1 in sample column. Vertical bar represents the number of sample specific and common genes as indicated by linking vertical lines and points (just as the overlapping regions of venndiagram).
+
+
+#'
 #' @param data Data file. Receive long and wide table forms.
 #' @param vennFormat Venn diagram format without header line. Default 0 represents normal data. Accept 1,2.
 #' 0: represents wide data listed above.
 #' 1: represents venn diagram format without header line.
 #' 2: represents venn diagram format with header line.
 #' @param pointsize Point size. Default 8.
-#' @param keep_empty Keep empty intersections. Default TRUE. Accept FALSE to remove empty intersections.
+#' @param keep_empty Keep empty intersections. Default FALSE. Accept TRUE to remove empty intersections.
 #' @inheritParams base_plot_save
 #' @param ...
 #'
@@ -27,8 +53,8 @@
 sp_upsetview <- function (data,
                           vennFormat = 0,
                           pointsize = 8,
-                          keep_empty = TRUE,
-                          saveplot="1.pdf",
+                          keep_empty = FALSE,
+                          saveplot=NULL,
                           debug = FALSE,
                           ...) {
 
@@ -55,7 +81,7 @@ sp_upsetview <- function (data,
     }
     data <- unique(data[, 1:2])
     colnames(data) <- c("Item", "Grp")
-    data = as.data.frame(acast(data, Item ~ Grp, length))
+    data = as.data.frame(reshape2::acast(data, Item ~ Grp, length))
     data = cbind(ID = rownames(data), data)
   }
 
@@ -67,30 +93,7 @@ sp_upsetview <- function (data,
     keep_empty = NULL
   }
 
-    # pdf(
-    #   file = "upset.pdf",
-    #   onefile = FALSE,
-    #   paper = "special",
-    #   bg = "white",
-    #   pointsize = 8
-    # )
-#
-  if (!is.null(saveplot)) {
-    print(saveplot)
-    if(dev.cur()!=1){
-      dev.off()
-    }
-    base_plot_save(saveplot,...)
-
-  }
-  print(data)
-  print(nsets)
-
-  # pdf(saveplot,...)
-
-
-  # return(list(data=data, nsets=nsets))
-  upset(
+  a = UpSetR::upset(
     data,
     nsets = nsets,
     nintersects = NA,
@@ -100,9 +103,11 @@ sp_upsetview <- function (data,
   )
 
 
-  if (!is.null(saveplot)) {
+  if (!sp.is.null(saveplot)) {
+    base_plot_save(saveplot,...)
+    print(a)
     dev.off()
   }
+  a
 }
 
-#sp_upsetview(data="vignettes/upsetview.data", saveplot="2.pdf")

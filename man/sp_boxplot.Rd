@@ -17,6 +17,7 @@ sp_boxplot(
   xvariable_order = NULL,
   xvariable_cut = NULL,
   group_variable_for_line = NULL,
+  group_variable_order_for_line = NULL,
   y_add = 0,
   yaxis_scale_mode = "",
   notch = FALSE,
@@ -31,6 +32,8 @@ sp_boxplot(
   ID_var = c(),
   jitter = FALSE,
   jitter_bp = FALSE,
+  dotplot = FALSE,
+  dotplot_bp = FALSE,
   colormodel = "srgb",
   coordinate_flip = FALSE,
   facet = NULL,
@@ -82,6 +85,10 @@ values in \code{legend_variable} column is continuous numbers.}
 
 \item{xvariable_cut}{sxvariable_cut Self-define intervals for x-axis variable.}
 
+\item{group_variable_for_line}{Specify the group of points to line together (one column name).}
+
+\item{group_variable_order_for_line}{Levels for group variable for lines.}
+
 \item{y_add}{A number to add if scale is used.
 Default 0 meaning the minimum non-zero value wolud be used.}
 
@@ -124,7 +131,11 @@ except the one given to \code{xvariable}.}
 
 \item{jitter}{Do jitter plot instead of boxplot.}
 
-\item{jitter_bp}{Do jitter plot overlay with violinplot or boxplot or both.}
+\item{jitter_bp}{Do jitter plot overlay with violin plot or boxplot or both.}
+
+\item{dotplot}{Do dotplot plot instead of boxplot.}
+
+\item{dotplot_bp}{Do dotplot plot overlay with violin plot or boxplot or both.}
 
 \item{coordinate_flip}{Rotate the plot from vertical to horizontal.
 Usefull for plots with many values or very long labels at X-axis}

@@ -18,6 +18,8 @@
 #' This parameter can only be set when `melted` is TRUE.
 #' @param legend_variable The column represents the legend information.
 #' Default `xvariable` if not specified.
+#' @param group_variable_for_line Specify the group of points to line together (one column name).
+#' @param group_variable_order_for_line Levels for group variable for lines.
 #' @param xtics_angle Rotation angle for x-axis value. Default 0.
 #' @param legend_variable_order Levels for legend variable.
 #' Default data order, accept a vector like c('TP16','TP22','TP23') for `legend_variable` column.
@@ -45,7 +47,9 @@
 #' @param ID_var Other columns one want to treat as ID variable columns
 #' except the one given to `xvariable`.
 #' @param jitter Do jitter plot instead of boxplot.
-#' @param jitter_bp Do jitter plot overlay with violinplot or boxplot or both.
+#' @param jitter_bp Do jitter plot overlay with violin plot or boxplot or both.
+#' @param dotplot Do dotplot plot instead of boxplot.
+#' @param dotplot_bp Do dotplot plot overlay with violin plot or boxplot or both.
 #' @param coordinate_flip Rotate the plot from vertical to horizontal.
 #' Usefull for plots with many values or very long labels at X-axis
 #' @param facet Wrap plots by given column. This is used to put multiple plot
@@ -91,6 +95,7 @@ sp_boxplot <- function(data,
                        xvariable_order = NULL,
                        xvariable_cut = NULL,
                        group_variable_for_line = NULL,
+                       group_variable_order_for_line = NULL,
                        y_add = 0,
                        yaxis_scale_mode = '',
                        notch = FALSE,
@@ -105,6 +110,8 @@ sp_boxplot <- function(data,
                        ID_var = c(),
                        jitter = FALSE ,
                        jitter_bp =  FALSE ,
+                       dotplot = FALSE,
+                       dotplot_bp = FALSE,
                        colormodel = 'srgb',
                        coordinate_flip = FALSE,
                        facet = NULL,
@@ -210,6 +217,9 @@ sp_boxplot <- function(data,
     data = sp_set_factor_order(data, legend_variable, legend_variable_order)
   }
 
+  if (!sp.is.null(group_variable_for_line) && !sp.is.null(group_variable_order_for_line)) {
+    data = sp_set_factor_order(data, group_variable_for_line, group_variable_order_for_line)
+  }
   # May be not needed. Comment out first.
   # data[[legend_variable]] <- as.factor(data[[legend_variable]])
 
@@ -234,6 +244,14 @@ sp_boxplot <- function(data,
   legend_variable_en = sym(legend_variable)
 
   p <- ggplot(data, aes(!!xvariable_en,!!yvariable_en))
+
+  outlier.colour = 'red'
+
+
+
+  if (jitter || jitter_bp){
+    outlier.colour = 'NA'
+  }
 
   if (violin) {
     p <- p + geom_violin(
@@ -285,7 +303,18 @@ sp_boxplot <- function(data,
         color = "black",
         position = position_dodge(width = .9)
       )
-  } else {
+  } else if (dotplot) {
+    p <- p + geom_dotplot(binaxis = 'y',
+                          aes(group = !!legend_variable_en, fill = !!legend_variable_en),
+                          position = position_dodge(width = .9),
+                          stackdir = 'center',
+                          stackratio = 1.5,
+                          binwidth = .1,
+                          binpositions = "all",
+                          dotsize = 0.6,
+                          alpha = .75,
+                          na.rm = TRUE)
+  }else {
     if (notch) {
       if (outlier) {
         p <- p + geom_boxplot(
@@ -297,7 +326,7 @@ sp_boxplot <- function(data,
       } else{
         p <- p + geom_boxplot(aes(fill = !!legend_variable_en),
                               notch = TRUE,
-                              outlier.colour = 'red',
+                              outlier.colour = outlier.colour,
                               notchwidth = 0.3,
                               position = position_dodge(width = .9))
       }
@@ -308,7 +337,7 @@ sp_boxplot <- function(data,
                               position = position_dodge(width = .9))
       } else{
         p <- p + geom_boxplot(aes(fill = !!legend_variable_en),
-                              outlier.colour = 'red',
+                              outlier.colour = outlier.colour,
                               position = position_dodge(width=0.9))
       }
     }
@@ -324,18 +353,20 @@ sp_boxplot <- function(data,
         dodge.width = 0.9,
         position = position_dodge(width = .9)
       )
-    # p <- p + geom_dotplot(binaxis = 'y',
-    #                       aes(group = !!legend_variable_en),
-    #                       position = position_dodge(width = .9),
-    #              stackdir = 'center',
-    #              stackratio = 1.5,
-    #              binwidth = .1,
-    #              binpositions = "all",
-    #              dotsize = 0.6,
-    #              alpha = .75,
-    #              fill = "lightseagreen",
-    #              colour = "lightseagreen",
-    #              na.rm = TRUE)
+  }
+  if (dotplot_bp){
+    p <- p + geom_dotplot(binaxis = 'y',
+                          aes(group = !!legend_variable_en),
+                          position = position_dodge(width = .9),
+                 stackdir = 'center',
+                 stackratio = 1.5,
+                 binwidth = .1,
+                 binpositions = "all",
+                 dotsize = 0.6,
+                 alpha = .75,
+                 fill = "lightseagreen",
+                 colour = "lightseagreen",
+                 na.rm = TRUE)
   }
 
   if(!sp.is.null(group_variable_for_line)){
@@ -343,6 +374,18 @@ sp_boxplot <- function(data,
     if(! (group_variable_for_line %in% data_colnames)){
       stop(paste(group_variable_for_line,'must be column names of data!'))
     }
+
+    if (! (jitter || jitter_bp)){
+      p <-
+        p + geom_quasirandom(
+          aes(group = !!legend_variable_en),
+          varwidth = T,
+          groupOnX = TRUE,
+          dodge.width = 0.9,
+          position = position_dodge(width = .9)
+        )
+    }
+
     p <- p + geom_line(aes(group=!!group_variable_for_line_en,
                            color=!!group_variable_for_line_en),
                            position=position_quasirandom())

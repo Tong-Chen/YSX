@@ -193,7 +193,7 @@ sp_readTable <-
 #' @param file Filename
 #' @param keep_rownames Default TRUE meaning output rownames as the first column
 #' with column name is \code{ID}. If FALSE, ignore rownames.
-#' @inheritParams write.table
+#' @inheritParams utils::write.table
 #'
 #' @return NA
 #' @export
@@ -532,7 +532,7 @@ sp_set_factor_order <-
 #' "PuBuGn"   "PuRd"     "Purples"  "RdPu"     "Reds"
 #' "YlGn"    "YlGnBu"   "YlOrBr"   "YlOrRd"
 #' (check <http://www.sthda.com/english/wiki/colors-in-r> for more).
-#' @param alpha Transparency
+#' @param alpha Color transparency (0-1). 0: opaque; 1: transparent.
 #'
 #' @return A ggplot2 object
 #' @export

@@ -208,6 +208,52 @@ sp_volcano_plot(data=res_output,
            )
 ```
 
+## Venn diagram
+
+```{r}
+library(VennDiagram)
+library(grid)
+vennDiagram_data = "vennDiagram.data"
+sp_vennDiagram(data = vennDiagram_data, header=T)
+```
+
+```{r}
+sp_vennDiagram(data = vennDiagram_data, label1 = "Set1",label2 = "Set2", label3="Set3", manual_color_vector = "Dark2")
+```
+```{r}
+sp_vennDiagram( supplyNumbers = TRUE,  numVector=c (120, 110, 50), labelVector=c('a','b'))
+```
+
+```{r}
+sp_vennDiagram(data = vennDiagram_data, label1 = "Set1",label2 = "Set2", manual_color_vector = c('red', 'green'))
+```
+
+
+```{r}
+sp_vennDiagram(data = vennDiagram_data, label1 = "Set1",label2 = "Set2", label3="Set3", label4="Set4")
+```
+
+## UpSet View Plot
+
+```{r}
+library(UpSetR)
+library(reshape2)
+library(YSX)
+vennDiagram_data = "vennDiagram.data"
+sp_upsetview(vennDiagram_data, vennFormat = 2)
+```
+
+```{r}
+sp_upsetview("upset.wide.data", vennFormat = 0)
+```
+
+```{r}
+sp_upsetview(vennDiagram_data, vennFormat = 2, saveplot="1.pdf")
+```
+```{r}
+str(a)
+```
+
 ## manhattan2 plot
 
 ```{r}

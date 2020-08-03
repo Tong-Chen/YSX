@@ -31,7 +31,7 @@ a RColorBrewer color set like  "BrBG"     "PiYG"     "PRGn"     "PuOr"
 "YlGn"    "YlGnBu"   "YlOrBr"   "YlOrRd"
 (check \url{http://www.sthda.com/english/wiki/colors-in-r} for more).}
 
-\item{alpha}{Transparency}
+\item{alpha}{Color transparency (0-1). 0: opaque; 1: transparent.}
 }
 \value{
 A ggplot2 object

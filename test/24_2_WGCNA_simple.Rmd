@@ -1,0 +1,155 @@
+## WGCNA 共表达网络分析实战 {#wgcna_simple}
+
+```{r}
+site = "https://mirrors.tuna.tsinghua.edu.cn/CRAN"
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager", repos = site)
+
+a = rownames(installed.packages())
+
+install_bioc <-
+  c(
+    "AnnotationDbi", "impute","GO.db", "preprocessCore",
+    "WGCNA",
+    "dplyr",
+    "ggplot2",
+    "reshape2",
+    "stringr",
+    "aplot"
+  )
+
+for (i in install_bioc) {
+  if (!i %in% a)
+    BiocManager::install(i, update = F)
+}
+```
+
+```{r}
+library(WGCNA)
+library(ggplot2)
+library(reshape2)
+library(stringr)
+library(YSX)
+library(aplot)
+
+options(stringsAsFactors = FALSE)
+
+if (Sys.info()['sysname'] == "Linux"){
+  # 打开多线程
+  enableWGCNAThreads()
+} else {
+# if mac
+  allowWGCNAThreads()
+}
+```
+
+### 准备输入文件
+
+```{r}
+# 格式如前面描述
+# 常规表达矩阵，log2转换后或
+# Deseq2的varianceStabilizingTransformation转换的数据
+# 如果有批次效应，需要事先移除，可使用removeBatchEffect
+# 如果有系统偏移(可用boxplot查看基因表达分布是否一致)，
+# 需要quantile normalization
+exprMat <- "33_WGCNA/LiverFemaleClean.txt"
+
+# 如果没有，设置为空
+# traitData <- NULL
+traitData <- "33_WGCNA/TraitsClean.txt"
+```
+
+### 读入数据并检查其质量
+
+基因表达矩阵: 常规表达矩阵即可，即基因在行，样品在列，进入分析前做一个转置。RPKM、FPKM或其它标准化方法影响不大，推荐使用Deseq2的`varianceStabilizingTransformation`或`log2(x+1)`对标准化后的数据做个转换。
+
+如果数据来自不同的批次，需要先移除批次效应。如果数据存在系统偏移，需要做下`quantile normalization`。
+
+```{r, fig.width=9, fig.height=6}
+wgcnaL <- WGCNA_readindata(exprMat, traitData)
+datExpr <- wgcnaL$datExpr
+
+WGCNA_dataCheck(datExpr, saveplot="33_WGCNA/WGCNA_dataCheck.pdf", width=20)
+# WGCNA_dataCheck(datExpr, width=20)
+```
+
+### 数据过滤
+
+数据按MAD值排序，可以选择保留前75% (默认)或前10000个用于后续分析。
+
+```{r, fig.width=9, fig.height=7}
+datExpr <- WGCNA_dataFilter(datExpr, top_mad_n=0.999)
+
+# 如果没有表型数据，使用下面这句命令
+# datExpr <- WGCNA_sampleClusterDetectOutlier(datExpr)
+
+# datExpr <- WGCNA_sampleClusterDetectOutlier(datExpr, traitColors=wgcnaL$traitColors, saveplot="33_WGCNA/WGCNA_sampleClusterDetectOutlier.pdf")
+datExpr <- WGCNA_sampleClusterDetectOutlier(datExpr, removeOutlier = T)
+```
+
+### 筛选合适的软阈值 (soft power)
+
+```{r}
+# power <- WGCNA_softpower(datExpr, saveplot="33_WGCNA/WGCNA_softpower.pdf")
+power <- WGCNA_softpower(datExpr, RsquaredCut=0.8, saveplot="33_WGCNA/ehbio.power.pdf")
+print(paste0("The selected power is ", power))
+```
+### 共表达网络构建
+
+如果提示中出现`无法打开压缩文件.Rdata`类似的提示，不是错误，是第一次运行还没有生成计算好的相似性矩阵。如果是第二次及以后运行，程序会自己读取之前计算好的结果，加快运行速度。
+
+```{r}
+set.seed(508)
+net <- WGCNA_coexprNetwork(datExpr, power)
+# net <- WGCNA_coexprNetwork(datExpr, power, networkType = "unsigned")
+# net <- WGCNA_coexprNetwrok(datExpr, power, saveplot="33_WGCNA/WGCNA_module_generation_plot.pdf")
+```
+
+### 存储共表达模块
+
+存储基因共表达模块并绘制模块间相似性热土。
+
+```{r}
+# MEs_col <- WGCNA_saveModuleAndMe(net, datExpr, saveplot="33_WGCNA/WGCNA_module_correlation_plot.pdf")
+MEs_col <- WGCNA_saveModuleAndMe(net, datExpr, prefix="33_WGCNA/ehbio")
+```
+
+### 模块和性状关联热图
+
+
+```{r, fig.width=8, fig.height=6}
+#wgcnaL$traitData = WGCNA_filterTrait(datExpr, wgcnaL$traitData)
+#wgcnaL$traitColors = WGCNA_filterTrait(datExpr, wgcnaL$traitColors)
+# WGCNA_moduleTraitPlot(MEs_col, traitData=wgcnaL$traitData, saveplot="33_WGCNA/WGCNA_moduleTraitHeatmap.pdf", width=15, height=12)
+WGCNA_moduleTraitPlot(MEs_col, traitData=wgcnaL$traitData, prefix = "33_WGCNA/ehbio")
+```
+
+### 模块的基因与性状相关性热图
+
+```{r, fig.width=9, fig.height=8}
+# geneTraitCor <- WGCNA_ModuleGeneTraitHeatmap(datExpr, traitData=wgcnaL$traitData, net=net, saveplot="33_WGCNA/WGCNA_ModuleGeneTraitHeatmap.pdf")
+geneTraitCor <- WGCNA_ModuleGeneTraitHeatmap(datExpr, traitData=wgcnaL$traitData, net=net, prefix = "33_WGCNA/ehbio")
+```
+
+### WGCNA导出Cytoscape网络图数据和鉴定Hub gene
+
+```{r}
+cyt <- WGCNA_cytoscape(net, power, datExpr, prefix="33_WGCNA/ehbio")
+
+hubgene <- WGCNA_hubgene(cyt, prefix="33_WGCNA/ehbio")
+
+# 每个模块展示最核心的两个基因
+library(dplyr)
+hubgene %>% group_by(Module1) %>% top_n(2)
+```
+
+### 筛选Marker基因
+
+遍历每一个模块和性状，寻找与模块和性状都显著相关的基因视为Marker基因。结果输出一堆PDF。
+
+```{r}
+WGCNA_GeneModuleTraitCoorelation(datExpr, MEs_col, geneTraitCor, traitData=wgcnaL$traitData, net, prefix="33_WGCNA/ehbio")
+```
+
+
