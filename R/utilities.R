@@ -782,6 +782,97 @@ sp_ggplot_facet <- function(p, facet_variable=NULL, facet_ncol=NULL, facet_nrow=
   return(p)
 }
 
+
+#' Used to read in long/wide format file or datafrmes. Wide format would be transferred to lonf fromat.
+#'
+#' @param data Data frame or data file (with header line, the first column will
+#' not be treated as row names for long format matrix, tab seperated).
+#' @param xvariable Name for x-axis variable.
+#' @param melted `TRUE` for dealinig with long format matrix, the program will skip melt preprocess.
+#' Default `FALSE` for dealing with wide format matrix.
+#'
+#' @return a A long format dataframe
+#' @importFrom reshape2 melt
+#' @export
+#'
+#' @examples
+#'
+#' ## Not run:
+#' sp_read_in_long_wide_matrix(data, xvariable, melted)
+#'
+#' ## End(Not run)
+#'
+sp_read_in_long_wide_matrix <- function(data, xvariable, melted){
+  wide_rownames = NULL
+  wide_colnames = NULL
+  if (class(data) == "character") {
+    if (!melted) {
+      data <- sp_readTable(data, row.names = NULL)
+      wide_rownames <- make.unique(as.vector(as.character(data[, 1])))
+      data <- data[, -1, drop = F]
+      rownames(data) <- wide_rownames
+      wide_colnames <- colnames(data)
+
+      if (all(apply(data, 2, numCheck))) {
+        rownames_data <- rownames(data)
+        data <- as.data.frame(apply(data, 2, mixedToFloat))
+        data <- as.data.frame(data)
+        rownames(data) <- rownames_data
+      } else {
+        stop(
+          "For wide format data matrix, all elements except the first row and column must be numbers unless long format is used."
+        )
+      }
+      data[[xvariable]] <- wide_rownames
+      data <- reshape2::melt(data, id.vars = xvariable)
+    } else {
+      data <- sp_readTable(data, row.names = NULL)
+    }
+  } else{
+    if(class(data) != "data.frame"){
+      stop("Unknown input format for `data` parameter.")
+    }
+    if (!melted) {
+      wide_rownames <- rownames(data)
+      wide_colnames <- colnames(data)
+      data[[xvariable]] <- wide_rownames
+      data <- reshape2::melt(data, id.vars = xvariable)
+    }
+  }
+  invisible(list(data=data, wide_rownames=wide_rownames, wide_colnames=wide_colnames))
+}
+
+#' Use showtext to load fonts
+#'
+#' @param font_path Specify font type. Give a path for one font type file
+#' like '/etc/fonts/Arial.ttf'
+#' or 'HeiArial.ttc'(if in current directory), Default system default.
+#'
+#' @return font_name or null
+#' @export
+#'
+#' @examples
+#'
+#' ## Not run:
+#' sp_load_font(font_path="arial.tff")
+#'
+#' ## End(Not run)
+#'
+sp_load_font <- function(font_path){
+  if (!sp.is.null(font_path)) {
+    if (!requireNamespace("showtext", quietly = TRUE))
+      install.packages("showtext", quite=T)
+    library(showtext)
+    showtext.auto(enable = TRUE)
+    font_name = tools::file_path_sans_ext(basename(font_path))
+    font.add(font_name, font_path)
+    return(font_name)
+  }
+  return(NULL)
+}
+
+
+
 #' Change common layout of ggplot2 object
 #'
 #' @param p A ggplot2 object
@@ -819,6 +910,9 @@ sp_ggplot_layout <-
            coordinate_flip = FALSE,
            width=12,
            height=6.18,
+           fontname = '',
+           base_font_size = 10,
+           additional_theme = NULL,
            ...) {
     p <-
       p + theme(
@@ -826,6 +920,11 @@ sp_ggplot_layout <-
         panel.border = element_blank(),
         panel.background = element_blank(),
         legend.background = element_blank(),
+        text = element_text(family = fontname, face = "plain",
+                            colour = "black", size = base_font_size,
+                            lineheight = 0.9,  hjust = 0.5,
+                            vjust = 0.5, angle = 0,
+                            margin = margin(), debug = FALSE),
         axis.line.x = element_line(
           size = 0.4,
           colour = "black",
@@ -888,6 +987,14 @@ sp_ggplot_layout <-
     if (coordinate_flip) {
       p <- p + coord_flip()
     }
+
+
+
+    additional_theme <- additional_theme[!sapply(additional_theme, sp.is.null)]
+    if(length(additional_theme)>0){
+      p <- p + do.call(theme, additional_theme)
+    }
+
     # output pictures
     if (sp.is.null(filename)) {
       return(p)

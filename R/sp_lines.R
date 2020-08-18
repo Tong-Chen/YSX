@@ -121,44 +121,29 @@ sp_lines <- function(data,
     legend_variable = 'variable'
   }
 
-  if (class(data) == "character") {
-    if (!melted) {
-      data <- sp_readTable(data, row.names = NULL)
-      data_rownames <- make.unique(as.vector(as.character(data[, 1])))
-      data <- data[, -1, drop = F]
-      rownames(data) <- data_rownames
-
-      data_colnames <- colnames(data)
-      data[[xvariable]] <- data_rownames
-      data <- melt(data, id.vars = xvariable)
-    } else {
-      data <- sp_readTable(data, row.names = NULL)
-      data_colnames <- colnames(data)
-    }
-  } else{
-    if(class(data) != "data.frame"){
-      stop("Unknown input format for `data` parameter.")
-    }
-    if (!melted) {
-      data_rownames <- rownames(data)
-      data_colnames <- colnames(data)
-      data[[xvariable]] <- data_rownames
-      data <- melt(data, id.vars = xvariable)
-    } else {
-      data_colnames <- colnames(data)
-    }
-  }
-
   if(sp.is.null(xvariable) || sp.is.null(yvariable)){
     stop('xvariable or yvariable must be specified!')
   }
 
-  if (melted) {
+  data <- sp_read_in_long_wide_matrix(data, xvariable, melted)
+
+  #print(data)
+
+  wide_rownames <- data$wide_rownames
+  wide_colnames <- data$wide_colnames
+  data <- data$data
+  data_colnames <- colnames(data)
+
+  if (!melted){
+    xvariable_order = wide_rownames
+    color_variable_order = wide_colnames
+  }
+
     if (!(xvariable %in% data_colnames &&
           yvariable %in% data_colnames)) {
       stop(paste(xvariable, 'or', yvariable, 'must be column names of data!'))
     }
-  }
+
 
   if (sp.is.null(legend_variable)) {
     cat("All points would be treated as in one group.\n")
@@ -181,21 +166,10 @@ sp_lines <- function(data,
   xval_type = "string"
   if (numCheck(data[[xvariable]])) {
     xval_type = "numeric"
-    # When meets unusual numerical type like 2/3, transfer them to numeric
-    if (!is.numeric(data[[xvariable]])) {
-      data[[xvariable]] <- mixedToFloat(data[[xvariable]])
-    }
   }
 
-  if (xval_type == "string") {
-    if (!sp.is.null(xvariable_order)) {
-      data = sp_set_factor_order(data, xvariable, xvariable_order)
-    } else if (!melted) {
-      # Use original row order as output order
-      data[[xvariable]] <-
-        factor(data[[xvariable]], levels = data_rownames, ordered = T)
-    }
-  }
+  data = sp_set_factor_order(data, xvariable, xvariable_order)
+
 
   if (sp.is.null(color_variable)) {
     color_variable = legend_variable
@@ -210,7 +184,7 @@ sp_lines <- function(data,
     data = sp_set_factor_order(data, legend_variable, legend_variable_order)
   } else if (!melted) {
     data[[legend_variable]] <-
-      factor(data[[legend_variable]], levels = data_colnames, ordered = TRUE)
+      factor(data[[legend_variable]], levels = wide_colnames, ordered = TRUE)
   }
 
   # Not work

@@ -1,0 +1,8 @@
+[/root/pipeline/YSX/R] 40897  [2020-07-21 11:39:26][root][114.242.250.135]cd ../R
+[/root/pipeline/YSX/R] 40898  [2020-07-21 11:39:26][root][114.242.250.135]ls
+[/root/pipeline/YSX/R] 40899  [2020-07-21 11:39:30][root][114.242.250.135]less sp_volcano.R 
+[/root/pipeline/YSX/R] 40900  [2020-07-21 11:40:02][root][114.242.250.135]vim sp_volcano.R 
+[/root/pipeline/YSX/R] 40901  [2020-07-21 11:41:28][root][114.242.250.135]less ../../bin/s-plotR/splot_volcano.sh 
+[/root/pipeline/YSX/R] 40902  [2020-07-21 11:41:34][root][114.242.250.135]less ../../bin/s-plotR/splot_volcano.r
+[/root/pipeline/YSX/R] 40903  [2020-07-21 11:41:47][root][114.242.250.135]less ../../bin/s-plotR/sp_volcano.r
+[/root/pipeline/YSX/R] 40904  [2020-07-21 11:41:59][root][114.242.250.135]vim sp_volcano.R 

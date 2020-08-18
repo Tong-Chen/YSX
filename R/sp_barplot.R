@@ -1,44 +1,45 @@
 
 
 
+
 #' Generating bar plot
 #'
-#' @param data Data frame or data file (with header line, the first column will not be treated as
-#' row names, tab seperated)
-#' @param color_variable Name for specify bars colors. Default 'variable'.
-#' @param yvariable Name for value column. Default 'value'.
-#' @param xvariable Name for x-axis variable.
-#' @param melted `TRUE` for dealinig with long format matrix, the program will skip melt preprocess.
-#' Default `FALSE` for dealing with wide format matrix.
-#' @param x_label Xlab title Default NULL.
-#' @param y_label Ylab title. Default NULL.
+#' @param data Data frame or data file (with header line, the first column will
+#' not be treated as row names, tab seperated).
+#' @param melted `TRUE` for dealinig with long format matrix, the program will skip melt preprocess. If input is wide format matrix, this parameter should be set to `FALSE`.
+#' @param xvariable Name for x-axis variable (one of colum names, should be specified
+#' when inputinh long format matrix).
+#' @param color_variable Name for specifying bars colors (one of colum names, should be specified
+#' when inputinh long format matrix).
+#' @param color_variable_order Set orders of color variable (this can also used to extract specific rows).
+#' @param yvariable Name for value column (one of colum names, should be specified
+#' when inputinh long format matrix).
 #' @param xvariable_order Levels for x-axis variable, suitable when x-axis is not used as a number.
 #' @param stat The ways to show the height of bars.
-#' The height of bars represent the numerical values in each group by default (normally in `yvariable`
-#' column of melted data).
+#' The height of bars represent the numerical values in each group by default (normally in `yvariable` column of melted data).
 #' One can also give `count` to let the program count the number of
 #' items in each group (Normally the `color_variable` column is used to group
 #' 'xvariable' colum after melt).
 #' Or one can give `weight` which will sum values of each group.
 #' Default `identity`, accept `count` when categorical data are given.
-#' @param position The ways to place multiple bars for one group if there are.
+#' @param bar_mode The ways to place multiple bars for one group.
 #' Multiple bars in same place will be stacked together by default.
 #' Giving `fill` to get stacked percent barplot.
 #' Giving `dodge` to arrange multiple bars side-by-side.
 #' Default `stack`, accept `dodge`, `fill`.
 #' @inheritParams sp_ggplot_facet
 #' @inheritParams sp_transfer_one_column
-#' @param error_bar Error-bar column. Specify the column containing error bars.
+#' @param error_bar_variable Error-bar column (one of column names). Specify the column containing error bars.
 #' @param base_font_size Font-size. Default 11.
-#' @param par Other legal R codes for ggplot2 will be given here.
+#' @param extra_ggplot2_cmd Other legal R codes for ggplot2 will be given here.
 #' @param xtics Display xtics. Default TRUE.
 #' @param ytics Display ytics. Default FALSE.
-#' @param color Manually set colors for each bar. Default FALSE, meaning using ggplot2 default.
-#' @param color_v Color for each bar.
 #' @param add_text 	Add text to bar. Default FALSE.
-#' @param font_type Specify font type. Give a path for one font type file like '/etc/fonts/Arial.ttf'
-#' or 'HeiArial.ttc'(if in current directory), Default system default.
+#' @inheritParams sp_load_font
 #' @inheritParams sp_ggplot_layout
+#' @importFrom dplyr %>%
+#' @importFrom dplyr mutate
+#' @importFrom dplyr group_by
 #' @param ...
 #'
 #' @return A ggplot2 object
@@ -56,70 +57,69 @@
 #' ## End(Not run)
 #'
 sp_barplot <- function (data,
-                        color_variable = 'Gene',
-                        yvariable = 'Expr',
-                        xvariable = 'ID',
+                        color_variable = NULL,
+                        yvariable = NULL,
+                        xvariable = NULL,
                         melted = TRUE,
                         title = NULL,
                         x_label = NULL,
                         y_label = NULL,
-                        level_i = c(),
-                        xvariable_order = c(),
+                        color_variable_order = NULL,
+                        xvariable_order = NULL,
                         y_add = 0,
                         yaxis_scale_mode = NULL,
                         facet_variable = NULL,
                         stat = 'identity',
-                        position = 'stack',
+                        bar_mode = 'stack',
                         facet_variable_order = NULL,
                         facet_nrow = NULL,
                         facet_ncol = NULL,
-                        error_bar = 'ctCTct',
+                        error_bar_variable = NULL,
                         base_font_size = 11,
-                        par = NULL,
                         legend.position = 'right',
                         xtics = TRUE,
                         xtics_angle = 0,
-                        ytics = FALSE,
-                        color = FALSE,
-                        color_v = c(),
+                        ytics = TRUE,
+                        manual_color_vector = "Set2",
                         facet_scales = 'fixed',
+                        extra_ggplot2_cmd = NULL,
                         coordinate_flip = FALSE,
                         add_text = FALSE,
-                        font_type = NULL,
+                        font_path = NULL,
                         debug = FALSE,
                         ...) {
   options(scipen = 999)
 
-  if (!sp.is.null(font_type)) {
-    library(showtext)
-    showtext.auto(enable = TRUE)
-    font_name = tools::file_path_sans_ext(basename(font_type))
-    font.add(font_name, font_type)
+  if (debug) {
+    argg <- c(as.list(environment()), list(...))
+    print(argg)
   }
 
-  if (class(data) == "character") {
-    if (!melted) {
-      data <- sp_readTable(data, row.names = NULL)
-      rownames_data <- make.unique(as.character(data[, 1]))
-      data <- data[, -1, drop = F]
-      rownames(data) <- rownames_data
-      if (all(apply(data, 2, numCheck))) {
-        rownames_data <- rownames(data)
-        data <- as.data.frame(apply(data, 2, mixedToFloat))
-        data <- as.data.frame(data)
-        rownames(data) <- rownames_data
-      } else {
-        stop(
-          "For wide format data matrix, all elements except the first row and column must be numbers unless long format is used."
-        )
-      }
-      data_rownames <- rownames(data)
-      data_colnames <- colnames(data)
-      data[[xvariable]] <- data_rownames
-      data <- melt(data, id.vars = xvariable)
-    } else {
-      data <- sp_readTable(data, row.names = NULL)
+  fontname = sp_load_font(font_path = font_path)
+
+
+  if (melted) {
+    if (sp.is.null(xvariable) || sp.is.null(yvariable)) {
+      stop("For melted matrix, <xvariable> and <yvariable> should be supplied.")
     }
+  } else {
+    xvariable = 'xvariable'
+    yvariable = 'value'
+    color_variable = 'variable'
+  }
+
+  data <- sp_read_in_long_wide_matrix(data, xvariable, melted)
+
+  #print(data)
+
+  wide_rownames <- data$wide_rownames
+  wide_colnames <- data$wide_colnames
+  data <- data$data
+  data_colnames <- colnames(data)
+
+  if (!(xvariable %in% data_colnames &&
+        yvariable %in% data_colnames)) {
+    stop(paste(xvariable, 'or', yvariable, 'must be one of column names of data!'))
   }
 
   if (!sp.is.null(yaxis_scale_mode)) {
@@ -132,94 +132,86 @@ sp_barplot <- function (data,
       )
   }
 
-  if (y_add != 0) {
-    data[[yvariable]] <- data[[yvariable]] + y_add
-    if (scaleY_x  == "log2") {
-      if (is.numeric(data[[yvariable]])) {
-        data[[yvariable]] <- log2(data[[yvariable]])
-        scaleY = FALSE
-      } else {
-        stop(
-          "Only numbers are allowed in `yvariable` column in given data matrix. Comma separated numbers are also not allowed."
-        )
-      }
-    }
-  }
-
-
-  if (position  == "fill") {
-    data <-
-      data %>% group_by(xvariable) %>% mutate(count = sum(yvariable)) %>% mutate(freq =
-                                                                               round(100 * yvariable / count, 2))
-  }
-
-  if (length(level_i) > 1) {
-    data[[color_variable]] <- factor(data[[color_variable]], levels = level_i)
-  } else {
-    if (!melted) {
-      data[[color_variable]] <-
-        factor(data[[color_variable]], levels = data_colnames,
-               ordered = T)
-    }
-  }
-
-  if (x_type) {
-    if (length(xvariable_order) > 1) {
-      data[[xvariable]] <- factor(data[[xvariable]], levels = xvariable_order)
-    } else{
-      if (!melted) {
-        data[[xvariable]] <- factor(data[[xvariable]],
-                                    levels = data_rownames, ordered = TRUE)
-      }
-    }
-  }
-
-
-  if (!is.null(facet_variable_order)) {
-    data[[facet_variable]] <- factor(data[[facet_variable]],
-                            levels = facet_variable_order, ordered = T)
-  }
+  #print(data)
 
   xvariable_en = sym(xvariable)
-  variable_en = sym(color_variable)
-  value_en = sym(yvariable)
+  color_variable_en = sym(color_variable)
+  yvariable_en = sym(yvariable)
+
+  if (bar_mode  == "fill" && add_text) {
+    data <-
+      data %>% group_by(!!xvariable_en) %>%
+      mutate(count = sum(!!yvariable_en)) %>%
+      mutate(freq = round(100 * !!yvariable_en / count, 2))
+  }
+
+  if (!melted){
+    xvariable_order = wide_rownames
+    color_variable_order = wide_colnames
+  }
+
+  data = sp_set_factor_order(data, xvariable, xvariable_order)
+
+  #print(data)
+
+  if (!sp.is.null(color_variable) && color_variable != xvariable) {
+    if (!(color_variable %in% data_colnames)) {
+      stop(paste(color_variable,'must be one of column names of data!'))
+    }
+    data = sp_set_factor_order(data, color_variable, color_variable_order)
+  } else {
+    color_variable = variable
+  }
+
+  #print(data)
+
+  if (!sp.is.null(facet_variable)) {
+    if (!(facet_variable %in% data_colnames)) {
+      stop(paste(facet_variable,'must be one of column names of data!'))
+    }
+    data = sp_set_factor_order(data, facet_variable, facet_variable_order)
+  }
+
+
+
+  xvariable_en = sym(xvariable)
+  color_variable_en = sym(color_variable)
+  yvariable_en = sym(yvariable)
+
+  #print(data)
 
   if (stat == "count") {
-    p <- ggplot(data, aes(x = !!xvariable_en, group = !!variable_en))
+    p <- ggplot(data, aes(x = !!xvariable_en, group = !!yvariable_en))
   } else {
     p <-
       ggplot(data,
              aes(
                x = !!xvariable_en,
-               y = !!value_en,
-               group = !!variable_en
+               y = !!yvariable_en,
+               group = !!color_variable_en
              ))
   }
 
-  if (!is.null(font_type)) {
-    p <-
-      p + theme_bw(base_family = font_name, base_size = base_font_size)
-  } else {
-    p <- p + theme_bw(base_size = base_font_size)
-  }
-
-  p <-
-    p + theme(axis.ticks.x = element_blank(), legend.key = element_blank())
 
   p <-
     p + geom_bar(
       stat = stat ,
-      position = position ,
-      aes(fill = !!variable_en),
+      position = bar_mode ,
+      aes(fill = !!color_variable_en),
       width = 0.75
     )
 
-  if (error_bar  != "ctCTct") {
+  if (!sp.is.null(error_bar_variable)) {
+    if (!(error_bar_variable %in% data_colnames)) {
+      stop(paste(error_bar_variable,'must be column names of data!'))
+    }
+
+    error_bar_variable_en = sym(error_bar_variable)
     p <-
       p + geom_errorbar(
         aes(
-          ymin = !!value_en - error_bar,
-          ymax = !!value_en + error_bar
+          ymin = !!yvariable_en - !!error_bar_variable_en,
+          ymax = !!yvariable_en + !!error_bar_variable_en
         ),
         colour = "black",
         width = 0.2,
@@ -228,145 +220,86 @@ sp_barplot <- function (data,
   }
 
 
-  if (position  == "fill") {
+  if (bar_mode  == "fill") {
     p <- p + scale_y_continuous(labels = scales::percent)
   }
 
-  if (add_text) {
+  if(add_text){
     text_size =  base_font_size / 3.2
-    if (position  == "dodge") {
+    geom_text_parameter <- list()
+
+    if (bar_mode  == "dodge") {
       width_dodge = 0.75
-      if (font_type != "FALSE") {
-        if (error_bar  != "ctCTct") {
-          p <-
-            p + geom_text(
-              aes(
-                label = sprintf("%.2f", !!value_en - error_bar),
-                y = !!value_en - error_bar
-              ),
-              vjust = 1.5,
-              position = position_dodge(width = width_dodge),
-              size = text_size,
-              show.legend = F
-            ) + geom_text(
-              aes(
-                label = sprintf("%.2f", !!value_en + error_bar),
-                y = !!value_en + error_bar
-              ),
-              vjust = -.5,
-              position = position_dodge(width = width_dodge),
-              size = text_size,
-              family = font_name,
-              show.legend = F
-            )
-        } else {
-          p <-
-            p + geom_text(
-              aes(label = !!value_en),
-              position = position_dodge(width = width_dodge),
-              size = text_size,
-              family = font_name,
-              show.legend = F
-            )
-        }
-      } else {
-        if (error_bar  != "ctCTct") {
-          p <-
-            p + geom_text(
-              aes(
-                label = sprintf("%.2f", !!value_en - error_bar),
-                y = !!value_en - error_bar
-              ),
-              vjust = 1.5,
-              position = position_dodge(width = width_dodge),
-              size = text_size,
-              show.legend = F
-            ) + geom_text(
-              aes(
-                label = sprintf("%.2f", !!value_en + error_bar),
-                y = !!value_en + error_bar
-              ),
-              vjust = -.5,
-              position = position_dodge(width = width_dodge),
-              size = text_size,
-              show.legend = F
-            )
-        } else {
-          p <-
-            p + geom_text(
-              aes(label = !!value_en),
-              position = position_dodge(width = width_dodge),
-              size = text_size,
-              show.legend = F
-            )
-        }
+      geom_text_parameter$position = position_dodge(width = width_dodge)
+    }else if (bar_mode  == "stack") {
+      geom_text_parameter$position = position_stack(vjust = 0.5)
+    }else if (bar_mode  == "fill") {
+      geom_text_parameter$position = position_fill(vjust = 0.5)
+    }
+
+    if(!sp.is.null(fontname)){
+      geom_text_parameter$famliy = fontname
+    }
+
+    geom_text_parameter$size = text_size
+    geom_text_parameter$show.legend = F
+
+    if(sp.is.null(error_bar_variable)){
+      sp_geom_text <- function(...){
+        ggplot2::geom_text(mapping=aes(label = !!yvariable_en), ...)
       }
-    } else if (position  == "stack") {
-      if (font_type  != "FALSE") {
-        p <-
-          p + geom_text(
-            aes(label = !!value_en),
-            position = position_stack(vjust = 0.5),
-            size = text_size,
-            family = font_name,
-            show.legend = F
-          )
-      } else {
-        p <-
-          p + geom_text(
-            aes(label = !!value_en),
-            position = position_stack(vjust = 0.5),
-            size = text_size,
-            show.legend = F
-          )
+      p <-
+        p + do.call(sp_geom_text, c(geom_text_parameter))
+    } else {
+      sp_geom_text1 <- function(...){
+        geom_text(mapping=aes(
+          label = sprintf("%.2f", !!yvariable_en - !!error_bar_variable_en),
+          y = !!yvariable_en - !!error_bar_variable_en
+        ),
+        vjust = 1.5, ...)
       }
-    } else if (position == "fill") {
-      if (font_type  != "FALSE") {
-        p <-
-          p + geom_text(
-            aes(label = freq),
-            position = position_fill(vjust = 0.5),
-            size = text_size,
-            family = font_name,
-            show.legend = F
-          )
-      } else {
-        p <-
-          p + geom_text(
-            aes(label = freq),
-            position = position_fill(vjust = 0.5),
-            size = text_size,
-            show.legend = F
-          )
+      sp_geom_text2 <- function(...){
+        geom_text(mapping=aes(
+          label = sprintf("%.2f", !!yvariable_en + !!error_bar_variable_en),
+          y = !!yvariable_en + !!error_bar_variable_en
+        ),
+        vjust = .5, ...)
       }
+      p <-
+        p + do.call(sp_geom_text1, c(geom_text_parameter)) +
+        do.call(sp_geom_text2, c(geom_text_parameter))
     }
   }
 
-  if (facet_variable  != "NoMeAnInGTh_I_n_G_s") {
-    p + facet_wrap( ~  .data[[facet_variable]] ,
-                    nrow = nrow ,
-                    ncol = ncol ,
-                    scale = scales)
-    # as.formula(paste0( "~",facet_variable))
-  }
 
-  if (scaleY) {
-    p <- p + scaleY_x
-  }
-
-  colorCount = length(unique(data[[color_variable]]))
-  if (color) {
-    p <- p + scale_fill_manual(values = color_v)
-  } else {
+  if (!sp.is.null(facet_variable)) {
     p <-
-      p + scale_fill_manual(values = colorRampPalette(RColorBrewer::brewer.pal(12, "Paired"))(colorCount))
+      sp_ggplot_facet(p, facet_variable, facet_ncol, facet_nrow, facet_scales)
   }
+
+  if (!sp.is.null(yaxis_scale_mode) &&
+      (yaxis_scale_mode  != "log2") &&
+      (yaxis_scale_mode  != "log10")) {
+    p <- p +  eval(parse(text = yaxis_scale_mode))
+  }
+
+
+  p <-
+    sp_manual_fill_ggplot2(p, data, color_variable, manual_color_vector)
+
+  additional_theme <- list()
 
   if (!xtics) {
-    p <-
-      p + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
-  } else{
-    p <- sp_ggplot_layout(
+    additional_theme$axis.text.x = element_blank()
+  }
+  if (!ytics) {
+    additional_theme$axis.text.y = element_blank()
+  }
+
+  additional_theme$axis.ticks.x = element_blank()
+  additional_theme$legend.key  = element_blank()
+
+  p <- sp_ggplot_layout(
       p,
       xtics_angle = 0,
       legend.position = legend.position,
@@ -376,19 +309,13 @@ sp_barplot <- function (data,
       x_label = x_label,
       y_label = y_label,
       coordinate_flip = FALSE,
+      additional_theme = additional_theme,
+      fontname = fontname,
+      base_font_size = base_font_size,
       ...
     )
-  }
 
-  if (ytics) {
-    p <- p + theme(axis.text.y = element_blank())
-  }
-
-  p <- p + par
-
-  if (debug) {
-    argg <- c(as.list(environment()), list(...))
-    print(argg)
-  }
   p
+
+
 }

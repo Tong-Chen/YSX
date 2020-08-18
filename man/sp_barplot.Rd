@@ -6,58 +6,61 @@
 \usage{
 sp_barplot(
   data,
-  color_variable = "Gene",
-  yvariable = "Expr",
-  xvariable = "ID",
+  color_variable = NULL,
+  yvariable = NULL,
+  xvariable = NULL,
   melted = TRUE,
   title = NULL,
   x_label = NULL,
   y_label = NULL,
-  level_i = c(),
-  xvariable_order = c(),
+  color_variable_order = NULL,
+  xvariable_order = NULL,
   y_add = 0,
   yaxis_scale_mode = NULL,
   facet_variable = NULL,
   stat = "identity",
-  position = "stack",
+  bar_mode = "stack",
   facet_variable_order = NULL,
   facet_nrow = NULL,
   facet_ncol = NULL,
-  error_bar = "ctCTct",
+  error_bar_variable = NULL,
   base_font_size = 11,
-  par = NULL,
   legend.position = "right",
   xtics = TRUE,
   xtics_angle = 0,
-  ytics = FALSE,
-  color = FALSE,
-  color_v = c(),
+  ytics = TRUE,
+  manual_color_vector = "Set2",
   facet_scales = "fixed",
+  extra_ggplot2_cmd = NULL,
   coordinate_flip = FALSE,
   add_text = FALSE,
-  font_type = NULL,
+  font_path = NULL,
   debug = FALSE,
   ...
 )
 }
 \arguments{
-\item{data}{Data frame or data file (with header line, the first column will not be treated as
-row names, tab seperated)}
+\item{data}{Data frame or data file (with header line, the first column will
+not be treated as row names, tab seperated).}
 
-\item{color_variable}{Name for specify bars colors. Default 'variable'.}
+\item{color_variable}{Name for specifying bars colors (one of colum names, should be specified
+when inputinh long format matrix).}
 
-\item{yvariable}{Name for value column. Default 'value'.}
+\item{yvariable}{Name for value column (one of colum names, should be specified
+when inputinh long format matrix).}
 
-\item{xvariable}{Name for x-axis variable.}
+\item{xvariable}{Name for x-axis variable (one of colum names, should be specified
+when inputinh long format matrix).}
 
-\item{melted}{\code{TRUE} for dealinig with long format matrix, the program will skip melt preprocess.
-Default \code{FALSE} for dealing with wide format matrix.}
+\item{melted}{\code{TRUE} for dealinig with long format matrix, the program will skip melt preprocess. If input is wide format matrix, this parameter should be set to \code{FALSE}.}
 
 \item{title}{Title of picture.}
 
-\item{x_label}{Xlab title Default NULL.}
+\item{x_label}{Xlab label.}
 
-\item{y_label}{Ylab title. Default NULL.}
+\item{y_label}{Ylab label.}
+
+\item{color_variable_order}{Set orders of color variable (this can also used to extract specific rows).}
 
 \item{xvariable_order}{Levels for x-axis variable, suitable when x-axis is not used as a number.}
 
@@ -72,15 +75,14 @@ simply \code{log2} to set the scale way.}
 This is used to put multiple plot in one picture.}
 
 \item{stat}{The ways to show the height of bars.
-The height of bars represent the numerical values in each group by default (normally in \code{yvariable}
-column of melted data).
+The height of bars represent the numerical values in each group by default (normally in \code{yvariable} column of melted data).
 One can also give \code{count} to let the program count the number of
 items in each group (Normally the \code{color_variable} column is used to group
 'xvariable' colum after melt).
 Or one can give \code{weight} which will sum values of each group.
 Default \code{identity}, accept \code{count} when categorical data are given.}
 
-\item{position}{The ways to place multiple bars for one group if there are.
+\item{bar_mode}{The ways to place multiple bars for one group.
 Multiple bars in same place will be stacked together by default.
 Giving \code{fill} to get stacked percent barplot.
 Giving \code{dodge} to arrange multiple bars side-by-side.
@@ -90,11 +92,9 @@ Default \code{stack}, accept \code{dodge}, \code{fill}.}
 
 \item{facet_ncol}{The number of columns one want when \code{facet} is used. Default NULL.}
 
-\item{error_bar}{Error-bar column. Specify the column containing error bars.}
+\item{error_bar_variable}{Error-bar column (one of column names). Specify the column containing error bars.}
 
 \item{base_font_size}{Font-size. Default 11.}
-
-\item{par}{Other legal R codes for ggplot2 will be given here.}
 
 \item{legend.position}{Position of legend, accept top, bottom, left, right, none or c(0.8,0.8).}
 
@@ -104,19 +104,18 @@ Default \code{stack}, accept \code{dodge}, \code{fill}.}
 
 \item{ytics}{Display ytics. Default FALSE.}
 
-\item{color}{Manually set colors for each bar. Default FALSE, meaning using ggplot2 default.}
-
-\item{color_v}{Color for each bar.}
-
 \item{facet_scales}{Paramter for scales for facet. Default \code{fixed} meaning each inner graph
 use same scale (x,y range), \code{free} (variable x, y ranges for each sub-plot),
 \code{free_x} (variable x ranges for each sub-plot), \code{free_y} (variable y ranges for each sub-plot).}
+
+\item{extra_ggplot2_cmd}{Other legal R codes for ggplot2 will be given here.}
 
 \item{coordinate_flip}{Flip cartesian coordinates so that horizontal becomes vertical, and vertical, horizontal. This is primarily useful for converting geoms and statistics which display y conditional on x, to x conditional on y.}
 
 \item{add_text}{Add text to bar. Default FALSE.}
 
-\item{font_type}{Specify font type. Give a path for one font type file like '/etc/fonts/Arial.ttf'
+\item{font_path}{Specify font type. Give a path for one font type file
+like '/etc/fonts/Arial.ttf'
 or 'HeiArial.ttc'(if in current directory), Default system default.}
 
 \item{...}{}

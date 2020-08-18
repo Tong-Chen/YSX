@@ -352,14 +352,29 @@ library(ggplot2)
 library(RColorBrewer)
 
 bar_test_data <- data.frame(ID = letters[1:4],Gene = letters[c(8,8,9,9,10,10,11,11)], Exper = runif(16))
-sp_barplot(data = bar_test_data, xvariable = "ID", value = "Exper", variable = "Gene")
+sp_barplot(data = bar_test_data, xvariable = "ID", yvariable = "Exper", color_variable = "Gene")
 
 
 
 
 bar_data = "bar.data"
 
-sp_barplot(data = bar_data, xvariable = "ID", value = "Exper", variable = "Gene")
+sp_barplot(data = bar_data, xvariable = "ID", yvariable = "Exper", color_variable = "Gene")
+```
+
+```{r}
+box_demo1_data <- "exprTable.txt"
+sp_barplot(data = box_demo1_data, melted = F)
+```
+
+```{r}
+library(dplyr)
+box_demo2_data <- "exprTable.txt"
+sp_barplot(data = box_demo2_data, melted = F, bar_mode="fill", add_text=T)
+```
+
+```{r}
+
 ```
 
 ## Box plot
