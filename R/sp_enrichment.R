@@ -15,6 +15,8 @@
 #' accept a vector like c('SampA_Up','SampB_Up').
 #' @param size_variable One of column names used as the variable for defining point sizes.
 #' Normally `count`. Default the variable name given to `sqrt_transform_variable`.
+#' @param scale_size_min Scale size with minimum value specified
+#' @param scale_size_max Scale size with maximum value specified
 #' @param title Title of picture. Default empty.
 #' @param x_label X-axis title of picture. Default empty.
 #' @param y_label Y-axis title of picture. Default empty.
@@ -29,7 +31,7 @@
 #' @inheritParams sp_ggplot_layout
 
 #' @inheritParams sp_manual_color_ggplot2
-#' @param ... Parametes given to `sp_ggplot_layout`
+#' @param ... Parameters given to `sp_ggplot_layout`
 #'
 #' @return A ggplot2 object
 #' @export
@@ -78,9 +80,8 @@ sp_enrichment <- function(data,
                           xtics_angle = 0,
                           shape_variable = NULL,
                           coordinate_flip = FALSE,
+                          extra_ggplot2_cmd = NULL,
                           file_name = NULL,
-                          width = 0,
-                          height = 0,
                           ...) {
   if (class(data) == "character") {
     data <- sp_readTable(data, row.names = NULL)
@@ -88,7 +89,7 @@ sp_enrichment <- function(data,
     stop("Unknown input format for `data` parameter.")
   }
 
-  if (sp.is.null(xvariable) || sp.is.null(yvariable)) {
+  if (sp.sp.is.null(xvariable) || sp.sp.is.null(yvariable)) {
     stop('xvariable or yvariable must be specified!')
   }
 
@@ -111,7 +112,7 @@ sp_enrichment <- function(data,
 
   if (xval_type == "string") {
     # Do not know why add this as default, just comment out 20200705
-    # if (sp.is.null(shape_variable)) {
+    # if (sp.sp.is.null(shape_variable)) {
     #   shape_variable = xvariable
     # }
     data = sp_set_factor_order(data, xvariable, xvariable_order)
@@ -119,11 +120,11 @@ sp_enrichment <- function(data,
 
 
 
-  if (!sp.is.null(shape_variable)) {
+  if (!sp.sp.is.null(shape_variable)) {
     if (shape_variable != xvariable) {
       data = sp_set_factor_order(data, shape_variable, shape_variable_order)
-    } else if (sp.is.null(xvariable_order)) {
-      if (!sp.is.null(shape_variable_order)) {
+    } else if (sp.sp.is.null(xvariable_order)) {
+      if (!sp.sp.is.null(shape_variable_order)) {
         data = sp_set_factor_order(data, shape_variable, shape_variable_order)
       }
     }
@@ -135,18 +136,18 @@ sp_enrichment <- function(data,
   }
 
   # First order by Term, then order by shape_variable
-  if (!sp.is.null(shape_variable) & xval_type != "numeric") {
-    data <- data[order(data[[yvariable]], data[[shape_variable]]), ]
+  if (!sp.sp.is.null(shape_variable) & xval_type != "numeric") {
+    data <- data[order(data[[yvariable]], data[[shape_variable]]),]
   }
 
-  if (!sp.is.null(color_variable) &&
+  if (!sp.sp.is.null(color_variable) &&
       numCheck(data[[color_variable]]) &&
       !is.numeric(data[[color_variable]])) {
     data[[color_variable]] = mixedToFloat(data[[color_variable]])
   }
 
   if (log10_transform_variable != "no_transform" &&
-      (sp.is.null(color_variable) ||
+      (sp.sp.is.null(color_variable) ||
        color_variable == log10_transform_variable)) {
     color_variable = paste0("negLog10_", log10_transform_variable)
   }
@@ -173,14 +174,14 @@ sp_enrichment <- function(data,
     colnames(data) <- col_name_data
   }
 
-  if (!sp.is.null(size_variable) &&
+  if (!sp.sp.is.null(size_variable) &&
       numCheck(data[[size_variable]]) &&
       !is.numeric(data[[size_variable]])) {
     data[[size_variable]] = mixedToFloat(data[[size_variable]])
   }
 
   if (sqrt_transform_variable != "no_transform" &&
-      (sp.is.null(size_variable) ||
+      (sp.sp.is.null(size_variable) ||
        size_variable == sqrt_transform_variable)) {
     size_variable = paste0("sqrt_", sqrt_transform_variable)
   }
@@ -206,7 +207,7 @@ sp_enrichment <- function(data,
     colnames(data) <- col_name_data
   }
 
-  if (sp.is.null(yvariable_order)) {
+  if (sp.sp.is.null(yvariable_order)) {
     # Get the count of each unique Term
     data_freq <- as.data.frame(table(data[[yvariable]]))
 
@@ -214,7 +215,7 @@ sp_enrichment <- function(data,
 
     data2 <- merge(data, data_freq, by = yvariable)
 
-    if (!sp.is.null(shape_variable)) {
+    if (!sp.sp.is.null(shape_variable)) {
       # Collapse shape_variable for each Term
 
       data_samp <-
@@ -231,18 +232,18 @@ sp_enrichment <- function(data,
                       data2$sam_ct_ct_ct,
                       data2[[shape_variable]],
                       data2[[xvariable]],
-                      data2[[color_variable]]), ]
+                      data2[[color_variable]]),]
       } else {
         data3 <-
           data2[order(data2$IDctct, data2$sam_ct_ct_ct, data2[[shape_variable]],
-                      data2[[color_variable]]), ]
+                      data2[[color_variable]]),]
       }
     } else{
       if (xval_type != "string") {
         data3 <-
-          data2[order(data2$IDctct, data2[[xvariable]], data2[[color_variable]]), ]
+          data2[order(data2$IDctct, data2[[xvariable]], data2[[color_variable]]),]
       } else {
-        data3 <- data2[order(data2$IDctct, data2[[color_variable]]), ]
+        data3 <- data2[order(data2$IDctct, data2[[color_variable]]),]
       }
     }
     #print(data3)
@@ -261,18 +262,22 @@ sp_enrichment <- function(data,
   p <-
     ggplot(data, aes(x = !!xvariable_en, y = !!yvariable_en)) + geom_point()
 
-  if (!is.null(shape_variable)) {
+  if (!sp.is.null(shape_variable)) {
     p <- p + aes(shape = !!shape_variable_en)
     if (shape_level > 6) {
       p <- p + scale_shape_manual(values = shapes)
     }
   }
 
-  if (!is.null(size_variable)) {
+  if (!sp.is.null(size_variable)) {
     p <- p + aes(size = !!size_variable_en)
+    if (!sp.sp.is.null(scale_size_min) && !sp.sp.is.null(scale_size_max)) {
+      p <- p + scale_size(name = size_variable,
+                          range = range(scale_size_min, scale_size_max))
+    }
   }
 
-  if (!is.null(color_variable)) {
+  if (!sp.is.null(color_variable)) {
     p <- p + aes(color = !!color_variable_en)
     p <-
       sp_manual_color_ggplot2(p, data, color_variable, manual_color_vector)
@@ -285,8 +290,16 @@ sp_enrichment <- function(data,
   )
 
 
+
   p <- sp_ggplot_layout(
     p,
+    xtics_angle = xtics_angle,
+    legend.position = legend.position,
+    extra_ggplot2_cmd = extra_ggplot2_cmd,
+    x_label = x_label,
+    y_label = y_label,
+    title = title,
+    coordinate_flip = coordinate_flip,
     ...
   )
   p

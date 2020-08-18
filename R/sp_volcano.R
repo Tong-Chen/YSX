@@ -4,7 +4,6 @@
 #   Check Package:             'Ctrl + Shift + E'
 #   Test Package:              'Ctrl + Shift + T'
 #   Generate DOC:              'Ctrl + Shift + Alt + r'
-options(scipen = 999)
 
 #' Generating volcano plot
 #'
@@ -85,8 +84,6 @@ sp_volcano_plot <-
            legend.position = "top",
            xintercept = 'fc',
            yintercept = 'fdr',
-           width = 10,
-           height = 6.18,
            ...) {
     options(warn = -1)
     options(scipen = 999)

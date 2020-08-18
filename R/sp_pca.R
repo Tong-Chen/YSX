@@ -10,7 +10,7 @@
 #' @param minimum_mad Minimum mad to keep. Larger mad, larger variance. Default 0.5.
 #' @param top_n Use top n most changed variables for PCA computation. Default 0 meaning use all variables.
 #' @param color_variable The variable for point color. Optional, such as color.
-#' @param manual_color_vector Manually specified colors. Default system default. Accept string in format like <'"green", "red"'> (both types of quotes needed).
+#' @param manual_color_vector Manually specified colors. Default system default. Accept string in format like `'"green", "red"'`` (both types of quotes needed).
 #' @param color_variable_order The order for color variable. Default alphabetical order, accept a string like "'K562','hESC','GM12878','HUVEC','NHEK','IMR90','HMEC'".
 #' @param log_transform Log-transform data before principle component analysis. Accept NULL, log2, log10.
 #' @param log_add Add a value before log-transform to avoid log(0). Default 0 meaning the minimum non-zero value would be used.
@@ -21,8 +21,9 @@
 #' @param alpha Transparency value for points. Optional, such as a number or a variable indicating one data column, normally should be number column.
 #' @param label_points Label points (using geom_text_repel). Default no-label (FALSE), accept TRUE.
 #' @param label_font_size Label font size. Default system default. Accept numbers less than 5 to shrink fonts.
+#' @param coord_fixed_ratio Default 1. Specify 0 to tunr this off. A fixed scale coordinate system forces a specified ratio between the physical representation of data units on the axes. The ratio represents the number of units on the y-axis equivalent to one unit on the x-axis. The default, ratio = 1, ensures that one unit on the x-axis is the same length as one unit on the y-axis. Ratios higher than one make units on the y axis longer than units on the x-axis, and vice versa.
 #' @inheritParams sp_manual_color_ggplot2
-#' @param ...
+#' @param ... Other parameters given to \code{\link{sp_ggplot_layout}}.
 #'
 #' @return pdf and xls files.
 #' @export
@@ -66,6 +67,7 @@ sp_pca <- function(data,
                    debug = FALSE,
                    filename = NULL,
                    legend.position = "right",
+                   coord_fixed_ratio=1,
                    ...) {
 
 
@@ -187,7 +189,7 @@ sp_pca <- function(data,
 
   if (dimensions == 2) {
     p <-
-      autoplot(pca, data = data_t_label, alpha = alpha) +
+      autoplot(pca, data = data_t_label, alpha = alpha, scale=0) +
       ggtitle(title)
 
     if (!sp.is.null(size_variable)) {
@@ -228,7 +230,10 @@ sp_pca <- function(data,
     x_label = paste0("PC1 (", round(percentVar[1] * 100,1), "% variance)")
     y_label = paste0("PC2 (", round(percentVar[2] * 100,1), "% variance)")
 
-    p <- p + coord_fixed()
+    if(coord_fixed_ratio>0){
+      p <- p + coord_fixed(coord_fixed_ratio)
+    }
+
 
     p <- sp_ggplot_layout(
       p,
@@ -236,7 +241,8 @@ sp_pca <- function(data,
       legend.position = legend.position,
       x_label = x_label,
       y_label = y_label,
-      title = title
+      title = title,
+      ...
     )
     p
 

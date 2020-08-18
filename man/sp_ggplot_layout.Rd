@@ -14,13 +14,15 @@ sp_ggplot_layout(
   y_label = NULL,
   title = NULL,
   coordinate_flip = FALSE,
+  width = 12,
+  height = 6.18,
   ...
 )
 }
 \arguments{
 \item{p}{A ggplot2 object}
 
-\item{xtics_angle}{Rotation angle for a-axis}
+\item{xtics_angle}{Rotation angle for a-axis. Default 0.}
 
 \item{legend.position}{Position of legend, accept top, bottom, left, right, none or c(0.8,0.8).}
 
@@ -36,11 +38,11 @@ sp_ggplot_layout(
 
 \item{coordinate_flip}{Flip cartesian coordinates so that horizontal becomes vertical, and vertical, horizontal. This is primarily useful for converting geoms and statistics which display y conditional on x, to x conditional on y.}
 
-\item{...}{Extra parameters to \code{\link[ggplot2]{ggsave}}.}
-
 \item{width}{Picture width (units: cm)}
 
 \item{height}{Picture height (units: cm)}
+
+\item{...}{Extra parameters to \code{\link[ggplot2]{ggsave}}.}
 }
 \value{
 A ggplot2 object

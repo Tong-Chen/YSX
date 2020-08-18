@@ -355,34 +355,16 @@ sp_pheatmap <- function(data,
     if (xtics_angle == 0) {
       width = width * 1.5
     }
-  }
-
 
   if (class(annotation_row) == "data.frame") {
     width = width + ncol(annotation_row)
     width = width * 1.1
   }
 
-
-
   if (class(annotation_col) == "data.frame") {
     height = height + ncol(annotation_col)
     width = width * 1.1
   }
-
-
-
-
-  if (sp.is.null(manual_annotation_colors_sidebar)) {
-    manual_annotation_colors_sidebar = NA
-  } else if (class(manual_annotation_colors_sidebar) == "character") {
-    # Transfer string to R code
-    manual_annotation_colors_sidebar = eval(parse(text = paste(
-      "list(", manual_annotation_colors_sidebar, ")"
-    )))
-  }
-
-  #print(manual_annotation_colors_sidebar)
 
   if (cluster_rows) {
     width = width + 4
@@ -393,7 +375,6 @@ sp_pheatmap <- function(data,
   }
 
 
-  if (width == 0 && height == 0) {
     if (width < 8) {
       width = 8
     } else if (width < 20) {
@@ -414,6 +395,23 @@ sp_pheatmap <- function(data,
       height = 30
     }
   }
+
+
+
+
+
+
+  if (sp.is.null(manual_annotation_colors_sidebar)) {
+    manual_annotation_colors_sidebar = NA
+  } else if (class(manual_annotation_colors_sidebar) == "character") {
+    # Transfer string to R code
+    manual_annotation_colors_sidebar = eval(parse(text = paste(
+      "list(", manual_annotation_colors_sidebar, ")"
+    )))
+  }
+
+  #print(manual_annotation_colors_sidebar)
+
 
 
   cluster_rows_results = cluster_rows
@@ -438,13 +436,13 @@ sp_pheatmap <- function(data,
   }
 
 
-  if (height != 0) {
-    height = height
-  }
+  #if (height != 0) {
+  #  height = height
+  #}
 
-  if (width != 0) {
-    width = width
-  }
+  #if (width != 0) {
+  #  width = width
+  #}
 
   row_order = rownames(data)
   col_order = colnames(data)

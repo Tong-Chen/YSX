@@ -3,7 +3,11 @@ Type: Package
 Title: For Yishengxin Training
 Version: 0.1.0
 Author: YSX
-Maintainer: The package maintainer <yourself@somewhere.net>
+Authors@R: c(person("Chen", "Tong", email = "chentong_biology@163.com",
+  role = c("aut", "cre")),
+  person("Fan", "Mingjie", email = "train@ehbio.com",
+  role = c("aut")))
+Maintainer: The package maintainer <chentong_biology@163.com>
 Description: For integrating useful functions for training.
 License: GPL-2
 Encoding: UTF-8
@@ -16,7 +20,8 @@ Depends:
     R (>= 3.1)
 Imports:
     ggplot2,
-	pheatmap
+	pheatmap,
+	grid
 Suggests:
     WGCNA,
     DESeq2,
@@ -29,4 +34,6 @@ Suggests:
     cowplot,
     readr,
     dplyr,
-	knitr
+	knitr,
+	VennDiagram,
+	UpSetR

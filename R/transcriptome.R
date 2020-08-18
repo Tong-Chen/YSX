@@ -264,7 +264,8 @@ deseq2normalizedExpr <- function(dds, output_prefix='ehbio', rlog=T, vst=F, save
   if (rlog) {
     rld <- DESeq2::rlog(dds, blind=FALSE)
     rlogMat <- assay(rld)
-    rlogMat <- rlogMat[order(normalized_counts_mad, decreasing=T), ]
+    rlogMat_mad <- apply(rlogMat, 1, mad)
+    rlogMat <- rlogMat[order(rlogMat_mad, decreasing=T), ]
 
 
     rlogMat_output = data.frame(id=rownames(rlogMat), rlogMat)
@@ -282,7 +283,8 @@ deseq2normalizedExpr <- function(dds, output_prefix='ehbio', rlog=T, vst=F, save
   if (vst) {
     rld <- DESEq2::vst(dds, blind=FALSE)
     vstMat <- assay(rld)
-    vstMat <- vstMat[order(normalized_counts_mad, decreasing=T), ]
+    vstMat_mad <- apply(vstMat, 1, mad)
+    vstMat <- vstMat[order(vstMat_mad, decreasing=T), ]
 
     vstMat_output = data.frame(id=rownames(vstMat), vstMat)
 

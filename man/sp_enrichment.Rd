@@ -24,9 +24,8 @@ sp_enrichment(
   xtics_angle = 0,
   shape_variable = NULL,
   coordinate_flip = FALSE,
+  extra_ggplot2_cmd = NULL,
   file_name = NULL,
-  width = 0,
-  height = 0,
   ...
 )
 }
@@ -83,17 +82,19 @@ Accept a variable like \code{count} to get \code{sqrt(count)}.}
 
 \item{legend.position}{Position of legend, accept top, bottom, left, right, none or c(0.8,0.8).}
 
-\item{xtics_angle}{Rotation angle for a-axis}
+\item{xtics_angle}{Rotation angle for a-axis. Default 0.}
 
 \item{shape_variable}{One of column names used as the variable for defining point shapes.}
 
 \item{coordinate_flip}{Flip cartesian coordinates so that horizontal becomes vertical, and vertical, horizontal. This is primarily useful for converting geoms and statistics which display y conditional on x, to x conditional on y.}
 
-\item{width}{Picture width (units: cm)}
+\item{extra_ggplot2_cmd}{Extra ggplot2 commands (currently unsupported)}
 
-\item{height}{Picture height (units: cm)}
+\item{...}{Parameters given to \code{sp_ggplot_layout}}
 
-\item{...}{Parametes given to \code{sp_ggplot_layout}}
+\item{scale_size_min}{Scale size with minimum value specified}
+
+\item{scale_size_max}{Scale size with maximum value specified}
 }
 \value{
 A ggplot2 object

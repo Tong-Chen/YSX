@@ -212,7 +212,6 @@ sp_volcano_plot(data=res_output,
 
 ```{r}
 library(VennDiagram)
-library(grid)
 vennDiagram_data = "vennDiagram.data"
 sp_vennDiagram(data = vennDiagram_data, header=T)
 ```
@@ -393,6 +392,16 @@ head(box_test_data)
 sp_boxplot(data = box_test_data, melted=T, xvariable = "Gene", yvariable = "Expr",  manual_color_vector = c("green","yellow","red"), jitter_bp = T, statistics = T, violin = T)
 ```
 
+```{r}
+random_v <- c(rnorm(10, mean=1, sd=0.1), rnorm(10, mean=5), rnorm(20, mean=10),
+              rnorm(10, mean=10), rnorm(10, mean=0.2, sd=0.01), rnorm(20, mean=1),  rnorm(20, mean=1),  rnorm(20, mean=1), rnorm(20, mean=2,sd=0.5), rnorm(20, mean=2,sd=0.5))
+data <- data.frame(Gene=c(paste0('SOX', rep(2,80)), paste0('SOX', rep(3,80))),
+                   Expr=random_v, Cluster=rep(c(rep(1,10), rep(2,10),rep(3,20),rep(4,20),rep(5,20)),2))
+
+
+sp_boxplot(data, melted = T, xvariable = "Cluster", yvariable = "Expr", facet="Gene", 
+           facet_ncol=1, facet_scales="free_y", facet_singlecell_style = T, violin = T)
+```
 
 
 Different types of color assignment
@@ -513,6 +522,67 @@ pcoa_data = "pcoa.data"
 group_pcoa_data = "group_pcoa.data"
 sp_pcoa(data=pcoa_data,grp_file = group_pcoa_data, color = "genotype") 
 ```
+
+## scatter plot
+
+```{r}
+library(plyr)
+library(ggplot2)
+library(grid)
+library(ggbeeswarm)
+library(ggrepel)
+library(YSX)
+
+scatter_test_data <- data.frame(Samp = letters[1:6], 
+                                Color = sample(c("group1", "group2", "group3"),6,replace = TRUE),
+X_val = runif(6), Y_val = runif(6), Size = sample(4:20, size = 6),
+Shape = sample(c("cluster1","cluster2"),6,replace = TRUE))
+
+sp_scatterplot(data=scatter_test_data,xvariable = "X_val",yvariable = "Y_val",
+color_variable = "Color", shape_variable= "Shape",
+size_variable = "Size",label_variable="Samp",Jitter = TRUE)
+
+```
+Demo 1
+
+```{r}
+scatter_data = "scatter_demo1.txt"
+
+sp_scatterplot(data = scatter_data, xvariable = "Gene", yvariable = "Cluster", color_variable = "Expr", size_variable = "Percent", label_variable = "Expr", manual_color_vector = c("white","blue"))
+```
+
+Demo 2
+
+```{r}
+scatter_data = "scatter_demo2.txt"
+sp_scatterplot(data=scatter_data, xvariable = "X_variable", yvariable = "Y_variable",
+color_variable = "Color", shape_variable= "Shape",
+size_variable = "Size",label_variable="Samp",Jitter = F)
+```
+
+
+
+```{r}
+scatter_data = "scatter.txt"
+
+sp_scatterplot(data = scatter_data, xvariable = "X_val", yvariable = "Y_val", 
+color_variable = "Color", shape_variable = "Shape", size_variable = "Size",
+label = "Samp", xvariable_order = c(1,3,2), yvariable_order = c(2,1,3),
+color_variable_order = c("grp2","grp1","grp3"),
+shape_variable_order = c("cluster2","cluster1"), label_font_size = 2)
+
+sp_scatterplot(data = scatter_data, xvariable = "X_val", yvariable = "Y_val", color_variable = "Color", shape_variable = "Shape", size_variable = "Size", label_variable = "Samp", Jitter = TRUE)
+
+sp_scatterplot(data = scatter_data, xvariable = "X_val", yvariable = "Y_val", color_variable = "Color", shape_variable = "Shape", size_variable = "Size",label_variable = "Samp", Jitter = TRUE, facet = "Color", scales = "free_y")
+```
+
+```{r}
+scatter_data = "box.data"
+sp_scatterplot(data = scatter_data, xvariable = "Gene", yvariable = "Group", color_variable = "Expr", size_variable = "Expr", label_variable = "Expr")
+```
+
+
+
 
 ## Tree plot
 

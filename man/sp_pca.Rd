@@ -27,6 +27,7 @@ sp_pca(
   debug = FALSE,
   filename = NULL,
   legend.position = "right",
+  coord_fixed_ratio = 1,
   ...
 )
 }
@@ -44,7 +45,7 @@ we do not need scale. When this happens, we expect the ranges of data is small f
 
 \item{color_variable}{The variable for point color. Optional, such as color.}
 
-\item{manual_color_vector}{Manually specified colors. Default system default. Accept string in format like <'"green", "red"'> (both types of quotes needed).}
+\item{manual_color_vector}{Manually specified colors. Default system default. Accept string in format like `'"green", "red"'`` (both types of quotes needed).}
 
 \item{log_transform}{Log-transform data before principle component analysis. Accept NULL, log2, log10.}
 
@@ -70,7 +71,9 @@ we do not need scale. When this happens, we expect the ranges of data is small f
 
 \item{minimum_mad}{Minimum mad to keep. Larger mad, larger variance. Default 0.5.}
 
-\item{...}{}
+\item{coord_fixed_ratio}{Default 1. Specify 0 to tunr this off. A fixed scale coordinate system forces a specified ratio between the physical representation of data units on the axes. The ratio represents the number of units on the y-axis equivalent to one unit on the x-axis. The default, ratio = 1, ensures that one unit on the x-axis is the same length as one unit on the y-axis. Ratios higher than one make units on the y axis longer than units on the x-axis, and vice versa.}
+
+\item{...}{Other parameters given to \code{\link{sp_ggplot_layout}}.}
 }
 \value{
 pdf and xls files.

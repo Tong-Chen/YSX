@@ -29,8 +29,6 @@ sp_volcano_plot(
   legend.position = "top",
   xintercept = "fc",
   yintercept = "fdr",
-  width = 10,
-  height = 6.18,
   ...
 )
 }
@@ -74,7 +72,7 @@ of levels of \code{status_col_var}.}
 
 \item{filename}{Output picture to given file.}
 
-\item{xtics_angle}{Rotation angle for a-axis}
+\item{xtics_angle}{Rotation angle for a-axis. Default 0.}
 
 \item{x_label}{Xlab label.Default "Log2 fold change".}
 
@@ -85,10 +83,6 @@ of levels of \code{status_col_var}.}
 \item{xintercept}{Default 'fc' to show fold change lines. This needs \code{significance_threshold}. Specify NULL to hide lines.}
 
 \item{yintercept}{Default 'fdr' to show fdr lines. This needs \code{significance_threshold}. Specify NULL to hide lines.}
-
-\item{width}{Picture width (units: cm)}
-
-\item{height}{Picture height (units: cm)}
 
 \item{...}{Parametes given to \code{sp_ggplot_layout}}
 }

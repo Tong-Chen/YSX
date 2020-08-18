@@ -8,6 +8,8 @@
 #   Generate DOC:              'Ctrl + Shift + Alt + r'
 #   Generate DOC (Mac):              'Ctrl + Shift + Option + r'
 
+
+
 #' Check and install given packages
 #'
 #' @param package A list containing names and install-names of each package.
@@ -456,12 +458,18 @@ mixedToFloat <- function(x) {
 #'
 
 generate_color_list <- function(color, number, alpha = 1) {
+  color = color[color!="None" & color !=""]
   color_len = length(color)
   if (color_len == 1) {
     brewer = rownames(RColorBrewer::brewer.pal.info)
     if (color %in% brewer) {
       if (number <= RColorBrewer::brewer.pal.info[color, ]$maxcolors) {
-        colorL <- RColorBrewer::brewer.pal(number, color)
+		  mincolor = 3
+		  if (number < mincolor) {
+		  	colorL <- RColorBrewer::brewer.pal(mincolor, color)[1:number]
+		  } else {
+            colorL <- RColorBrewer::brewer.pal(number, color)
+		  }
       } else {
         colorL <-
           colorRampPalette(RColorBrewer::brewer.pal(3, color))(number)
@@ -480,6 +488,53 @@ generate_color_list <- function(color, number, alpha = 1) {
     maxColorValue = 255
   ))
 }
+
+#' Transfer one column of data.
+#'
+#' @param data A data matrix
+#' @param variable One column name of data matrix
+#' @param y_add A number to add if log scale is used.
+#' Default 0 meaning the minimum non-zero value would be used.
+#' @param yaxis_scale_mode Give the following `scale_y_log10()`,
+#' `coord_trans(y="log10")`, or other legal command for ggplot2 or
+#' simply `log2` to set the scale way.
+#'
+#' @return A data frame
+#' @export
+#'
+#' @examples
+#'
+#' data <- data.frame(A=letters[1:4], B=letters[1:4])
+#' data
+#' data = sp_transfer_variable(data,'A', "log2")
+
+
+sp_transfer_one_column <- function(data, variable, yaxis_scale_mode=NULL, y_add=0){
+  if(numCheck(data[[variable]])){
+    if (!is.numeric(data[[variable]])) {
+      data[[variable]] <- mixedToFloat(data[[variable]])
+    }
+  } else {
+    stop(paste(variable,"column is not numerical column."))
+  }
+  # print(y_add)
+  # Give the minimum non-zero value to add to avoid log2(0)
+  if (y_add == 0) {
+    y_add = sp_determine_log_add(data[[variable]])
+    # print(paste("153", y_add))
+  }
+  # print("155")
+  # print(data[[yvariable]])
+  data[[variable]] <- data[[variable]] + y_add
+  if (yaxis_scale_mode == "log2") {
+    data[[variable]] <- log2(data[[variable]])
+  } else if (yaxis_scale_mode == "log10") {
+    data[[variable]] <- log10(data[[variable]])
+  }
+  return(data)
+}
+
+
 
 #' Set factor order of given variable. If `variable_order` is supplied, only
 #' factors in `variable_order` will be kept and re-factored. Other variables
@@ -505,13 +560,19 @@ generate_color_list <- function(color, number, alpha = 1) {
 #'
 sp_set_factor_order <-
   function(data, variable, variable_order = NULL) {
-    if (!sp.is.null(variable_order)) {
-      data = data[data[[variable]] %in% variable_order, , drop = F]
-      data[[variable]] <-
-        factor(data[[variable]], levels = variable_order, ordered = T)
+    if(numCheck(data[[variable]])){
+      if (!is.numeric(data[[variable]])) {
+        data[[variable]] <- mixedToFloat(data[[variable]])
+      }
     } else {
-      data[[variable]] <- factor(data[[variable]],
-                                 levels = unique(data[[variable]]), ordered = T)
+      if (!sp.is.null(variable_order)) {
+        data = data[data[[variable]] %in% variable_order, , drop = F]
+        data[[variable]] <-
+          factor(data[[variable]], levels = variable_order, ordered = T)
+      } else {
+        data[[variable]] <- factor(data[[variable]],
+                                   levels = unique(data[[variable]]), ordered = T)
+      }
     }
     invisible(data)
   }
@@ -692,10 +753,39 @@ sp_ggplot_add_vline_hline <- function(p,
   return(p)
 }
 
+#' Facet ggplot2 object
+#'
+#' @param p A ggplot2 object
+#' @param facet_variable Wrap plots by given column (one of column names should be specified).
+#' This is used to put multiple plot in one picture.
+#' @param facet_nrow 	The number of rows one want when `facet` is used. Default NULL.
+#' @param facet_ncol The number of columns one want when `facet` is used. Default NULL.
+#' @param facet_scales Paramter for scales for facet. Default `fixed` meaning each inner graph
+#' use same scale (x,y range), `free` (variable x, y ranges for each sub-plot),
+#' `free_x` (variable x ranges for each sub-plot), `free_y` (variable y ranges for each sub-plot).
+#' @return A ggplot2 object
+#' @export
+#'
+#' @examples
+#'
+#' ## Not run:
+#' sp_ggplot_facet(p, facet_variable)
+#'
+#' ## End(Not run)
+#'
+
+sp_ggplot_facet <- function(p, facet_variable=NULL, facet_ncol=NULL, facet_nrow=NULL, facet_scales="fixed"){
+  p <- p + facet_wrap( ~  .data[[facet_variable]],
+                       ncol = facet_ncol,
+                       nrow = facet_nrow,
+                       scales = facet_scales)
+  return(p)
+}
+
 #' Change common layout of ggplot2 object
 #'
 #' @param p A ggplot2 object
-#' @param xtics_angle Rotation angle for a-axis
+#' @param xtics_angle Rotation angle for a-axis. Default 0.
 #' @param legend.position Position of legend, accept top, bottom, left, right, none or c(0.8,0.8).
 #' @param extra_ggplot2_cmd Extra ggplot2 commands (currently unsupported)
 #' @param filename Output picture to given file.
@@ -727,6 +817,8 @@ sp_ggplot_layout <-
            y_label = NULL,
            title = NULL,
            coordinate_flip = FALSE,
+           width=12,
+           height=6.18,
            ...) {
     p <-
       p + theme(
@@ -803,6 +895,8 @@ sp_ggplot_layout <-
       ggsave(p,
              filename = filename,
              units = c("cm"),
+             width = width,
+             height = height,
              ...)
     }
   }
@@ -913,7 +1007,9 @@ get_matched_columns_based_on_value <-
     df1_rownames = rownames(df1)
     df2_rownames = rownames(df2)
 
-    if(value.identical(df1_rownames, df2_rownames, treat_fully_contain_as_identical)){
+    if(value.identical(df1_rownames, df2_rownames, treat_fully_contain_as_identical) &&
+       # ignore default number row names
+       !(value.identical(df2_rownames, 1:length(df2_rownames)))){
       return(c(0,0))
     }
 

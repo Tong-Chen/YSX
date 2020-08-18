@@ -19,7 +19,7 @@ sp_boxplot(
   group_variable_for_line = NULL,
   group_variable_order_for_line = NULL,
   y_add = 0,
-  yaxis_scale_mode = "",
+  yaxis_scale_mode = NULL,
   notch = FALSE,
   par = NULL,
   outlier = FALSE,
@@ -36,19 +36,17 @@ sp_boxplot(
   dotplot_bp = FALSE,
   colormodel = "srgb",
   coordinate_flip = FALSE,
-  facet = NULL,
-  facet_level = NULL,
+  facet_variable = NULL,
+  facet_variable_order = NULL,
   x_label = NULL,
   y_label = NULL,
   title = NULL,
-  nrow = NULL,
-  ncol = NULL,
-  scales = "fixed",
-  gene = NULL,
+  facet_nrow = NULL,
+  facet_ncol = NULL,
+  facet_singlecell_style = F,
+  facet_scales = "fixed",
   metadata = NULL,
   debug = F,
-  width = 0,
-  height = 0,
   extra_ggplot2_cmd = NULL,
   ...
 )
@@ -73,7 +71,7 @@ This parameter can only be set when \code{melted} is TRUE.}
 \item{legend_variable}{The column represents the legend information.
 Default \code{xvariable} if not specified.}
 
-\item{xtics_angle}{Rotation angle for x-axis value. Default 0.}
+\item{xtics_angle}{Rotation angle for a-axis. Default 0.}
 
 \item{legend_variable_order}{Levels for legend variable.
 Default data order, accept a vector like c('TP16','TP22','TP23') for \code{legend_variable} column.}
@@ -89,8 +87,8 @@ values in \code{legend_variable} column is continuous numbers.}
 
 \item{group_variable_order_for_line}{Levels for group variable for lines.}
 
-\item{y_add}{A number to add if scale is used.
-Default 0 meaning the minimum non-zero value wolud be used.}
+\item{y_add}{A number to add if log scale is used.
+Default 0 meaning the minimum non-zero value would be used.}
 
 \item{yaxis_scale_mode}{Give the following \code{scale_y_log10()},
 \code{coord_trans(y="log10")}, or other legal command for ggplot2 or
@@ -140,41 +138,33 @@ except the one given to \code{xvariable}.}
 \item{coordinate_flip}{Rotate the plot from vertical to horizontal.
 Usefull for plots with many values or very long labels at X-axis}
 
-\item{facet}{Wrap plots by given column. This is used to put multiple plot
-in one picture. Used when \code{melted} is FALSE, normally a string set should be suitable for this parameter.}
+\item{facet_variable}{Wrap plots by given column (one of column names should be specified).
+This is used to put multiple plot in one picture.}
 
-\item{facet_level}{The levels of wrapping to set the order of each group.}
+\item{facet_variable_order}{The levels of wrapping to set the order of each group.}
 
-\item{x_label}{Xlab label.Default NULL.}
+\item{x_label}{Xlab label.}
 
-\item{y_label}{Ylab label.Default NULL.}
+\item{y_label}{Ylab label.}
 
 \item{title}{Title of picture.}
 
-\item{nrow}{The number of rows one want when \code{melted} is used. Default NULL.}
+\item{facet_nrow}{The number of rows one want when \code{facet} is used. Default NULL.}
 
-\item{ncol}{The number of columns one want when \code{melted} is used. Default NULL.}
+\item{facet_ncol}{The number of columns one want when \code{facet} is used. Default NULL.}
 
-\item{scales}{Paramter for scales for facet. Default \code{fixed} meaning each inner graph
+\item{facet_singlecell_style}{Use specified style for showing single cell gene expression profile. Default FALSE.}
+
+\item{facet_scales}{Paramter for scales for facet. Default \code{fixed} meaning each inner graph
 use same scale (x,y range), \code{free} (variable x, y ranges for each sub-plot),
 \code{free_x} (variable x ranges for each sub-plot), \code{free_y} (variable y ranges for each sub-plot).}
-
-\item{gene}{Giving one gene ID to do boxplot specifically for this gene.
-Default FALSE, accept a string.}
 
 \item{metadata}{Giving a metadata file with format specified in example
 to tell the group information for each sample.}
 
-\item{width}{Picture width (units: cm)}
-
-\item{height}{Picture height (units: cm)}
-
 \item{extra_ggplot2_cmd}{Extra ggplot2 commands (currently unsupported)}
 
 \item{...}{Parametes given to \code{sp_ggplot_layout}}
-
-\item{scaleY}{Scale y axis. Default FALSE.  Accept TRUE.
-Also if the supplied number after \code{y_add} is not 0, this parameter will be set to TRUE}
 }
 \value{
 A ggplot2 object
