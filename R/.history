@@ -20,3 +20,10 @@
 [/root/pipeline/YSX/R] 42720  [2020-08-21 09:10:40][root][124.64.17.242]vim utilities.R 
 [/root/pipeline/YSX/R] 42721  [2020-08-21 09:11:27][root][124.64.17.242]vim ../../bin/s-plotR/splot_line.sh 
 [/root/pipeline/YSX/R] 42722  [2020-08-21 09:12:13][root][124.64.17.242]../bin/bash/install_YSX.sh
+[/root/pipeline/YSX/R] 42733  [2020-08-21 09:44:04][root][124.64.17.242]cd ../YSX/R
+[/root/pipeline/YSX/R] 42734  [2020-08-21 09:44:08][root][124.64.17.242]vim sp_boxplot.R 
+[/root/pipeline/YSX/R] 42735  [2020-08-21 09:45:25][root][124.64.17.242]git status
+[/root/pipeline/YSX/R] 42736  [2020-08-21 09:46:16][root][124.64.17.242]git add ../../bin/s-plotR/splot_line.sh ../../cloud_config/boxplot_input.json ../../cloud_config/line_input.json sp_histogram.R sp_lines.R WGCNA.R utilities.R ../../bin/bash/install_YSX.sh
+[/root/pipeline/YSX/R] 42737  [2020-08-21 09:46:23][root][124.64.17.242]git commit -m 'xline vline'
+[/root/pipeline/YSX/R] 42738  [2020-08-21 09:46:30][root][124.64.17.242]git push -u origin develop
+[/root/pipeline/YSX/R] 42739  [2020-08-21 10:11:30][root][124.64.17.242]vim `which sp_histogram.sh`

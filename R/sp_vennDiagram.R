@@ -182,8 +182,7 @@ sp_vennDiagram <- function (data,
         main.pos = main.pos,
         cat.default.pos = cat.default.pos,
         cat.pos = cat.pos,
-        cat.dist = cat.dist,
-        cat.fontfamily = "Arial"
+        cat.dist = cat.dist
       )
   } else {
     #---venn plot for given numbers---------

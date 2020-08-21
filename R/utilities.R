@@ -568,7 +568,7 @@ sp_set_factor_order <-
       if (!sp.is.null(variable_order)) {
         data = data[data[[variable]] %in% variable_order, , drop = F]
         data[[variable]] <-
-          factor(data[[variable]], levels = variable_order, ordered = T)
+          droplevels(factor(data[[variable]], levels = variable_order, ordered = T))
       } else {
         data[[variable]] <- factor(data[[variable]],
                                    levels = unique(data[[variable]]), ordered = T)

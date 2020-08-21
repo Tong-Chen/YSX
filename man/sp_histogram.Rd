@@ -7,16 +7,18 @@
 sp_histogram(
   data,
   melted = FALSE,
-  yvariable = NULL,
+  xvariable = NULL,
   color_variable = NULL,
   color_variable_order = NULL,
+  group_variable = NULL,
+  group_variable_order = NULL,
   value_scale = 1,
   facet_variable = NULL,
   facet_variable_order = NULL,
-  maximum_allowed = "Inf",
+  maximum_allowed = Inf,
   yaxis_statistics = "count/sum(count)",
   plot_type = "line",
-  adjust = NULL,
+  binwidth = NULL,
   hist_bar_position = "identity",
   alpha = 0.4,
   yaxis_scale_mode = NULL,
@@ -24,16 +26,16 @@ sp_histogram(
   fill_area = FALSE,
   line_size = 1,
   add_mean_value_vline = FALSE,
-  manual_color_vector = c(),
-  facet_scale = "fixed",
-  facet_ncol = 1,
-  facet_nrow = 1,
+  manual_color_vector = "Accent",
+  facet_scales = "fixed",
+  facet_ncol = NULL,
+  facet_nrow = NULL,
   xtics = TRUE,
   ytics = TRUE,
   legend.position = "right",
-  xtics_angle = 90,
-  manual_xtics_value = 0,
-  manual_xtics_pos = 0,
+  xtics_angle = 0,
+  manual_xtics_value = NULL,
+  manual_xtics_pos = NULL,
   custom_vline_x_position = NULL,
   custom_vline_anno = NULL,
   x_label = NULL,
@@ -54,12 +56,18 @@ column will not be treated as the row-names, tab separated)}
 \item{melted}{\code{TRUE} for dealing with long format matrix, the program will skip
 melt preprocess. If input is wide format matrix, this parameter should be set to \code{FALSE}.}
 
-\item{yvariable}{Specify the column name used as Y-axis value (one of column names,
+\item{xvariable}{Specify the column name used as Y-axis value (one of column names,
 should be specified when inputting long format matrix).}
 
 \item{color_variable}{Specify the column name used as color variable.}
 
 \item{color_variable_order}{Levels for color variable to set their appearing order.
+Accept a vector like \code{c('ctcf','h3k27ac')}
+(normally whole or a subset of unique values of one column with order specified).}
+
+\item{group_variable}{Specify the column name used as group variable.}
+
+\item{group_variable_order}{Levels for color variable to set their appearing order.
 Accept a vector like \code{c('ctcf','h3k27ac')}
 (normally whole or a subset of unique values of one column with order specified).}
 
@@ -82,8 +90,7 @@ When \code{plot_type} is both, `frequency`` will be given here.}
 \item{plot_type}{Plot frequency or density or hist or both frequency and histogram.
 Default line means frequency accept \code{density_line}, \code{hist} or \code{both}.}
 
-\item{adjust}{The value for adjust (like the width of each bin) in
-\code{geom_density}, and \code{binwidth} for \code{geom_histogram}.}
+\item{binwidth}{The value for \verb{binwidth`` (like the width of each bin) in }geom_density\verb{, and }binwidth\code{for}geom_histogram`.}
 
 \item{hist_bar_position}{Position parameter for hist bars. Default \code{identity}, accept \code{dodge}.}
 
@@ -99,6 +106,10 @@ Default 0 meaning the minimum non-zero value would be used.}
 \item{line_size}{line size. Default 1. Accept a number.}
 
 \item{add_mean_value_vline}{Add mean value as vline. Default FALSE,  accept TRUE.}
+
+\item{facet_scales}{Paramter for scales for facet. Default \code{fixed} meaning each inner graph
+use same scale (x,y range), \code{free} (variable x, y ranges for each sub-plot),
+\code{free_x} (variable x ranges for each sub-plot), \code{free_y} (variable y ranges for each sub-plot).}
 
 \item{facet_ncol}{The number of columns one want when \code{facet} is used. Default NULL.}
 
@@ -137,7 +148,7 @@ or 'HeiArial.ttc'(if in current directory), Default system default.}
 
 \item{extra_ggplot2_cmd}{Extra ggplot2 commands (currently unsupported)}
 
-\item{...}{}
+\item{...}{Other parameters given to sp_ggplot_layout}
 }
 \value{
 A ggplot2 object
@@ -148,12 +159,12 @@ Generating histogram plot
 \examples{
 
 histogram_test_data <- data.frame(Type = letters[1:2], Value = runif(80))
-sp_histogram(data = histogram_test_data, yvariable = "Value", color_variable = "Type",
+sp_histogram(data = histogram_test_data, xvariable = "Value", color_variable = "Type",
  plot_type = "both", yaxis_statistics = "count/sum(count)")
 
 ## Not run:
 input <- "histogram.data"
-sp_histogram(data=input, yvariable = "Value", color_variable = "Type",
+sp_histogram(data=input, xvariable = "Value", color_variable = "Type",
  plot_type = "both", yaxis_statistics = "count/sum(count)")
 ## End(Not run)
 }

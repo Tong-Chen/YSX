@@ -453,16 +453,20 @@ sp_boxplot <- function(data,
     #                              color=!!xvariable_en, label=stat)) +
     #   theme(axis.text.x=element_text(angle =90,vjust=0.3))
 
-    if (xvariable != legend_variable) {
-      data$combine__grp__for__statistis_sp <-
-        paste(data[[xvariable]], data[[legend_variable]], sep = "___")
-    } else {
-      data$combine__grp__for__statistis_sp <- data[[xvariable]]
-    }
-    if (!sp.is.null(facet_variable)) {
-      data$combine__grp__for__statistis_sp <-
-        paste(data$combine__grp__for__statistis_sp, data[[facet_variable]], sep = "___")
-    }
+    # if (xvariable != legend_variable) {
+    #   data$combine__grp__for__statistis_sp <-
+    #     paste(data[[xvariable]], data[[legend_variable]], sep = "___")
+    # } else {
+    #   data$combine__grp__for__statistis_sp <- data[[xvariable]]
+    # }
+    # if (!sp.is.null(facet_variable)) {
+    #   data$combine__grp__for__statistis_sp <-
+    #     paste(data$combine__grp__for__statistis_sp, data[[facet_variable]], sep = "___")
+    # }
+
+    group_variable_vector <- unique(c(xvariable, legend_variable, facet_variable))
+    data$combine__grp__for__statistis_sp <- do.call(paste0, data[group_variable_vector])
+
     formula = as.formula(paste(yvariable, "~", "combine__grp__for__statistis_sp"))
     # model = aov(data[[yvariable]] ~ data[[xvariable]], data = data)
     # print(formula)
@@ -489,7 +493,6 @@ sp_boxplot <- function(data,
     max = max(data[, c(yvariable)])
     min = min(data[, yvariable])
     x = data[, c(xvariable, yvariable, "combine__grp__for__statistis_sp")]
-    # y = x %>% group_by(get(xvariable)) %>% summarise_(Max=paste('max(',yvariable,')',sep=""))
     y = x %>% group_by(combine__grp__for__statistis_sp) %>% summarise(Max =
                                                                         max(!!yvariable_en))
     y = as.data.frame(y)

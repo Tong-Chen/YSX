@@ -134,27 +134,7 @@ res_output$level <- ifelse(res_output$padj<=padj,
 
 head(res_output)
 
-# data=res_output;
-# log2fc_var="log2FoldChange";
-# fdr_var="padj";
-#            coordinate_flip = FALSE;
-#            status_col = NULL;
-#            significance_threshold = c(0.05, 1);
-#            status_col_level = c();
-#            point_color_vector = c("red", "green", "grey");
-#            log10_transform_fdr = TRUE;
-#            max_allowed_log10p = Inf;
-#            title='';
-#            point_label_var = 'CTctctCT';
-#            log2fc_symmetry = TRUE;
-#            alpha = NA;
-#            point_size = 0.8;
-#            extra_ggplot2_cmd = NULL;
-#            file_name = NULL;
-#            xtics_angle = 0;
-#            x_label = 'Log2 fold change';
-#            y_label = 'Negative log10 transformed qvalue';
-#            legend.position = "right"
+
 
 sp_volcano_plot(data=res_output,
            log2fc_var="log2FoldChange",
@@ -458,7 +438,7 @@ data <- data.frame(Gene=c(paste0('SOX', rep(2,80)), paste0('SOX', rep(3,80))),
                    Expr=random_v, Cluster=rep(c(rep(1,10), rep(2,10),rep(3,20),rep(4,20),rep(5,20)),2))
 
 
-sp_boxplot(data, melted = T, xvariable = "Cluster", yvariable = "Expr", facet="Gene", 
+sp_boxplot(data, melted = T, xvariable = "Cluster", yvariable = "Expr", facet_variable="Gene", 
            facet_ncol=1, facet_scales="free_y", facet_singlecell_style = T, violin = T)
 ```
 
@@ -541,54 +521,101 @@ library(reshape2)
 library(grid)
 library(dplyr)
 
-histogram_test_data <- data.frame(Type = letters[1:2], Value = runif(80))
-sp_histogram(data = histogram_test_data, yvariable = "Value", melted=T,
-             color_variable = "Type", plot_type = "both", yaxis_statistics  = "count/sum(count)")
+# demo1
 
-data = histogram_test_data
-                 melted = FALSE
-                         yvariable=NULL
-                         color_variable=NULL
-                         color_variable_order = NULL
-                         value_scale = 1
-                         facet_variable = NULL
-                         facet_variable_order = NULL
-                         maximum_allowed = "Inf"
-                         yaxis_statistics = 'count/sum(count)'
-                         plot_type = 'line'
-                         adjust = NULL
-                         hist_bar_position = "identity"
-                         alpha = 0.4
-                         yaxis_scale_mode = NULL
-                         y_add = 0
-                         fill_area = FALSE
-                         line_size = 1
-                         add_mean_value_vline = FALSE
-                         manual_color_vector = c()
-                         facet_scale = 'fixed'
-                         facet_ncol = 1
-                         facet_nrow = 1
-                         xtics = TRUE
-                         ytics = TRUE
-                         legend.position = "right"
-                         xtics_angle = 90
-                         manual_xtics_value = 0
-                         manual_xtics_pos = 0
-                         custom_vline_coord = NULL
-                         custom_vline_anno = NULL
-                         x_label = NULL
-                         y_label = NULL
-                         title = ''
-                         font_path = NULL
-                         debug = F
-                         extra_ggplot2_cmd = NULL
-                         file_name = NULL
-                         yvariable = "Value"
-                         melted=T
-             color_variable = "Type"
-             plot_type = "both"
-             yaxis_statistics  = "count/sum(count)"
+sp_histogram(data = "histogram.demo1.txt", xvariable = "weight", melted=T,
+             group_variable = "sex", plot_type = "both", 
+             yaxis_statistics  = "density", fill_area = T, add_mean_value_vline = T)
+
+data = "histogram.demo1.txt"
+
+melted = FALSE
+xvariable = NULL
+color_variable = NULL
+color_variable_order = NULL
+group_variable = NULL
+group_variable_order = NULL
+value_scale = 1
+facet_variable = NULL
+facet_variable_order = NULL
+maximum_allowed = Inf
+yaxis_statistics = 'count/sum(count)'
+plot_type = 'line'
+binwidth = NULL
+hist_bar_position = "identity"
+alpha = 0.4
+yaxis_scale_mode = NULL
+y_add = 0
+fill_area = FALSE
+line_size = 1
+add_mean_value_vline = FALSE
+manual_color_vector = "Accent"
+facet_scales = 'fixed'
+facet_ncol = NULL
+facet_nrow = NULL
+xtics = TRUE
+ytics = TRUE
+legend.position = "right"
+xtics_angle = 0
+manual_xtics_value = NULL
+manual_xtics_pos = NULL
+custom_vline_x_position = NULL
+custom_vline_anno = NULL
+x_label = NULL
+y_label = NULL
+title = ''
+font_path = NULL
+debug = F
+extra_ggplot2_cmd = NULL
+file_name = NULL
+base_font_size = 11
+xvariable = "weight" 
+melted=T
+group_variable = "sex" 
+plot_type = "both" 
+yaxis_statistics  = "density" 
+fill_area = T 
+add_mean_value_vline = T
 ```
+
+
+Demo2
+
+```{r}
+library(YSX)
+library(ggplot2)
+library(reshape2)
+library(grid)
+library(dplyr)
+sp_histogram(data = "histogram.demo1.txt", xvariable = "weight", melted=T,
+             group_variable = "sex", plot_type = "both", 
+             yaxis_statistics  = "density", fill_area = T, 
+             add_mean_value_vline = T,
+             facet_variable = "sex")
+```
+Demo3
+
+```{r}
+histogram_demo3 = "exprMat.txt"
+sp_histogram(data = histogram_demo3,melted=F,
+             plot_type = "line", 
+             yaxis_statistics  = "density", add_mean_value_vline = F)
+```
+
+```{r}
+histogram_test_data <- data.frame(Type = letters[1], Value = runif(80))
+sp_histogram(data = histogram_test_data, yvariable = "Value", melted=T,
+             group_variable = "Type", plot_type = "hist", 
+             yaxis_statistics  = "count/sum(count)")
+```
+
+```{r}
+histogram_test_data <- data.frame(Type = letters[1], Value = runif(80))
+sp_histogram(data = histogram_test_data, yvariable = "Value", melted=T,
+             color_variable = "Type", plot_type = "line", 
+             yaxis_statistics  = "density", fill_area = T)
+```
+
 
 ```{r}
 histogram_data <- "histogram.data"
@@ -777,4 +804,15 @@ Metadata table with 20 samples and two attributes
 ```{r}
 sampleGroup = data.frame(Sample=paste(rep(c("SampleA","SampleB"), each=10),1:20,sep="_"), Group=rep(c("GroupA","GroupB"), each=10), Class=rep(c("ConditionC","ConditionD"), each=5))
 sp_writeTable(sampleGroup, file="metadata.txt", keep_rownames = F)
+```
+
+```{r}
+set.seed(1234)
+df2 <- data.frame(
+  sex=factor(rep(c("F", "M"), each=200)),
+  weight=round(c(rnorm(200, mean=55, sd=5), rnorm(200, mean=65, sd=5)))
+  )
+head(df2)
+
+sp_writeTable(df2,"histogram.demo1.txt", keep_rownames =F)
 ```
