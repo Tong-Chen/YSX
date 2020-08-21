@@ -32,9 +32,9 @@ sp_lines(
   manual_xtics_value = NULL,
   width = 10,
   height = 10,
-  xintercept = NULL,
+  custome_vline_x_position = NULL,
   custom_vline_anno = NULL,
-  yintercept = NULL,
+  custome_hline_y_position = NULL,
   custom_hline_anno = NULL,
   facet_wrap_formula = NULL,
   facet_wrap_nrow = NULL,
@@ -104,7 +104,7 @@ a RColorBrewer color set like  "BrBG"     "PiYG"     "PRGn"     "PuOr"
 "GnBu"     "Greens"   "Greys"    "Oranges" "OrRd"     "PuBu"
 "PuBuGn"   "PuRd"     "Purples"  "RdPu"     "Reds"
 "YlGn"    "YlGnBu"   "YlOrBr"   "YlOrRd"
-(check \url{http://www.sthda.com/english/wiki/colors-in-r} for more).}
+(check http://www.sthda.com/english/wiki/colors-in-r for more).}
 
 \item{xtics}{Default TRUE to display xtics. Accept FALSE to turn off xtics.}
 
@@ -114,11 +114,11 @@ a RColorBrewer color set like  "BrBG"     "PiYG"     "PRGn"     "PuOr"
 
 \item{legend.position}{Position of legend, accept top, bottom, left, right, none or c(0.8,0.8).}
 
-\item{manual_xtics_pos}{Manually set the position of xtics. Default FALSE,
+\item{manual_xtics_pos}{Manually set the positions of xtics. Default FALSE,
 accept a vector of numbers in following format "c(1,2,3,4,5)" or other R code
 that can generate a vector to set the position of xtics.}
 
-\item{manual_xtics_value}{Manually set the value of xtics when \code{xtics_pos} is specified.
+\item{manual_xtics_value}{Manually set the values of xtics when \code{xtics_pos} is specified.
 Default the content of \code{xtics_pos} when \code{xtics_pos} is specified,
 accept a vector of numbers in following format "c(1,2,3,4,5)" or other R code
 that can generate a vector to set the values of xtics.}
@@ -127,11 +127,11 @@ that can generate a vector to set the values of xtics.}
 
 \item{height}{Picture height (units: cm)}
 
-\item{xintercept}{A vector of coordinates for vertical lines.}
+\item{custome_vline_x_position}{A vector of coordinates for vertical lines.}
 
 \item{custom_vline_anno}{Annotation text for each vertical line.}
 
-\item{yintercept}{A vector of coordinates for horizontal lines.}
+\item{custome_hline_y_position}{A vector of coordinates for horizontal lines.}
 
 \item{custom_hline_anno}{Annotation text for each horizontal line.}
 
@@ -145,7 +145,7 @@ that can generate a vector to set the values of xtics.}
 
 \item{coordinate_flip}{Flip cartesian coordinates so that horizontal becomes vertical, and vertical, horizontal. This is primarily useful for converting geoms and statistics which display y conditional on x, to x conditional on y.}
 
-\item{...}{Parametes given to \code{sp_ggplot_layout}}
+\item{...}{Parametres given to \code{sp_ggplot_layout}}
 
 \item{x_level}{Levels for x-axis variable, suitable when x-axis is not treated as numerical.
 Default the order of first column for normal matrix.}

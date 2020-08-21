@@ -231,7 +231,8 @@ readscount2deseq <- function(count_matrix_file, sampleFile, design, covariate=NU
 #' @param rlog Get "rlog" transformed value for downstream correlation like analysis.
 #' @param vst Get "vst" transformed value for downstream correlation like analysis. Normally faster than "rlog".
 #' @param savemat Save normalized and rlog/vst matrix to file. Default T.
-#' The file would be named like <output_prefix.DESeq2.normalized.xls>, <output_prefix.DESeq2.normalized.rlog.xls>.
+#' The file would be named like `output_prefix.DESeq2.normalized.xls`,
+#' `output_prefix.DESeq2.normalized.rlog.xls`.
 #'
 #' @return A list containing normalized expression values and/or rlog, vst transformed normalized expression values.
 #' @export

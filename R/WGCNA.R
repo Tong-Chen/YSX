@@ -47,7 +47,7 @@ dh <- function(x) {
 #' ```
 #' @param traitData Sample attribte data with first column as sample names and other
 #' columns as sample attributes. Specifically for categorical attributes, each
-#' attribute one column, <0> represents not belong to while <1> represents blong to. Or
+#' attribute one column, `0` represents not belong to while `1` represents belonging to. Or
 #' one can give categorical attributes separately to "categoricalTrait".
 #'
 #' ```
@@ -653,7 +653,7 @@ WGCNA_softpower <-
 
     p1 <- sp_ggplot_add_vline_hline(
       p1,
-      yintercept = RsquaredCut,
+      custome_hline_y_position = RsquaredCut,
       custom_hline_anno = paste0("R squared Cut ", RsquaredCut),
       color = "red"
     ) + theme_classic()
@@ -669,7 +669,7 @@ WGCNA_softpower <-
     p2 <-
       sp_ggplot_add_vline_hline(
         p2,
-        yintercept = power_data$mean.k.[power_choose],
+        custome_hline_y_position = power_data$mean.k.[power_choose],
         custom_hline_anno = round(power_data$mean.k.[power_choose]),
         custom_hline_anno_x_pos = power,
         color = "red"
@@ -1776,7 +1776,14 @@ WGCNA_GeneModuleTraitCoorelation <-
 #' @inheritParams WGCNA_coexprNetwork
 #' @inheritParams WGCNA_cytoscape
 #' @inheritParams WGCNA_moduleTraitPlot
-#' @param os_system Default the program will detect system type to choose which multiple thread function will be used. \code{enableWGCNAThreads} is recommended, but only work in some linux os. \code{\link[WGCNA]{allowWGCNAThreads}} is not recommended if enableWGCNAThreads works. However for max and windows os, this is the only one can be used. Even for some linux system, using \code{\link[WGCNA]{enableWGCNAThreads}} will make programs stuck in \code{\link[WGCNA]{pickSoftThreshold}} step. So if stucked, supply any string other than `linux` to enable the uages of \code{\link[WGCNA]{allowWGCNAThreads}}.
+#' @param os_system Default the program will detect system type to choose which multiple thread function will be used.
+#' `enableWGCNAThreads` is recommended, but only work in some linux os.
+#' \code{\link[WGCNA]{allowWGCNAThreads}} is not recommended if `enableWGCNAThreads` works.
+#' However for max and windows os, this is the only one can be used.
+#' Even for some linux system, using `enableWGCNAThreads` will make programs
+#' stuck in \code{\link[WGCNA]{pickSoftThreshold}} step.
+#' So if stucked, supply any string other than `linux` to enable the usages
+#' of \code{\link[WGCNA]{allowWGCNAThreads}}.
 #' @param power_min For some data type, default selected power is a small number. Mostly this is due to unnormalized expression value, batch effects or small amount of total samples. When this happens, we may want to assign a power as 6 or other common numbers for downstream analysis. Here is where to specify it. Be careful to use this parameter unless you know what you are doing.
 #'
 #' @return net

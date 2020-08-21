@@ -24,7 +24,8 @@ deseq2normalizedExpr(
 \item{vst}{Get "vst" transformed value for downstream correlation like analysis. Normally faster than "rlog".}
 
 \item{savemat}{Save normalized and rlog/vst matrix to file. Default T.
-The file would be named like <output_prefix.DESeq2.normalized.xls>, <output_prefix.DESeq2.normalized.rlog.xls>.}
+The file would be named like \code{output_prefix.DESeq2.normalized.xls},
+\code{output_prefix.DESeq2.normalized.rlog.xls}.}
 }
 \value{
 A list containing normalized expression values and/or rlog, vst transformed normalized expression values.

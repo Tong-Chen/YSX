@@ -16,6 +16,8 @@ sp_barplot(
   color_variable_order = NULL,
   xvariable_order = NULL,
   y_add = 0,
+  group_variable = NULL,
+  add_point = F,
   yaxis_scale_mode = NULL,
   facet_variable = NULL,
   stat = "identity",
@@ -36,23 +38,24 @@ sp_barplot(
   add_text = FALSE,
   font_path = NULL,
   debug = FALSE,
+  file_name = NULL,
   ...
 )
 }
 \arguments{
 \item{data}{Data frame or data file (with header line, the first column will
-not be treated as row names, tab seperated).}
+not be treated as row names, tab separated).}
 
-\item{color_variable}{Name for specifying bars colors (one of colum names, should be specified
-when inputinh long format matrix).}
+\item{color_variable}{Name for specifying bars colors (one of column names, should be specified
+when inputting long format matrix).}
 
-\item{yvariable}{Name for value column (one of colum names, should be specified
-when inputinh long format matrix).}
+\item{yvariable}{Name for value column (one of column names, should be specified
+when inputting long format matrix).}
 
-\item{xvariable}{Name for x-axis variable (one of colum names, should be specified
-when inputinh long format matrix).}
+\item{xvariable}{Name for x-axis variable (one of column names, should be specified
+when inputting long format matrix).}
 
-\item{melted}{\code{TRUE} for dealinig with long format matrix, the program will skip melt preprocess. If input is wide format matrix, this parameter should be set to \code{FALSE}.}
+\item{melted}{\code{TRUE} for dealing with long format matrix, the program will skip melt preprocess. If input is wide format matrix, this parameter should be set to \code{FALSE}.}
 
 \item{title}{Title of picture.}
 
@@ -67,6 +70,10 @@ when inputinh long format matrix).}
 \item{y_add}{A number to add if log scale is used.
 Default 0 meaning the minimum non-zero value would be used.}
 
+\item{group_variable}{Specify group info for for computing means and SDs.}
+
+\item{add_point}{Set to TRUE to add each point (specially used when displaying mean values)}
+
 \item{yaxis_scale_mode}{Give the following \code{scale_y_log10()},
 \code{coord_trans(y="log10")}, or other legal command for ggplot2 or
 simply \code{log2} to set the scale way.}
@@ -78,13 +85,13 @@ This is used to put multiple plot in one picture.}
 The height of bars represent the numerical values in each group by default (normally in \code{yvariable} column of melted data).
 One can also give \code{count} to let the program count the number of
 items in each group (Normally the \code{color_variable} column is used to group
-'xvariable' colum after melt).
+'xvariable' column after melt).
 Or one can give \code{weight} which will sum values of each group.
 Default \code{identity}, accept \code{count} when categorical data are given.}
 
 \item{bar_mode}{The ways to place multiple bars for one group.
 Multiple bars in same place will be stacked together by default.
-Giving \code{fill} to get stacked percent barplot.
+Giving \code{fill} to get stacked percent bar-plot.
 Giving \code{dodge} to arrange multiple bars side-by-side.
 Default \code{stack}, accept \code{dodge}, \code{fill}.}
 

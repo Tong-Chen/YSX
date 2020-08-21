@@ -5,26 +5,28 @@
 #' Generating bar plot
 #'
 #' @param data Data frame or data file (with header line, the first column will
-#' not be treated as row names, tab seperated).
-#' @param melted `TRUE` for dealinig with long format matrix, the program will skip melt preprocess. If input is wide format matrix, this parameter should be set to `FALSE`.
-#' @param xvariable Name for x-axis variable (one of colum names, should be specified
-#' when inputinh long format matrix).
-#' @param color_variable Name for specifying bars colors (one of colum names, should be specified
-#' when inputinh long format matrix).
+#' not be treated as row names, tab separated).
+#' @param melted `TRUE` for dealing with long format matrix, the program will skip melt preprocess. If input is wide format matrix, this parameter should be set to `FALSE`.
+#' @param xvariable Name for x-axis variable (one of column names, should be specified
+#' when inputting long format matrix).
+#' @param color_variable Name for specifying bars colors (one of column names, should be specified
+#' when inputting long format matrix).
 #' @param color_variable_order Set orders of color variable (this can also used to extract specific rows).
-#' @param yvariable Name for value column (one of colum names, should be specified
-#' when inputinh long format matrix).
+#' @param yvariable Name for value column (one of column names, should be specified
+#' when inputting long format matrix).
 #' @param xvariable_order Levels for x-axis variable, suitable when x-axis is not used as a number.
+#' @param group_variable Specify group info for for computing means and SDs.
+#' @param add_point Set to TRUE to add each point (specially used when displaying mean values)
 #' @param stat The ways to show the height of bars.
 #' The height of bars represent the numerical values in each group by default (normally in `yvariable` column of melted data).
 #' One can also give `count` to let the program count the number of
 #' items in each group (Normally the `color_variable` column is used to group
-#' 'xvariable' colum after melt).
+#' 'xvariable' column after melt).
 #' Or one can give `weight` which will sum values of each group.
 #' Default `identity`, accept `count` when categorical data are given.
 #' @param bar_mode The ways to place multiple bars for one group.
 #' Multiple bars in same place will be stacked together by default.
-#' Giving `fill` to get stacked percent barplot.
+#' Giving `fill` to get stacked percent bar-plot.
 #' Giving `dodge` to arrange multiple bars side-by-side.
 #' Default `stack`, accept `dodge`, `fill`.
 #' @inheritParams sp_ggplot_facet
@@ -67,6 +69,8 @@ sp_barplot <- function (data,
                         color_variable_order = NULL,
                         xvariable_order = NULL,
                         y_add = 0,
+                        group_variable = NULL,
+                        add_point = F,
                         yaxis_scale_mode = NULL,
                         facet_variable = NULL,
                         stat = 'identity',
@@ -87,6 +91,7 @@ sp_barplot <- function (data,
                         add_text = FALSE,
                         font_path = NULL,
                         debug = FALSE,
+                        file_name = NULL,
                         ...) {
   options(scipen = 999)
 
@@ -132,18 +137,53 @@ sp_barplot <- function (data,
       )
   }
 
+
+
   #print(data)
 
   xvariable_en = sym(xvariable)
-  color_variable_en = sym(color_variable)
+
   yvariable_en = sym(yvariable)
 
-  if (bar_mode  == "fill" && add_text) {
-    data <-
-      data %>% group_by(!!xvariable_en) %>%
-      mutate(count = sum(!!yvariable_en)) %>%
-      mutate(freq = round(100 * !!yvariable_en / count, 2))
+  point_yvariable_en = yvariable_en
+
+  data_point = data
+
+  if(!sp.is.null(group_variable)){
+    if (!(group_variable %in% data_colnames)) {
+      stop(paste(group_variable,'must be one of column names of data!'))
+    }
+    # group_variable_en = sym(group_variable)
+    data_sd_mean <- data %>% group_by(across(group_variable)) %>%
+      summarise(Standard_deviation=sd(!!yvariable_en), Mean_value=mean(!!yvariable_en)) %>%
+      ungroup() %>%
+      group_by(!!xvariable_en) %>%
+      mutate(Mean_value_cumsum_s_p=rev(cumsum(rev(Mean_value))))
+
+    data <- as.data.frame(data_sd_mean)
+    print(data_sd_mean)
+
+    # data_sd_mean = sp_set_factor_order(data_sd_mean, group_variable, group_variable_order)
+
+
+    # data <- merge(data, data_sd_mean, by=group_variable, all=F)
+
+    yvariable = "Mean_value"
+    yvariable_en = sym(yvariable)
+
+    error_bar_variable = "Standard_deviation"
+    error_bar_variable_en = sym(error_bar_variable)
+
+    if(sp.is.null(color_variable)){
+      color_variable <- group_variable[group_variable!=xvariable][1]
+    }
+
+    #bar_mode = "dodge"
+    #print(data)
   }
+
+
+
 
   if (!melted){
     xvariable_order = wide_rownames
@@ -160,8 +200,10 @@ sp_barplot <- function (data,
     }
     data = sp_set_factor_order(data, color_variable, color_variable_order)
   } else {
-    color_variable = variable
+    color_variable = xvariable
   }
+
+  color_variable_en = sym(color_variable)
 
   #print(data)
 
@@ -172,13 +214,39 @@ sp_barplot <- function (data,
     data = sp_set_factor_order(data, facet_variable, facet_variable_order)
   }
 
+  if (bar_mode  == "fill" && add_text) {
+    data <-
+      data %>% group_by(!!xvariable_en) %>%
+      mutate(count = sum(!!yvariable_en)) %>%
+      mutate(freq = round(100 * !!yvariable_en / count, 2))
+  }
+
+  if(bar_mode == "stack" && (!"Mean_value_cumsum_s_p" %in% colnames(data))){
+    print(data[[xvariable]])
+    data <- data %>% group_by(!!xvariable_en) %>%
+      mutate(Mean_value_cumsum_s_p=rev(cumsum(rev(!!yvariable_en))))
+    print(data)
+  }
+
 
 
   xvariable_en = sym(xvariable)
   color_variable_en = sym(color_variable)
   yvariable_en = sym(yvariable)
 
+  width_dodge = 0.75
   #print(data)
+
+  if (bar_mode  == "dodge") {
+    position = position_dodge(width = width_dodge)
+    errorbar_base_variable = yvariable
+  }else if (bar_mode  == "stack") {
+    position = position_stack(vjust = 0.5)
+    errorbar_base_variable = "Mean_value_cumsum_s_p"
+  }else if (bar_mode  == "fill") {
+    position = position_fill(vjust = 0.5)
+    errorbar_base_variable = "Mean_value_cumsum_s_p"
+  }
 
   if (stat == "count") {
     p <- ggplot(data, aes(x = !!xvariable_en, group = !!yvariable_en))
@@ -192,31 +260,54 @@ sp_barplot <- function (data,
              ))
   }
 
-
   p <-
     p + geom_bar(
       stat = stat ,
       position = bar_mode ,
       aes(fill = !!color_variable_en),
-      width = 0.75
+      width = width_dodge
     )
 
   if (!sp.is.null(error_bar_variable)) {
-    if (!(error_bar_variable %in% data_colnames)) {
+    if (!(error_bar_variable %in% c(data_colnames, "Standard_deviation"))) {
       stop(paste(error_bar_variable,'must be column names of data!'))
     }
 
+
+    if(bar_mode == "fill"){
+      bar_mode = "stack"
+   }
     error_bar_variable_en = sym(error_bar_variable)
-    p <-
-      p + geom_errorbar(
-        aes(
-          ymin = !!yvariable_en - !!error_bar_variable_en,
-          ymax = !!yvariable_en + !!error_bar_variable_en
-        ),
-        colour = "black",
-        width = 0.2,
-        position = position_dodge(width = .75)
-      )
+    errorbar_base_variable_en = sym(errorbar_base_variable)
+
+    if(!sp.is.null(group_variable)){
+      p <-
+        p + geom_errorbar(
+          mapping = aes(
+            ymin = !!errorbar_base_variable_en - !!error_bar_variable_en,
+            ymax = !!errorbar_base_variable_en + !!error_bar_variable_en,
+            group=!!color_variable_en
+          ),
+          data = data_sd_mean,
+          colour = "black",
+          width = 0.2,
+          position = "identity"
+          #position = position
+        )
+    } else {
+      p <-
+        p + geom_errorbar(
+          aes(
+            ymin = !!errorbar_base_variable_en - !!error_bar_variable_en,
+            ymax = !!errorbar_base_variable_en + !!error_bar_variable_en,
+            group=!!color_variable_en
+          ),
+          colour = "black",
+          width = 0.2,
+          position = "identity"
+          #position = position
+        )
+    }
   }
 
 
@@ -224,18 +315,25 @@ sp_barplot <- function (data,
     p <- p + scale_y_continuous(labels = scales::percent)
   }
 
+  if (add_point){
+    p <- p + geom_quasirandom(aes(x = !!xvariable_en,
+                                  y = !!point_yvariable_en,
+                                  group=!!color_variable_en),
+                              data = data_point,
+                              color = "grey",
+                              varwidth = T,
+                              groupOnX = TRUE,
+                              dodge.width = width_dodge,
+                              position =  position)
+  }
+
   if(add_text){
     text_size =  base_font_size / 3.2
     geom_text_parameter <- list()
 
-    if (bar_mode  == "dodge") {
-      width_dodge = 0.75
-      geom_text_parameter$position = position_dodge(width = width_dodge)
-    }else if (bar_mode  == "stack") {
-      geom_text_parameter$position = position_stack(vjust = 0.5)
-    }else if (bar_mode  == "fill") {
-      geom_text_parameter$position = position_fill(vjust = 0.5)
-    }
+
+
+    geom_text_parameter$position = position
 
     if(!sp.is.null(fontname)){
       geom_text_parameter$famliy = fontname
@@ -287,6 +385,8 @@ sp_barplot <- function (data,
   p <-
     sp_manual_fill_ggplot2(p, data, color_variable, manual_color_vector)
 
+
+
   additional_theme <- list()
 
   if (!xtics) {
@@ -303,12 +403,12 @@ sp_barplot <- function (data,
       p,
       xtics_angle = 0,
       legend.position = legend.position,
-      extra_ggplot2_cmd = NULL,
-      file_name = NULL,
+      extra_ggplot2_cmd = extra_ggplot2_cmd,
+      file_name = file_name,
       title = title,
       x_label = x_label,
       y_label = y_label,
-      coordinate_flip = FALSE,
+      coordinate_flip = coordinate_flip,
       additional_theme = additional_theme,
       fontname = fontname,
       base_font_size = base_font_size,

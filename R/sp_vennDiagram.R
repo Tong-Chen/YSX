@@ -1,7 +1,7 @@
 #' Generating venDiagram plot
 #'
 #' @param data Data file (the first column is the name of genes or other things one want to compare, the second column is set name of each items, tab separated).
-#' @inheritParams read.table
+#' @inheritParams sp_readTable
 #' @param supplyNumbers If you have the size of each set and the number overlaps between or among each set,  please give TRUE here.
 #' @param title Title for the picture.
 #' @param label1 The name for label1. One string in your second column. If not supplied, the program will try to do venn plot for all sets or first 5 sets.
@@ -22,7 +22,7 @@
 #'            acd_overlap, bcd_overlap, abcd_overlap).
 #' @param labelVector List of label for venn plot(used when `supplyNumbers` is true).
 #' Format: c('a', 'b')" for two-set and c('a', 'b', 'c') for three-set.
-#' @param manual_color_vector Color for each area. Ususally the number of colors should
+#' @param manual_color_vector Color for each area. Ussally the number of colors should
 #' be equal to the number of labels (however the program will make them equal).
 #' If you manually set colors for 4-way
 #' venn diagram, the first color will be given to the
@@ -37,7 +37,7 @@
 #' "GnBu"     "Greens"   "Greys"    "Oranges" "OrRd"     "PuBu"
 #' "PuBuGn"   "PuRd"     "Purples"  "RdPu"     "Reds"
 #' "YlGn"    "YlGnBu"   "YlOrBr"   "YlOrRd"
-#' (check <http://www.sthda.com/english/wiki/colors-in-r> for more).
+#' (check http://www.sthda.com/english/wiki/colors-in-r for more).
 #' @inheritParams sp_manual_color_ggplot2
 #' @param label_size Siez of category names. Default system default.
 #' @param margin Number giving the amount of whitespace around the diagram in grid units. Default system default

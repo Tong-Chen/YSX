@@ -1,514 +1,379 @@
 
 #' Generating histogram plot
 #'
-#' @param data Data frame or data file (with header line, the first column will not be treated as the rowname, tab seperated)
-#' @param melted When FALSE, it will skip melt preprocesses.
-#' @param yAxis_variable Specify the column name used as value variable.
-#' @param legend_variable Specify the column name used as legend variable.
-#' @param type_hist Plot with density or count or frequency in y-axis. Default frequency, accept density, count. When `type_p` is both, frequency will be given here.
-#' @param type_p Plot frequency or density or hist or both frequency and histogram. Default line means frequency accept density_line, hist or both.
-#' @param scale Scale value. All values will be divided by supplied one. Default 1.
-#' @param level_i Levels for legend variable. Accept a string like "'ctcf','h3k27ac'".
-#' @param facet Variable name for facet. Optional, the name of one column representing a group should be given if group
-#' information is needed. Here 'set' can be given if you want to plot set-1 and set-2 separatelt.
-#' @param facet_order_i  Order of s_facet (facet_variable given to `facet`). Optional even -s is given. Only specified if the facet order is what you want. Input format likes
-#' "'facet1','facet2',"facet10"".
-#' @param j_facet_order_i Order of J_facet (facet variable given to `j_facet`). Optional even -s is given. Only specified if the facet order is what you want. Input format likes
-#' "'facet1','facet2',"facet10"".
-#' @param largest The largest value allowed. Values other than this will be set as this value. Default Inf.
-#' @param adjust The value for adjust (like the width of each bin) in geom_density, and binwidth for geom_histogram.
-#' @param pos Position paramter for hist bars. Default identity, accept dodge.
-#' @param alpha Alpha value for transparent. Default 0.4, accept a number form 0 to 1,  the smaller, the more transparent.
+#' @param data Data frame or data file (with header line, the first
+#' column will not be treated as the row-names, tab separated)
+#' @param melted `TRUE` for dealing with long format matrix, the program will skip
+#' melt preprocess. If input is wide format matrix, this parameter should be set to `FALSE`.
+#' @param yvariable Specify the column name used as Y-axis value (one of column names,
+#' should be specified when inputting long format matrix).
+#' @param color_variable Specify the column name used as color variable.
+#' @param yaxis_statistics Plot with density or count or frequency in y-axis.
+#' Default `frequency`, accept `density`, `count`.
+#' When `plot_type` is both, `frequency`` will be given here.
+#' @param plot_type Plot frequency or density or hist or both frequency and histogram.
+#' Default line means frequency accept `density_line`, `hist` or `both`.
+#' @param value_scale Scale value. All values will be divided by supplied one. Default 1.
+#' @param color_variable_order Levels for color variable to set their appearing order.
+#' Accept a vector like `c('ctcf','h3k27ac')`
+#' (normally whole or a subset of unique values of one column with order specified).
+#' @param facet_variable_order  Order of facets (to set the appearance order of each subplot).
+#' Accept a vector like `c('ctcf','h3k27ac')`
+#' (normally whole or a subset of unique values of one column with order specified).
+#' @param maximum_allowed The largest value allowed. Values other than this will be set
+#' as this value. Default Inf.
+#' @param adjust The value for adjust (like the width of each bin) in
+#' `geom_density`, and `binwidth` for `geom_histogram`.
+#' @param hist_bar_position Position parameter for hist bars. Default `identity`, accept `dodge`.
 #' @param fill_area Fill the area if TRUE. Default FALSE.
 #' @param line_size line size. Default 1. Accept a number.
-#' @param vline Add mean value as vline. Default FALSE,  accept TRUE.
-#' @param color_v Color for each line. Str in given
-#' format must be supplied, ususlly the number of colors should
-#' be equal to the number of lines.
-#' "'red','pink','blue','cyan','green','yellow'" or
-#' "rgb(255/255,0/255,0/255),rgb(255/255,0/255,255/255),rgb(0/255,0/255,255/255),
-#' 		rgb(0/255,255/255,255/255),rgb(0/255,255/255,0/255),rgb(255/255,255/255,0/255)"
-#' @param j_facet Another variable for facet. Optional, same meaning as `facet` but different columns, like 'variable'. When this is given,
-#' facet_grid would be used in format like facet_grid(s_facet ~ j_facet) pay attention to the order.
-#' @param facet_scale Parameter for scales for facet. Necessary if only `facet` is given. Default each inner graph use same scale (x, y range). "free", 'free_x', 'free_y' is accepted.
-#' @param facet_ncol Number of columns in one row when do faceting. Necessary if only `facet` is given
+#' @param add_mean_value_vline Add mean value as vline. Default FALSE,  accept TRUE.
 #' @param xtics Show the X axis.
 #' @param ytics Show the Y axis.
-#' @param legend.position Position of legend, accept top, bottom, left, right, none or c(0.8,0.8).
-#' @param xtics_angle Rotation angle for a-axis.
-#' @param xtics_value Manually set the value of xtics when `xtics_v` is specified. Default the content of `xtics_v` when `xtics_v` is specified,
-#'accept a series of numbers in following format "c(1,2,3,4,5)" or other R code that can generate a vector to set the position of xtics.
-#' @param xtics_v Manually set xtics. Default FALSE, accept a series of
-#' numbers in following format "c(1,2,3,4,5)" or other R code that can generate a vector.
-#' @param custom_vline_coord Add vline by given point. Default FALSE, accept a series of numbers in following format "c(1,2,3,4,5)" or other R code that can generate a vector.
-#' @param custom_vline_anno Add labels to vline. Default FALSE, accept a series of numbers in following format "c(1,2,3,4,5)" or other R code that can generate a vector.
-#' @param x_label Xlab label.
-#' @param y_label Ylab label.
-#' @param title Title of picture.
+#' @param manual_xtics_pos Manually set the positions of xtics. Default FALSE, accept a series of
+#' numbers in following format "c(1,2,3,4,5)" or other R code that can generate a vector
+#' to set the position of manual xtics.
+#' @param manual_xtics_value Manually set the values of xtics when `manual_xtics_position` is specified.
+#' Default the content of `manual_xtics_position` when `manual_xtics_position` is specified,
+#'accept a series of numbers in following format "c(1,2,3,4,5)" or other R code that can
+#'generate a vector to set the value of manual xtics.
+
+#' @inheritParams sp_ggplot_facet
+#' @inheritParams sp_transfer_one_column
+#' @inheritParams sp_load_font
+#' @inheritParams sp_ggplot_layout
+#' @inheritParams sp_load_font
+#' @inheritParams sp_ggplot_add_vline_hline
 #' @param ...
 #'
 #' @return A ggplot2 object
 #' @export
 #'
 #' @examples
-#' 
+#'
 #' histogram_test_data <- data.frame(Type = letters[1:2], Value = runif(80))
-#' sp_histogram(data = histogram_test_data, yAxis_variable = "Value", legend_variable = "Type",
-#'  type_p = "both", type_hist = "count/sum(count)")
-#' 
+#' sp_histogram(data = histogram_test_data, yvariable = "Value", color_variable = "Type",
+#'  plot_type = "both", yaxis_statistics = "count/sum(count)")
+#'
 #' ## Not run:
 #' input <- "histogram.data"
-#' sp_histogram(data=input, yAxis_variable = "Value", legend_variable = "Type",
-#'  type_p = "both", type_hist = "count/sum(count)")
+#' sp_histogram(data=input, yvariable = "Value", color_variable = "Type",
+#'  plot_type = "both", yaxis_statistics = "count/sum(count)")
 #' ## End(Not run)
 
 sp_histogram <- function(data ,
                          melted = FALSE,
-                         yAxis_variable,
-                         legend_variable ,
-                         stat = "density",
-                         scale = 1,
-                         level_i = c(),
-                         facet = "haha",
-                         facet_order_i = c(),
-                         j_facet_order_i = c(),
-                         largest = "Inf",
-                         type_hist = 'count/sum(count)',
-                         type_p = 'line',
+                         yvariable=NULL,
+                         color_variable=NULL,
+                         color_variable_order = NULL,
+                         value_scale = 1,
+                         facet_variable = NULL,
+                         facet_variable_order = NULL,
+                         maximum_allowed = "Inf",
+                         yaxis_statistics = 'count/sum(count)',
+                         plot_type = 'line',
                          adjust = NULL,
-                         pos = "identity",
+                         hist_bar_position = "identity",
                          alpha = 0.4,
+                         yaxis_scale_mode = NULL,
+                         y_add = 0,
                          fill_area = FALSE,
                          line_size = 1,
-                         vline = FALSE,
-                         color_v = c(),
-                         j_facet = "haha",
+                         add_mean_value_vline = FALSE,
+                         manual_color_vector = c(),
                          facet_scale = 'fixed',
                          facet_ncol = 1,
+                         facet_nrow = 1,
                          xtics = TRUE,
                          ytics = TRUE,
                          legend.position = "right",
                          xtics_angle = 90,
-                         xtics_value = 0,
-                         xtics_v = 0,
-                         custom_vline_coord = NULL,
+                         manual_xtics_value = 0,
+                         manual_xtics_pos = 0,
+                         custome_vline_x_position = NULL,
                          custom_vline_anno = NULL,
                          x_label = NULL,
                          y_label = NULL,
                          title = '',
+                         font_path = NULL,
+                         debug = F,
+                         extra_ggplot2_cmd = NULL,
+                         file_name = NULL,
+                         base_font_size = 11,
                          ...) {
-  if (class(data) == "character") {
-    if (melted) {
-      #cat("Currently not supported for unmelted files")
-      #quit()
-      #currently this part is unused
-      data <- sp_readTable(data, row.names = NULL)
-      #	data_rownames <- rownames(data)
-      #	data_colnames <- colnames(data)
-      #	data\$${xvariable} <- data_rownames
-      data <- melt(data, id.vars = xvariable)
-      #data <- melt(data)
-    } else {
-      data <- sp_readTable(data, row.names = NULL)
+
+
+  if (debug) {
+    argg <- c(as.list(environment()), list(...))
+    print(argg)
+  }
+
+  fontname = sp_load_font(font_path = font_path)
+
+  if (melted) {
+    if (sp.is.null(color_variable) || sp.is.null(yvariable)) {
+      stop("For melted matrix, <color_variable> and <yvariable> should be supplied.")
     }
+  } else {
+    xvariable = "xvariable"
+    yvariable = 'value'
+    color_variable = 'variable'
   }
-  #legend_variable="${legend_variable}"
-  #yAxis_variable="${yAxis_variable}"
-  
-  
-  stat = "density"
-  
-  if (!is.numeric(data[[yAxis_variable]])) {
-    stat = "count"
-    stop("Value variable column must be numeric.")
+
+  data <- sp_read_in_long_wide_matrix(data, xvariable, melted)
+
+  #print(data)
+
+  wide_rownames <- data$wide_rownames
+  wide_colnames <- data$wide_colnames
+  data <- data$data
+  data_colnames <- colnames(data)
+
+  if (!(color_variable %in% data_colnames &&
+        yvariable %in% data_colnames)) {
+    stop(paste(color_variable, 'or', yvariable, 'must be one of column names of data!'))
   }
-  
-  if (scale != 1) {
-    data[[yAxis_variable]] <- data[[yAxis_variable]] / scale
+
+  if (!sp.is.null(yaxis_scale_mode)) {
+    data <-
+      sp_transfer_one_column(
+        data,
+        variable = yvariable,
+        yaxis_scale_mode = yaxis_scale_mode,
+        y_add = y_add
+      )
   }
-  
-  if (length(level_i) > 1) {
-    data[[legend_variable]] <-
-      factor(data[[legend_variable]], levels = level_i)
-  }
-  #else if (! ${melted}){
-  #	data\$variable <- factor(data\$variable, levels=data_colnames,
-  #	ordered=T)
+
+  #stat = "density"
+
+  #if (!is.numeric(data[[yvariable]])) {
+  #  stat = "count"
+    #stop("Value variable column must be numeric.")
   #}
-  
-  if (length(facet_order_i) > 1) {
-    data[[facet]] <- factor(data[[facet]],
-                            levels = facet_order_i)
+
+  if (value_scale != 1) {
+    data[[yvariable]] <- data[[yvariable]] / value_scale
   }
-  
-  
-  if (length(j_facet_order_i) > 1) {
-    data[[j_facet]] <- factor(data[[j_facet]],
-                              levels = j_facet_order_i)
-  }
-  
-  if (largest != "Inf") {
-    data[[yAxis_variable]][data[[yAxis_variable]] > largest] <- largest
-  }
-  
-  yAxis_variable_en = sym(yAxis_variable)
-  legend_variable_en = sym(legend_variable)
-  
-  p <- ggplot(data, aes(x = !!yAxis_variable_en))
-  
-  if (type_hist == "count/sum(count)") {
-    if (type_p == "hist" ||  type_p == "both") {
-      fill_area = TRUE
-      if (!is.null(adjust)) {
-        p <- p + geom_histogram(
-          aes(
-            y = after_stat(count / sum(count)) ,
-            fill = !!legend_variable_en
-          ),
-          binwidth = adjust ,
-          alpha = alpha,
-          position = pos ,
-          stat = stat
-        )
-      } else {
-        p <- p + geom_histogram(
-          aes(
-            y = after_stat(count / sum(count)) ,
-            fill = !!legend_variable_en
-          ),
-          alpha = alpha ,
-          position = pos ,
-          stat = stat
-        )
-      }
+
+
+  data = sp_set_factor_order(data, color_variable, color_variable_order)
+
+
+  if (!sp.is.null(facet_variable)) {
+    if (!(facet_variable %in% data_colnames)) {
+      stop(paste(facet_variable,'must be one of column names of data!'))
     }
-    if (is.null(y_label)) {
-      y_label = "Frequency"
-    }
+    data = sp_set_factor_order(data, facet_variable, facet_variable_order)
   }
-  
-  if (type_hist == "count") {
-    if (type_p == "hist" ||  type_p == "both") {
-      fill_area = TRUE
-      if (!is.null(adjust)) {
-        p <- p + geom_histogram(
-          aes(
-            y = after_stat(count) ,
-            fill = !!legend_variable_en
-          ),
-          binwidth = adjust ,
-          alpha = alpha,
-          position = pos ,
-          stat = stat
-        )
-      } else {
-        p <- p + geom_histogram(
-          aes(
-            y = after_stat(count) ,
-            fill = !!legend_variable_en
-          ),
-          alpha = alpha ,
-          position = pos ,
-          stat = stat
-        )
-      }
-    }
-    if (is.null(y_label)) {
+
+  maximum_allowed <- as.numeric(maximum_allowed)
+
+  if (maximum_allowed != Inf) {
+    data[[yvariable]][data[[yvariable]] > maximum_allowed] <- maximum_allowed
+  }
+
+  yvariable_en = sym(yvariable)
+  color_variable_en = sym(color_variable)
+
+  p <- ggplot(data, aes(x = !!yvariable_en))
+
+  geom_histogram_options = list()
+  geom_histogram_options$binwidth = adjust
+  geom_histogram_options <-
+    geom_histogram_options[!sapply(geom_histogram_options, sp.is.null)]
+
+  if(length(geom_histogram_options)>1){
+    geom_histogram_options_used = T
+  } else {
+    geom_histogram_options_used = F
+  }
+
+  if (sp.is.null(y_label)) {
+    if (yaxis_statistics == "count") {
       y_label = "Count"
-    }
-  }
-  
-  if (type_hist  == "density") {
-    if (type_p == "hist" ||  type_p == "both") {
-      fill_area = TRUE
-      if (!is.null(adjust)) {
-        p <- p + geom_histogram(
-          aes(
-            y = after_stat(density) ,
-            fill = !!legend_variable_en
-          ),
-          binwidth = adjust ,
-          alpha = alpha,
-          position = pos ,
-          stat = stat
-        )
-      } else {
-        p <- p + geom_histogram(
-          aes(
-            y = after_stat(density) ,
-            fill = !!legend_variable_en
-          ),
-          alpha = alpha ,
-          position = pos ,
-          stat = stat
-        )
-      }
-    }
-    if (is.null(y_label)) {
+    } else if (yaxis_statistics == "count/sum(count)") {
+      y_label = "Frequency"
+    } else if (yaxis_statistics  == "density") {
       y_label = "Density"
     }
   }
-  
-  
-  if (type_p == "density_line" ||
-      (type_p  == "line" &&
-       type_hist  == "density") ||
-      (type_p  == "both" &&  type_hist  == "density")) {
+
+  if (plot_type == "hist" ||  plot_type == "both") {
+    geom_histogram_1 <- function(...) {
+      geom_histogram(
+        aes(y = after_stat(eval(
+          parse(text = yaxis_statistics)
+        )) ,
+        fill = !!color_variable_en),
+        alpha = alpha ,
+        position = hist_bar_position ,
+        bins = 30,
+        stat = "bin",
+        ...
+      )
+    }
+
+    p <- p + do.call(geom_histogram_1, geom_histogram_options)
+  }
+
+
+  if (plot_type == "density_line" ||
+      (plot_type  == "line" &&
+       yaxis_statistics  == "density") ||
+      (plot_type  == "both" &&  yaxis_statistics  == "density")) {
+    geom_density_color_fill_option = list()
     if (fill_area) {
-      if (!is.null(adjust)) {
-        p <- p + geom_density(
-          size = line_size,
-          alpha = alpha,
-          stat = stat,
-          aes(
-            fill = !!legend_variable_en,
-            color = !!legend_variable_en
-          ),
-          adjust = adjust
-        )
-      }
-      p <-
-        p + geom_density(
-          size = line_size ,
-          alpha = alpha ,
-          stat = stat,
-          aes(
-            fill = !!legend_variable_en ,
-            color = !!legend_variable_en
-          )
-        )
+      geom_density_color_fill_option$fill = !!color_variable_en
     } else {
-      if (!is.null(adjust)) {
-        p <- p + stat_density(
-          adjust = adjust ,
-          size = line_size ,
-          stat = stat,
-          aes(
-            color = !!legend_variable_en ,
-            group = !!legend_variable_en ,
-            y = after_stat(density)
-          ),
-          geom = "line",
-          position = "identity"
-        )
-      } else {
-        p <- p + stat_density(
-          size = line_size,
-          stat = stat,
-          aes(
-            color = !!legend_variable_en,
-            group = !!legend_variable_en,
-            y = after_stat(density)
-          ),
-          geom = "line",
-          position = "identity"
-        )
-      }
+      geom_density_color_fill_option$color = !!color_variable_en
     }
-    
-    if (is.null(y_label)) {
+
+    geom_density_1 <- function(...){
+      geom_density(
+        mapping = do.call(aes, geom_density_color_fill_option),
+        size = line_size,
+        alpha = alpha,
+        stat = 'density',
+        ...
+      )
+    }
+
+    p <- p + do.call(geom_density_1, geom_histogram_options)
+
+    if (sp.is.null(y_label)) {
       y_label = "Density"
     }
   }
-  
-  if ((type_p == "line" &&
-       type_hist  != "density") ||
-      (type_p == "both" &&  type_hist  != "density")) {
-    if (type_hist == "count") {
-      if (fill_area) {
-        if (!is.null(adjust)) {
-          p <- p + geom_area(
-            size = line_size,
-            alpha = alpha,
-            aes(
-              color = !!legend_variable_en,
-              fill = !!legend_variable_en,
-              y = after_stat(count)
-            ),
-            stat = "bin",
-            binwidth = adjust
+
+  if ((plot_type == "line" &&
+       yaxis_statistics  != "density") ||
+      (plot_type == "both" &&  yaxis_statistics  != "density")) {
+
+    geom_density_color_fill_option = list()
+    geom_density_color_fill_option$stat = "bin"
+    geom_density_color_fill_option$size = line_size
+    geom_density_color_fill_option$alpha = alpha
+
+    if (fill_area) {
+      geom_area_poly_1 <- function(...) {
+        geom_area(
+          mapping = aes(y = after_stat(eval(parse(text = yaxis_statistics))),
+                        fill = .data[[color_variable]],
+                        color = .data[[color_variable]]
+          ),
+                            ...
           )
-        } else{
-          p <- p + geom_area(
-            size = line_size,
-            alpha = alpha,
-            aes(
-              color = !!legend_variable_en,
-              fill = !!legend_variable_en,
-              y = after_stat(count)
-            ),
-            stat = "bin"
-          )
-        }
-      } else {
-        if (!is.null(adjust)) {
-          p <- p + geom_freqpoly(
-            size = line_size,
-            alpha = alpha,
-            aes(
-              color = !!legend_variable_en,
-              y = after_stat(count)
-            ),
-            binwidth = adjust
-          )
-        } else {
-          p + geom_freqpoly(
-            size = line_size,
-            alpha = alpha,
-            aes(
-              color = !!legend_variable_en,
-              y = after_stat(count)
-            )
-          )
-          
-        }
       }
     } else {
-      if (fill_area) {
-        if (!is.null(adjust)) {
-          p <- p + geom_area(
-            size = line_size,
-            alpha = alpha,
-            aes(
-              color = !!legend_variable_en,
-              fill = !!legend_variable_en,
-              y =  after_stat(count / sum(count))
-            ),
-            stat = "bin",
-            binwidth = adjust
-          )
-        } else{
-          p <- p + geom_area(
-            size = line_size,
-            alpha = alpha,
-            aes(
-              color = !!legend_variable_en,
-              fill = !!legend_variable_en,
-              y =  after_stat(count / sum(count))
-            ),
-            stat = "bin"
-          )
-        }
-      } else {
-        if (!is.null(adjust)) {
-          p <- p + geom_freqpoly(
-            size = line_size,
-            alpha = alpha,
-            aes(
-              color = !!legend_variable_en,
-              y =  after_stat(count / sum(count))
-            ),
-            binwidth = adjust
-          )
-        } else {
-          p <- p + geom_freqpoly(
-            size = line_size,
-            alpha = alpha,
-            aes(
-              color = !!legend_variable_en,
-              y =  after_stat(count / sum(count))
-            )
-          )
-          
-        }
+      geom_area_poly_1 <- function(...) {
+        geom_area(
+          mapping = aes(y = after_stat(eval(parse(text = yaxis_statistics))),
+                        color = .data[[color_variable]]
+          ),
+          ...
+        )
       }
     }
+
+
+    # geom_density_color_fill_option = list()
+    # geom_density_color_fill_option$color = .data[[color_variable]]
+    #
+    # if (fill_area) {
+    #   geom_density_color_fill_option$fill = .data[[color_variable]]
+    # }
+    #
+    # geom_area_poly_1 <- function(...) {
+    #   geom_area(
+    #     mapping = do.call(aes, c(y=after_stat(eval(parse(text = yaxis_statistics))),
+    #                              geom_density_color_fill_option),
+    #     stat = "bin",
+    #     size = line_size,
+    #     alpha = alpha,
+    #     ...
+    #   )
+    # }
+    p <- p + do.call(geom_area_poly_1, c(geom_density_color_fill_option,geom_histogram_options))
   }
-  
-  if (vline) {
-    cdf <-
-      ddply(data,
-            .(legend_variable),
-            summarise,
-            rating.mean = mean(yAxis_variable))
+
+
+  if (add_mean_value_vline) {
+    cdf <- data %>% group_by(!!color_variable_en) %>%
+      summarise(rating.mean = mean(!!yvariable_en))
+
     p <- p + geom_vline(
       data = cdf,
       aes(
         xintercept = rating.mean,
-        colour = !!legend_variable_en
+        colour = !!color_variable_en
       ),
       linetype = "dashed",
       size = 0.5,
       show.legend = F
-    )
-    p <- p + geom_text(
+    ) + geom_text(
       data = cdf,
       aes(
         x = rating.mean * 1.01,
         y = 0,
         label = prettyNum(rating.mean, digits =
                             2),
-        color = !!legend_variable_en
+        color = !!color_variable_en
       ),
       show.legend = F,
       hjust = 1,
       angle = 90
     )
   }
-  
-  
-  if (!is.null(color_v)) {
-    if (fill_area) {
-      p <- p + scale_fill_manual(values = color_v)
-    } else {
-      p <- p + scale_color_manual(values = color_v)
-    }
-  }
-  
-  if (j_facet  != "haha") {
-    p <- p + facet_grid(facet ~ j_facet , scales = facet_scale)
-  } else {
-    if (facet  != "haha") {
-      p <- p + facet_wrap(~ .data[[facet]] , ncol = facet_ncol ,
-                          scales = facet_scale)
-    }
-  }
-  
-  if (is.vector(custom_vline_coord)) {
-    p <- p + geom_vline(
-      xintercept = custom_vline_coord,
-      linetype = "dotted",
-      show.legend = F,
-      size = 0.5
-    )
-    if (is.vector(custom_vline_anno)) {
-      p <- p + annotate(
-        "text",
-        x = custom_vline_coord,
-        y = 0,
-        label = custom_vline_anno,
-        hjust = 0
-      )
-    }
-  }
-  
-  
-  if (!xtics) {
+
+  p <-
+    sp_manual_color_ggplot2(p, data, color_variable, manual_color_vector)
+
+  if(fill_area){
     p <-
-      p + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
-  } else{
+      sp_manual_fill_ggplot2(p, data, color_variable, manual_color_vector)
+  }
+
+  if (!sp.is.null(facet_variable)) {
+    p <-
+      sp_ggplot_facet(p, facet_variable, facet_ncol, facet_nrow, facet_scales)
+  }
+
+  p <- p + sp_ggplot_add_vline_hline(p,
+                                     custome_vline_x_position = custome_vline_x_position,
+                                        custom_vline_anno = custom_vline_anno)
+
+
+  additional_theme = list()
+  if (!xtics) {
+    additional_theme$axis.text.x = element_blank()
+    additional_theme$axis.ticks.x = element_blank()
+  }
+
+  if (!ytics) {
+    additional_theme$axis.text.y = element_blank()
+  }
+
+  if (!sp.is.null(manual_xtics_pos)) {
+    if (sp.is.null(manual_xtics_value)) {
+      manual_xtics_value <- manual_xtics_pos
+    }
+    p <-
+      p + scale_x_continuous(breaks = manual_xtics_pos, labels = manual_xtics_value)
+  }
+
     p <- sp_ggplot_layout(
       p,
-      xtics_angle = 0,
+      xtics_angle = xtics_angle,
       legend.position = legend.position,
-      extra_ggplot2_cmd = NULL,
-      file_name = NULL,
+      extra_ggplot2_cmd = extra_ggplot2_cmd,
+      file_name = file_name,
       title = title,
       x_label = x_label,
-      y_label = y_label
+      y_label = y_label,
+      additional_theme = additional_theme,
+      fontname = fontname,
+      base_font_size = base_font_size,
+      ...
     )
-  }
-  if (!ytics) {
-    p <- p + theme(axis.text.y = element_blank())
-  }
-  
-  if (length(xtics_v) > 1) {
-    if (length(xtics_value) <= 1) {
-      xtics_value <- xtics_v
-    }
-    p <-
-      p + scale_x_continuous(breaks = xtics_v, labels = xtics_value)
-  }
-  
   p
 }

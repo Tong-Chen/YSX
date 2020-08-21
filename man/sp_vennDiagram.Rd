@@ -32,6 +32,12 @@ sp_vennDiagram(
 
 \item{supplyNumbers}{If you have the size of each set and the number overlaps between or among each set,  please give TRUE here.}
 
+\item{header}{a logical value indicating whether the file contains the
+    names of the variables as its first line.  If missing, the value is
+    determined from the file format: \code{header} is set to \code{TRUE}
+    if and only if the first row contains one fewer field than the
+    number of columns.}
+
 \item{title}{Title for the picture.}
 
 \item{label1}{The name for label1. One string in your second column. If not supplied, the program will try to do venn plot for all sets or first 5 sets.}
@@ -59,7 +65,7 @@ acd_overlap, bcd_overlap, abcd_overlap).}
 \item{labelVector}{List of label for venn plot(used when \code{supplyNumbers} is true).
 Format: c('a', 'b')" for two-set and c('a', 'b', 'c') for three-set.}
 
-\item{manual_color_vector}{Color for each area. Ususally the number of colors should
+\item{manual_color_vector}{Color for each area. Ussally the number of colors should
 be equal to the number of labels (however the program will make them equal).
 If you manually set colors for 4-way
 venn diagram, the first color will be given to the
@@ -74,7 +80,7 @@ a RColorBrewer color set like  "BrBG"     "PiYG"     "PRGn"     "PuOr"
 "GnBu"     "Greens"   "Greys"    "Oranges" "OrRd"     "PuBu"
 "PuBuGn"   "PuRd"     "Purples"  "RdPu"     "Reds"
 "YlGn"    "YlGnBu"   "YlOrBr"   "YlOrRd"
-(check \url{http://www.sthda.com/english/wiki/colors-in-r} for more).}
+(check http://www.sthda.com/english/wiki/colors-in-r for more).}
 
 \item{alpha}{Color transparency (0-1). 0: opaque; 1: transparent.}
 

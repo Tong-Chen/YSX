@@ -29,7 +29,7 @@ a RColorBrewer color set like  "BrBG"     "PiYG"     "PRGn"     "PuOr"
 "GnBu"     "Greens"   "Greys"    "Oranges" "OrRd"     "PuBu"
 "PuBuGn"   "PuRd"     "Purples"  "RdPu"     "Reds"
 "YlGn"    "YlGnBu"   "YlOrBr"   "YlOrRd"
-(check \url{http://www.sthda.com/english/wiki/colors-in-r} for more).}
+(check http://www.sthda.com/english/wiki/colors-in-r for more).}
 
 \item{alpha}{Transparency}
 }

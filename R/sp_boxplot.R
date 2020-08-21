@@ -525,6 +525,7 @@ sp_boxplot <- function(data,
     p <- p + coord_cartesian(ylim = ylim_zoomin)
   }
 
+  additional_theme = list()
 
   if (!sp.is.null(facet_variable)) {
     if (facet_singlecell_style) {
@@ -536,10 +537,11 @@ sp_boxplot <- function(data,
           scales = facet_scales,
           strip.position = "left",
           labeller = as_labeller(unique(data[facet_variable]))
-        ) +
-        theme(strip.background = element_blank(),
-              strip.placement = "outside")
-      # Customize theme so that is black & white style as requested)
+        )
+
+      additional_theme$strip.background = element_blank()
+      additional_theme$strip.placement = "outside"
+      additional_theme$panel.background = element_rect(fill = NA, colour = 'black')
       y_label = ''
     } else {
       p <-
@@ -556,6 +558,7 @@ sp_boxplot <- function(data,
     y_label = y_label,
     title = title,
     coordinate_flip = coordinate_flip,
+    additional_theme = additional_theme,
     ...
   )
   p

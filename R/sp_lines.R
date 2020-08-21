@@ -35,10 +35,10 @@
 #' @param xtics Default TRUE to display xtics. Accept FALSE to turn off xtics.
 #' @param xtics_angle Rotation angle for x-tics (anti clockwise), Default 0.
 #' @param ytics Default TRUE to display ytics. Accept FALSE to turn off ytics.
-#' @param manual_xtics_pos Manually set the position of xtics. Default FALSE,
+#' @param manual_xtics_pos Manually set the positions of xtics. Default FALSE,
 #' accept a vector of numbers in following format "c(1,2,3,4,5)" or other R code
 #' that can generate a vector to set the position of xtics.
-#' @param manual_xtics_value Manually set the value of xtics when `xtics_pos` is specified.
+#' @param manual_xtics_value Manually set the values of xtics when `xtics_pos` is specified.
 #' Default the content of `xtics_pos` when `xtics_pos` is specified,
 #' accept a vector of numbers in following format "c(1,2,3,4,5)" or other R code
 #' that can generate a vector to set the values of xtics.
@@ -48,7 +48,7 @@
 #' @param facet_wrap_nrow Number of facet rows. Default NULL meaning no facets. Currently unused.
 #' @inheritParams sp_ggplot_add_vline_hline
 #' @inheritParams sp_ggplot_layout
-#' @param ... Parametes given to `sp_ggplot_layout`
+#' @param ... Parametres given to `sp_ggplot_layout`
 #'
 #' @return A ggplot2 object
 #' @export
@@ -94,9 +94,9 @@ sp_lines <- function(data,
                      manual_xtics_value = NULL,
                      width = 10,
                      height = 10,
-                     xintercept = NULL,
+                     custome_vline_x_position = NULL,
                      custom_vline_anno = NULL,
-                     yintercept = NULL,
+                     custome_hline_y_position = NULL,
                      custom_hline_anno = NULL,
                      facet_wrap_formula = NULL,
                      facet_wrap_nrow = NULL,
@@ -352,8 +352,8 @@ sp_lines <- function(data,
 
   p <- sp_ggplot_add_vline_hline(
     p,
-    xintercept = xintercept,
-    yintercept = yintercept,
+    custome_vline_x_position = custome_vline_x_position,
+    custome_hline_y_position = custome_hline_y_position,
     custom_vline_anno = custom_vline_anno,
     custom_hline_anno = custom_hline_anno
   )

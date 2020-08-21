@@ -375,6 +375,50 @@ sp_barplot(data = box_demo2_data, melted = F, bar_mode="fill", add_text=T)
 
 ```{r}
 
+random_v <- c(rnorm(10, mean=1, sd=0.1), rnorm(10, mean=5), rnorm(20, mean=10),
+               rnorm(20, mean=20), rnorm(20, mean=2, sd=0.2),
+               rnorm(10, mean=20), rnorm(10, mean=1, sd=0.01), rnorm(20, mean=2),
+               rnorm(20, mean=2), rnorm(20, mean=3))
+data <- data.frame(Gene=c(paste0('SOX', rep(2,80)), paste0('SOX', rep(3,80))),
+                    Expr=random_v, Cluster=rep(c(rep("C1",10), rep("C2",10),rep("C3",20),rep("C4",20), rep("C5",20)),2))
+
+data[data["Expr"]<0,"Expr"] = 0
+
+sp_writeTable(data, file="boxplot_singlecell.txt", keep_rownames = F)
+```
+
+
+```{r}
+library(dplyr)
+library(YSX)
+library(ggplot2)
+library(RColorBrewer)
+library(ggbeeswarm)
+
+box_demo3_data <- "boxplot_singlecell.txt"
+sp_barplot(data = box_demo3_data, melted = T, 
+           xvariable="Gene", yvariable="Expr", 
+           color_variable = "Cluster",
+           #bar_mode = "stack",
+           add_point = T,
+           group_variable = c("Gene","Cluster"),
+           add_text = F)
+```
+
+```{r}
+library(dplyr)
+library(YSX)
+library(ggplot2)
+library(RColorBrewer)
+library(ggbeeswarm)
+
+box_demo4_data <- "barplot_demo4.txt"
+sp_barplot(data = box_demo4_data, melted = T, 
+           xvariable="Gene", yvariable="Mean_value", 
+           color_variable = "Cluster",
+           bar_mode = "stack",
+           error_bar_variable = "Standard_deviation",
+           add_text = F)
 ```
 
 ## Box plot
@@ -444,6 +488,14 @@ sp_boxplot(data = exprTableWithReps, melted=F, metadata = metadata,
            legend_variable = "Class")
 ```
 
+单细胞Marker基因小提琴图展示
+
+```{r}
+data = "boxplot_singlecell.txt"
+sp_boxplot(data, melted = T, xvariable = "Cluster", yvariable = "Expr", facet_variable="Gene",
+           facet_ncol=1, facet_scales="free_y", facet_singlecell_style = T, violin = T)
+```
+
 ## Enrichment plot
 
 ```{r}
@@ -483,16 +535,65 @@ p <- sp_enrichment(data = enrichment.data, xvariable = "log_odds_ratio",
 ## Histogram plot
 
 ```{r}
+library(YSX)
 library(ggplot2)
 library(reshape2)
 library(grid)
-library(plyr)
+library(dplyr)
 
 histogram_test_data <- data.frame(Type = letters[1:2], Value = runif(80))
-sp_histogram(data = histogram_test_data, yAxis_variable = "Value", legend_variable = "Type", type_p = "both", type_hist = "count/sum(count)")
+sp_histogram(data = histogram_test_data, yvariable = "Value", melted=T,
+             color_variable = "Type", plot_type = "both", yaxis_statistics  = "count/sum(count)")
 
+data = histogram_test_data
+                 melted = FALSE
+                         yvariable=NULL
+                         color_variable=NULL
+                         color_variable_order = NULL
+                         value_scale = 1
+                         facet_variable = NULL
+                         facet_variable_order = NULL
+                         maximum_allowed = "Inf"
+                         yaxis_statistics = 'count/sum(count)'
+                         plot_type = 'line'
+                         adjust = NULL
+                         hist_bar_position = "identity"
+                         alpha = 0.4
+                         yaxis_scale_mode = NULL
+                         y_add = 0
+                         fill_area = FALSE
+                         line_size = 1
+                         add_mean_value_vline = FALSE
+                         manual_color_vector = c()
+                         facet_scale = 'fixed'
+                         facet_ncol = 1
+                         facet_nrow = 1
+                         xtics = TRUE
+                         ytics = TRUE
+                         legend.position = "right"
+                         xtics_angle = 90
+                         manual_xtics_value = 0
+                         manual_xtics_pos = 0
+                         custom_vline_coord = NULL
+                         custom_vline_anno = NULL
+                         x_label = NULL
+                         y_label = NULL
+                         title = ''
+                         font_path = NULL
+                         debug = F
+                         extra_ggplot2_cmd = NULL
+                         file_name = NULL
+                         yvariable = "Value"
+                         melted=T
+             color_variable = "Type"
+             plot_type = "both"
+             yaxis_statistics  = "count/sum(count)"
+```
+
+```{r}
 histogram_data <- "histogram.data"
-sp_histogram(data = histogram_data, yAxis_variable = "Value", legend_variable = "Type", type_p = "both", type_hist = "count/sum(count)")
+sp_histogram(data = histogram_data, yvariable = "Value", legend_variable = "Type", 
+             plot_type = "both", yaxis_statistics = "count/sum(count)")
 
 ```
 

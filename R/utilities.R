@@ -440,7 +440,7 @@ mixedToFloat <- function(x) {
 #' "GnBu"     "Greens"   "Greys"    "Oranges" "OrRd"     "PuBu"
 #' "PuBuGn"   "PuRd"     "Purples"  "RdPu"     "Reds"
 #' "YlGn"    "YlGnBu"   "YlOrBr"   "YlOrRd"
-#' (check <http://www.sthda.com/english/wiki/colors-in-r> for more).
+#' (check http://www.sthda.com/english/wiki/colors-in-r for more).
 #'
 #' @param number Number of colors to return.
 #'
@@ -592,7 +592,7 @@ sp_set_factor_order <-
 #' "GnBu"     "Greens"   "Greys"    "Oranges" "OrRd"     "PuBu"
 #' "PuBuGn"   "PuRd"     "Purples"  "RdPu"     "Reds"
 #' "YlGn"    "YlGnBu"   "YlOrBr"   "YlOrRd"
-#' (check <http://www.sthda.com/english/wiki/colors-in-r> for more).
+#' (check http://www.sthda.com/english/wiki/colors-in-r for more).
 #' @param alpha Color transparency (0-1). 0: opaque; 1: transparent.
 #'
 #' @return A ggplot2 object
@@ -631,17 +631,7 @@ sp_manual_color_ggplot2 <-
 #' @param p A ggplot2 object
 #' @param data Data matrix used for the ggplot2 object `p`
 #' @param color_variable Name of columns for color assignment
-#' @param manual_color_vector Manually set colors for each geom.
-#' Default NULL, meaning using ggplot2 default.
-#' Colors like c('red', 'blue', '#6181BD') (number of colors not matter) or
-#' a RColorBrewer color set like  "BrBG"     "PiYG"     "PRGn"     "PuOr"
-#' "RdBu"     "RdGy"     "RdYlBu"   "RdYlGn"  "Spectral" "Accent"
-#' "Dark2"    "Paired"   "Pastel1"  "Pastel2"  "Set1"
-#' "Set2"    "Set3"     "Blues"    "BuGn"     "BuPu"
-#' "GnBu"     "Greens"   "Greys"    "Oranges" "OrRd"     "PuBu"
-#' "PuBuGn"   "PuRd"     "Purples"  "RdPu"     "Reds"
-#' "YlGn"    "YlGnBu"   "YlOrBr"   "YlOrRd"
-#' (check <http://www.sthda.com/english/wiki/colors-in-r> for more).
+#' @inheritParams sp_manual_color_ggplot2
 #' @param alpha Transparency
 #'
 #' @return A ggplot2 object
@@ -677,10 +667,10 @@ sp_manual_fill_ggplot2 <-
 
 #' Add hline or vline for ggplot2 object
 #'
-#' @param p A ggplot2 pbject
-#' @param xintercept A vector of coordinates for vertical lines.
+#' @param p A ggplot2 object
+#' @param custome_vline_x_position A vector of coordinates for vertical lines.
 #' @param custom_vline_anno Annotation text for each vertical line.
-#' @param yintercept A vector of coordinates for horizontal lines.
+#' @param custome_hline_y_position A vector of coordinates for horizontal lines.
 #' @param custom_hline_anno Annotation text for each horizontal line.
 #' @inheritParams ggplot2::geom_vline
 #' @param ... Extra parameters given to `geom_vline` and `geom_hline`
@@ -697,19 +687,21 @@ sp_manual_fill_ggplot2 <-
 #'
 #'
 sp_ggplot_add_vline_hline <- function(p,
-                                      xintercept = NULL,
+                                      custome_vline_x_position = NULL,
                                       custom_vline_anno = NULL,
                                       custom_vline_anno_y_pos = NULL,
-                                      yintercept = NULL,
+                                      custome_hline_y_position = NULL,
                                       custom_hline_anno = NULL,
                                       custom_hline_anno_x_pos = NULL,
                                       linetype = "dotted",
                                       size = 0.5,
                                       ...) {
-  gb = ggplot_build(p)
+  if (!sp.is.null(custome_vline_x_position) || !sp.is.null(custome_hline_y_position)){
+    gb = ggplot_build(p)
+  }
 
-  if (!is.null(xintercept)) {
-    p <- p + geom_vline(xintercept = xintercept,
+  if (!sp.is.null(custome_vline_x_position)) {
+    p <- p + geom_vline(xintercept = custome_vline_x_position,
                         linetype = linetype,
                         size = size,
                         ...)
@@ -720,7 +712,7 @@ sp_ggplot_add_vline_hline <- function(p,
       p <-
         p + annotate(
           "text",
-          x = xintercept,
+          x = custome_vline_x_position,
           y = custom_vline_anno_y_pos,
           label = custom_vline_anno,
           hjust = 0
@@ -729,8 +721,8 @@ sp_ggplot_add_vline_hline <- function(p,
   }
 
 
-  if (!is.null(yintercept)) {
-    p <- p + geom_hline(yintercept = yintercept,
+  if (!sp.is.null(custome_hline_y_position)) {
+    p <- p + geom_hline(yintercept = custome_hline_y_position,
                         linetype = linetype,
                         size = size,
                         ...)
@@ -742,7 +734,7 @@ sp_ggplot_add_vline_hline <- function(p,
       p <-
         p + annotate(
           "text",
-          y = yintercept,
+          y = custome_hline_y_position,
           x = custom_hline_anno_x_pos,
           label = custom_hline_anno,
           vjust = 0,

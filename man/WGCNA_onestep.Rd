@@ -59,7 +59,7 @@ Gene3  2.5 2.0 ... 8
 
 \item{traitData}{Sample attribte data with first column as sample names and other
 columns as sample attributes. Specifically for categorical attributes, each
-attribute one column, <0> represents not belong to while <1> represents blong to. Or
+attribute one column, \code{0} represents not belong to while \code{1} represents belonging to. Or
 one can give categorical attributes separately to "categoricalTrait".\preformatted{ID      WT      KO      OE Height Weight Diameter
 samp1   1       0       0       1       2       3
 samp2   1       0       0       2       4       6
@@ -178,7 +178,14 @@ since it was the (only) method available prior to WGCNA version 1.60.}
 \item{verbose}{ integer level of verbosity. Zero means silent, higher values make the output
 progressively more and more verbose. }
 
-\item{os_system}{Default the program will detect system type to choose which multiple thread function will be used. \code{enableWGCNAThreads} is recommended, but only work in some linux os. \code{\link[WGCNA]{allowWGCNAThreads}} is not recommended if enableWGCNAThreads works. However for max and windows os, this is the only one can be used. Even for some linux system, using \code{\link[WGCNA]{enableWGCNAThreads}} will make programs stuck in \code{\link[WGCNA]{pickSoftThreshold}} step. So if stucked, supply any string other than \code{linux} to enable the uages of \code{\link[WGCNA]{allowWGCNAThreads}}.}
+\item{os_system}{Default the program will detect system type to choose which multiple thread function will be used.
+\code{enableWGCNAThreads} is recommended, but only work in some linux os.
+\code{\link[WGCNA]{allowWGCNAThreads}} is not recommended if \code{enableWGCNAThreads} works.
+However for max and windows os, this is the only one can be used.
+Even for some linux system, using \code{enableWGCNAThreads} will make programs
+stuck in \code{\link[WGCNA]{pickSoftThreshold}} step.
+So if stucked, supply any string other than \code{linux} to enable the usages
+of \code{\link[WGCNA]{allowWGCNAThreads}}.}
 
 \item{randomSeed}{integer to be used as seed for the random number generator before the function
 starts. If a current seed exists, it is saved and restored upon exit. If \code{NULL} is given, the 

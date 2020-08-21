@@ -121,7 +121,8 @@ flower_plot <- function(input, sep="\t", row.names=NULL, header=T,
 #' @param r Set the size of the center circle.
 #'
 #' @param group_color Set the color of the petal ellipse (each group), with input format，like：c('#6181BD4E','#F348004E','#64A10E4E'...) or
-#' supply a RColorBrewer color set like "Set1", "Set2", "Set3", "YlOrRd" (check <http://www.sthda.com/english/wiki/colors-in-r> for more).
+#' supply a RColorBrewer color set like "Set1", "Set2", "Set3", "YlOrRd"
+#' (check http://www.sthda.com/english/wiki/colors-in-r for more).
 #'
 #'
 #' @param common_color The color of the center circle. Default "white".

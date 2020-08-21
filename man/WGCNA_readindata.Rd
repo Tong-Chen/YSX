@@ -35,7 +35,7 @@ Gene3  2.5 2.0 ... 8
 
 \item{traitData}{Sample attribte data with first column as sample names and other
 columns as sample attributes. Specifically for categorical attributes, each
-attribute one column, <0> represents not belong to while <1> represents blong to. Or
+attribute one column, \code{0} represents not belong to while \code{1} represents belonging to. Or
 one can give categorical attributes separately to "categoricalTrait".\preformatted{ID      WT      KO      OE Height Weight Diameter
 samp1   1       0       0       1       2       3
 samp2   1       0       0       2       4       6
