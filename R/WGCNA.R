@@ -653,7 +653,7 @@ WGCNA_softpower <-
 
     p1 <- sp_ggplot_add_vline_hline(
       p1,
-      custome_hline_y_position = RsquaredCut,
+      custom_hline_y_position = RsquaredCut,
       custom_hline_anno = paste0("R squared Cut ", RsquaredCut),
       color = "red"
     ) + theme_classic()
@@ -669,7 +669,7 @@ WGCNA_softpower <-
     p2 <-
       sp_ggplot_add_vline_hline(
         p2,
-        custome_hline_y_position = power_data$mean.k.[power_choose],
+        custom_hline_y_position = power_data$mean.k.[power_choose],
         custom_hline_anno = round(power_data$mean.k.[power_choose]),
         custom_hline_anno_x_pos = power,
         color = "red"

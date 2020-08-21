@@ -32,9 +32,9 @@ sp_lines(
   manual_xtics_value = NULL,
   width = 10,
   height = 10,
-  custome_vline_x_position = NULL,
+  custom_vline_x_position = NULL,
   custom_vline_anno = NULL,
-  custome_hline_y_position = NULL,
+  custom_hline_y_position = NULL,
   custom_hline_anno = NULL,
   facet_wrap_formula = NULL,
   facet_wrap_nrow = NULL,
@@ -127,11 +127,11 @@ that can generate a vector to set the values of xtics.}
 
 \item{height}{Picture height (units: cm)}
 
-\item{custome_vline_x_position}{A vector of coordinates for vertical lines.}
+\item{custom_vline_x_position}{A vector of coordinates for vertical lines.}
 
 \item{custom_vline_anno}{Annotation text for each vertical line.}
 
-\item{custome_hline_y_position}{A vector of coordinates for horizontal lines.}
+\item{custom_hline_y_position}{A vector of coordinates for horizontal lines.}
 
 \item{custom_hline_anno}{Annotation text for each horizontal line.}
 

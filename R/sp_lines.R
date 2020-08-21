@@ -94,9 +94,9 @@ sp_lines <- function(data,
                      manual_xtics_value = NULL,
                      width = 10,
                      height = 10,
-                     custome_vline_x_position = NULL,
+                     custom_vline_x_position = NULL,
                      custom_vline_anno = NULL,
-                     custome_hline_y_position = NULL,
+                     custom_hline_y_position = NULL,
                      custom_hline_anno = NULL,
                      facet_wrap_formula = NULL,
                      facet_wrap_nrow = NULL,
@@ -352,8 +352,8 @@ sp_lines <- function(data,
 
   p <- sp_ggplot_add_vline_hline(
     p,
-    custome_vline_x_position = custome_vline_x_position,
-    custome_hline_y_position = custome_hline_y_position,
+    custom_vline_x_position = custom_vline_x_position,
+    custom_hline_y_position = custom_hline_y_position,
     custom_vline_anno = custom_vline_anno,
     custom_hline_anno = custom_hline_anno
   )

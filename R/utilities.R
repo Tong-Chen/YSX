@@ -668,9 +668,9 @@ sp_manual_fill_ggplot2 <-
 #' Add hline or vline for ggplot2 object
 #'
 #' @param p A ggplot2 object
-#' @param custome_vline_x_position A vector of coordinates for vertical lines.
+#' @param custom_vline_x_position A vector of coordinates for vertical lines.
 #' @param custom_vline_anno Annotation text for each vertical line.
-#' @param custome_hline_y_position A vector of coordinates for horizontal lines.
+#' @param custom_hline_y_position A vector of coordinates for horizontal lines.
 #' @param custom_hline_anno Annotation text for each horizontal line.
 #' @inheritParams ggplot2::geom_vline
 #' @param ... Extra parameters given to `geom_vline` and `geom_hline`
@@ -687,21 +687,21 @@ sp_manual_fill_ggplot2 <-
 #'
 #'
 sp_ggplot_add_vline_hline <- function(p,
-                                      custome_vline_x_position = NULL,
+                                      custom_vline_x_position = NULL,
                                       custom_vline_anno = NULL,
                                       custom_vline_anno_y_pos = NULL,
-                                      custome_hline_y_position = NULL,
+                                      custom_hline_y_position = NULL,
                                       custom_hline_anno = NULL,
                                       custom_hline_anno_x_pos = NULL,
                                       linetype = "dotted",
                                       size = 0.5,
                                       ...) {
-  if (!sp.is.null(custome_vline_x_position) || !sp.is.null(custome_hline_y_position)){
+  if (!sp.is.null(custom_vline_x_position) || !sp.is.null(custom_hline_y_position)){
     gb = ggplot_build(p)
   }
 
-  if (!sp.is.null(custome_vline_x_position)) {
-    p <- p + geom_vline(xintercept = custome_vline_x_position,
+  if (!sp.is.null(custom_vline_x_position)) {
+    p <- p + geom_vline(xintercept = custom_vline_x_position,
                         linetype = linetype,
                         size = size,
                         ...)
@@ -712,7 +712,7 @@ sp_ggplot_add_vline_hline <- function(p,
       p <-
         p + annotate(
           "text",
-          x = custome_vline_x_position,
+          x = custom_vline_x_position,
           y = custom_vline_anno_y_pos,
           label = custom_vline_anno,
           hjust = 0
@@ -721,8 +721,8 @@ sp_ggplot_add_vline_hline <- function(p,
   }
 
 
-  if (!sp.is.null(custome_hline_y_position)) {
-    p <- p + geom_hline(yintercept = custome_hline_y_position,
+  if (!sp.is.null(custom_hline_y_position)) {
+    p <- p + geom_hline(yintercept = custom_hline_y_position,
                         linetype = linetype,
                         size = size,
                         ...)
@@ -734,7 +734,7 @@ sp_ggplot_add_vline_hline <- function(p,
       p <-
         p + annotate(
           "text",
-          y = custome_hline_y_position,
+          y = custom_hline_y_position,
           x = custom_hline_anno_x_pos,
           label = custom_hline_anno,
           vjust = 0,

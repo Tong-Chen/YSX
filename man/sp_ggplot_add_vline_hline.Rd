@@ -6,10 +6,10 @@
 \usage{
 sp_ggplot_add_vline_hline(
   p,
-  custome_vline_x_position = NULL,
+  custom_vline_x_position = NULL,
   custom_vline_anno = NULL,
   custom_vline_anno_y_pos = NULL,
-  custome_hline_y_position = NULL,
+  custom_hline_y_position = NULL,
   custom_hline_anno = NULL,
   custom_hline_anno_x_pos = NULL,
   linetype = "dotted",
@@ -20,11 +20,11 @@ sp_ggplot_add_vline_hline(
 \arguments{
 \item{p}{A ggplot2 object}
 
-\item{custome_vline_x_position}{A vector of coordinates for vertical lines.}
+\item{custom_vline_x_position}{A vector of coordinates for vertical lines.}
 
 \item{custom_vline_anno}{Annotation text for each vertical line.}
 
-\item{custome_hline_y_position}{A vector of coordinates for horizontal lines.}
+\item{custom_hline_y_position}{A vector of coordinates for horizontal lines.}
 
 \item{custom_hline_anno}{Annotation text for each horizontal line.}
 

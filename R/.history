@@ -6,3 +6,17 @@
 [/root/pipeline/YSX/R] 40902  [2020-07-21 11:41:34][root][114.242.250.135]less ../../bin/s-plotR/splot_volcano.r
 [/root/pipeline/YSX/R] 40903  [2020-07-21 11:41:47][root][114.242.250.135]less ../../bin/s-plotR/sp_volcano.r
 [/root/pipeline/YSX/R] 40904  [2020-07-21 11:41:59][root][114.242.250.135]vim sp_volcano.R 
+[/root/pipeline/YSX/R] 42710  [2020-08-21 09:06:42][root][124.64.17.242]cd ../YSX/R
+[/root/pipeline/YSX/R] 42711  [2020-08-21 09:06:44][root][124.64.17.242]ltr
+[/root/pipeline/YSX/R] 42712  [2020-08-21 09:06:46][root][124.64.17.242]less utilities.R 
+[/root/pipeline/YSX/R] 42713  [2020-08-21 09:07:18][root][124.64.17.242]vim sp_lines.R 
+[/root/pipeline/YSX/R] 42713  [2020-08-21 09:07:18][root][124.64.17.242]vim sp_lines.R 
+[/root/pipeline/YSX/R] 42714  [2020-08-21 09:09:27][root][124.64.17.242]sed 's/custome_vline_x_position/custom_vline_x_position/gc' *.R
+[/root/pipeline/YSX/R] 42715  [2020-08-21 09:09:50][root][124.64.17.242]sed -i 's/custome_vline_x_position/custom_vline_x_position/gc' *.R
+[/root/pipeline/YSX/R] 42716  [2020-08-21 09:10:02][root][124.64.17.242]sed -i 's/custome_vline_x_position/custom_vline_x_position/g' *.R
+[/root/pipeline/YSX/R] 42717  [2020-08-21 09:10:07][root][124.64.17.242]vim sp_lines.R 
+[/root/pipeline/YSX/R] 42718  [2020-08-21 09:10:32][root][124.64.17.242]sed -i 's/custome_hline_y_position/custom_hline_y_position/g' *.R
+[/root/pipeline/YSX/R] 42719  [2020-08-21 09:10:33][root][124.64.17.242]vim sp_lines.R 
+[/root/pipeline/YSX/R] 42720  [2020-08-21 09:10:40][root][124.64.17.242]vim utilities.R 
+[/root/pipeline/YSX/R] 42721  [2020-08-21 09:11:27][root][124.64.17.242]vim ../../bin/s-plotR/splot_line.sh 
+[/root/pipeline/YSX/R] 42722  [2020-08-21 09:12:13][root][124.64.17.242]../bin/bash/install_YSX.sh

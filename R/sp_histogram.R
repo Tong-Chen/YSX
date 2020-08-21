@@ -90,7 +90,7 @@ sp_histogram <- function(data ,
                          xtics_angle = 90,
                          manual_xtics_value = 0,
                          manual_xtics_pos = 0,
-                         custome_vline_x_position = NULL,
+                         custom_vline_x_position = NULL,
                          custom_vline_anno = NULL,
                          x_label = NULL,
                          y_label = NULL,
@@ -339,7 +339,7 @@ sp_histogram <- function(data ,
   }
 
   p <- p + sp_ggplot_add_vline_hline(p,
-                                     custome_vline_x_position = custome_vline_x_position,
+                                     custom_vline_x_position = custom_vline_x_position,
                                         custom_vline_anno = custom_vline_anno)
 
 

@@ -34,7 +34,7 @@ sp_histogram(
   xtics_angle = 90,
   manual_xtics_value = 0,
   manual_xtics_pos = 0,
-  custome_vline_x_position = NULL,
+  custom_vline_x_position = NULL,
   custom_vline_anno = NULL,
   x_label = NULL,
   y_label = NULL,
@@ -121,7 +121,7 @@ generate a vector to set the value of manual xtics.}
 numbers in following format "c(1,2,3,4,5)" or other R code that can generate a vector
 to set the position of manual xtics.}
 
-\item{custome_vline_x_position}{A vector of coordinates for vertical lines.}
+\item{custom_vline_x_position}{A vector of coordinates for vertical lines.}
 
 \item{custom_vline_anno}{Annotation text for each vertical line.}
 
