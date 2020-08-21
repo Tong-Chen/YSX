@@ -56,7 +56,6 @@
 #' @importFrom dplyr group_by
 #' @importFrom dplyr summarize
 #' @importFrom dplyr %>%
-#' @importFrom dplyr across
 #'
 #' @return A ggplot2 object
 #' @export
