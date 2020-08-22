@@ -89,7 +89,7 @@ sp_enrichment <- function(data,
     stop("Unknown input format for `data` parameter.")
   }
 
-  if (sp.sp.is.null(xvariable) || sp.sp.is.null(yvariable)) {
+  if (sp.is.null(xvariable) || sp.is.null(yvariable)) {
     stop('xvariable or yvariable must be specified!')
   }
 
@@ -112,7 +112,7 @@ sp_enrichment <- function(data,
 
   if (xval_type == "string") {
     # Do not know why add this as default, just comment out 20200705
-    # if (sp.sp.is.null(shape_variable)) {
+    # if (sp.is.null(shape_variable)) {
     #   shape_variable = xvariable
     # }
     data = sp_set_factor_order(data, xvariable, xvariable_order)
@@ -120,11 +120,11 @@ sp_enrichment <- function(data,
 
 
 
-  if (!sp.sp.is.null(shape_variable)) {
+  if (!sp.is.null(shape_variable)) {
     if (shape_variable != xvariable) {
       data = sp_set_factor_order(data, shape_variable, shape_variable_order)
-    } else if (sp.sp.is.null(xvariable_order)) {
-      if (!sp.sp.is.null(shape_variable_order)) {
+    } else if (sp.is.null(xvariable_order)) {
+      if (!sp.is.null(shape_variable_order)) {
         data = sp_set_factor_order(data, shape_variable, shape_variable_order)
       }
     }
@@ -136,18 +136,18 @@ sp_enrichment <- function(data,
   }
 
   # First order by Term, then order by shape_variable
-  if (!sp.sp.is.null(shape_variable) & xval_type != "numeric") {
+  if (!sp.is.null(shape_variable) & xval_type != "numeric") {
     data <- data[order(data[[yvariable]], data[[shape_variable]]),]
   }
 
-  if (!sp.sp.is.null(color_variable) &&
+  if (!sp.is.null(color_variable) &&
       numCheck(data[[color_variable]]) &&
       !is.numeric(data[[color_variable]])) {
     data[[color_variable]] = mixedToFloat(data[[color_variable]])
   }
 
   if (log10_transform_variable != "no_transform" &&
-      (sp.sp.is.null(color_variable) ||
+      (sp.is.null(color_variable) ||
        color_variable == log10_transform_variable)) {
     color_variable = paste0("negLog10_", log10_transform_variable)
   }
@@ -174,14 +174,14 @@ sp_enrichment <- function(data,
     colnames(data) <- col_name_data
   }
 
-  if (!sp.sp.is.null(size_variable) &&
+  if (!sp.is.null(size_variable) &&
       numCheck(data[[size_variable]]) &&
       !is.numeric(data[[size_variable]])) {
     data[[size_variable]] = mixedToFloat(data[[size_variable]])
   }
 
   if (sqrt_transform_variable != "no_transform" &&
-      (sp.sp.is.null(size_variable) ||
+      (sp.is.null(size_variable) ||
        size_variable == sqrt_transform_variable)) {
     size_variable = paste0("sqrt_", sqrt_transform_variable)
   }
@@ -207,7 +207,7 @@ sp_enrichment <- function(data,
     colnames(data) <- col_name_data
   }
 
-  if (sp.sp.is.null(yvariable_order)) {
+  if (sp.is.null(yvariable_order)) {
     # Get the count of each unique Term
     data_freq <- as.data.frame(table(data[[yvariable]]))
 
@@ -215,7 +215,7 @@ sp_enrichment <- function(data,
 
     data2 <- merge(data, data_freq, by = yvariable)
 
-    if (!sp.sp.is.null(shape_variable)) {
+    if (!sp.is.null(shape_variable)) {
       # Collapse shape_variable for each Term
 
       data_samp <-
@@ -271,7 +271,7 @@ sp_enrichment <- function(data,
 
   if (!sp.is.null(size_variable)) {
     p <- p + aes(size = !!size_variable_en)
-    if (!sp.sp.is.null(scale_size_min) && !sp.sp.is.null(scale_size_max)) {
+    if (!sp.is.null(scale_size_min) && !sp.is.null(scale_size_max)) {
       p <- p + scale_size(name = size_variable,
                           range = range(scale_size_min, scale_size_max))
     }

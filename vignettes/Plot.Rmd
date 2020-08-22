@@ -191,6 +191,7 @@ sp_volcano_plot(data=res_output,
 ## Venn diagram
 
 ```{r}
+library(YSX)
 library(VennDiagram)
 vennDiagram_data = "vennDiagram.data"
 sp_vennDiagram(data = vennDiagram_data, header=T)
@@ -210,6 +211,36 @@ sp_vennDiagram(data = vennDiagram_data, label1 = "Set1",label2 = "Set2", manual_
 
 ```{r}
 sp_vennDiagram(data = vennDiagram_data, label1 = "Set1",label2 = "Set2", label3="Set3", label4="Set4")
+```
+
+```{r}
+library(YSX)
+library(VennDiagram)
+vennDiagram_data = "vennDiagram.data"
+sp_vennDiagram2(data = vennDiagram_data, header=T, item_variable = "Gene", set_variable = "Sample")
+```
+
+```{r}
+sp_vennDiagram2(data = vennDiagram_data, header=T, item_variable = "Gene", set_variable = "Sample",
+               set_variable_order = c("Set1","Set2", "Set3"), manual_color_vector = "Dark2")
+```
+
+
+```{r}
+sp_vennDiagram( supplyNumbers = TRUE,  numVector=c (120, 110, 50), labelVector=c('a','b'))
+```
+
+```{r}
+sp_vennDiagram2(data = vennDiagram_data, item_variable = "Gene", set_variable = "Sample",
+               set_variable_order = c("Set1","Set2"),
+               manual_color_vector = c('red', 'green'))
+```
+
+
+```{r}
+sp_vennDiagram2(data = vennDiagram_data, 
+                item_variable = "Gene", set_variable = "Sample",
+               set_variable_order = c("Set1","Set2","Set3", "Set4"))
 ```
 
 ## UpSet View Plot

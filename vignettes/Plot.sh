@@ -87,3 +87,9 @@ splot_volcano.sh -f volcano.txt -l log2FoldChange -d padj -S "0.05,1" -p 'red,bl
 splot_volcano.sh -f volcano.txt -l log2FoldChange -d padj -S "0.05,1" -p 'red,blue,black' -c TRUE
 
 splot_volcano.sh -f volcano.txt -l log2FoldChange -d padj -s level -P Symbol
+
+
+splot_venn2.sh -f vennDiagram.data -a Gene -b Sample
+
+splot_venn2.sh -f vennDiagram.data -a Gene -b Sample -c "Set1, Set2,Set3"
+
