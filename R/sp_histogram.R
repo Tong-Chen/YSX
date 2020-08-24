@@ -325,7 +325,7 @@ sp_histogram <- function(data ,
     #p <- p + ggnewscale::new_scale_color()
     group_variable_vector <- unique(c(group_variable, color_variable, facet_variable))
     group_variable_vector <- group_variable_vector[!sapply(group_variable_vector, sp.is.null)]
-    data$combine__grp__for__statistis_sp <- do.call(paste0, data[,group_variable_vector])
+    data$combine__grp__for__statistis_sp <- do.call(paste0, data[group_variable_vector])
 
     # print(data)
     cdf <- data %>% group_by(combine__grp__for__statistis_sp) %>%

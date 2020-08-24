@@ -466,7 +466,8 @@ sp_boxplot <- function(data,
 
     group_variable_vector <- unique(c(xvariable, legend_variable, facet_variable))
     group_variable_vector <- group_variable_vector[!sapply(group_variable_vector, sp.is.null)]
-    data$combine__grp__for__statistis_sp <- do.call(paste0, data[,group_variable_vector])
+    #data2 <- data[,group_variable_vector]
+    data$combine__grp__for__statistis_sp <- do.call(paste0, data[group_variable_vector])
 
     formula = as.formula(paste(yvariable, "~", "combine__grp__for__statistis_sp"))
     # model = aov(data[[yvariable]] ~ data[[xvariable]], data = data)
