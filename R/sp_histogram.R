@@ -324,7 +324,8 @@ sp_histogram <- function(data ,
   if (add_mean_value_vline) {
     #p <- p + ggnewscale::new_scale_color()
     group_variable_vector <- unique(c(group_variable, color_variable, facet_variable))
-    data$combine__grp__for__statistis_sp <- do.call(paste0, data[group_variable_vector])
+    group_variable_vector <- group_variable_vector[!sapply(group_variable_vector, sp.is.null)]
+    data$combine__grp__for__statistis_sp <- do.call(paste0, data[,group_variable_vector])
 
     # print(data)
     cdf <- data %>% group_by(combine__grp__for__statistis_sp) %>%
