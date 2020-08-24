@@ -340,7 +340,7 @@ WGCNA_dataFilter <- function (wgcnaL, ...) {
   if(class(wgcnaL) == "list"){
     datExpr = wgcnaL$datExpr
   } else {
-    datExpr = datExpr
+    datExpr = wgcnaL
   }
   datExpr <- dataFilter(datExpr, noLessThan = 1000, ...)
 
@@ -446,7 +446,7 @@ WGCNA_sampleClusterDetectOutlier <-
     if(class(wgcnaL) == "list"){
       datExpr = wgcnaL$datExpr
     } else {
-      datExpr = datExpr
+      datExpr = wgcnaL
     }
     ## 样本层级聚类，查看有无离群值
     # sample network based on squared Euclidean distance note that we
@@ -536,7 +536,7 @@ WGCNA_sampleClusterDetectOutlier <-
 #' and 40 for other type. Any number less than 20 would be treated as 20.
 #' @param RsquaredCut R2 for defining scale-free network (default 0.85). Any number larger than 1 would be treated as 0.99.
 #'
-#' @return A number
+#' @return A list
 #' @export
 #'
 #' @examples
@@ -692,7 +692,7 @@ WGCNA_softpower <-
     }
 
     cat(sp_current_time(), "Finished selecting soft power for network construction.\n")
-    return(power)
+    return(list(power=power,p=p))
   }
 
 
@@ -1760,7 +1760,8 @@ WGCNA_GeneModuleTraitCoorelation <-
 
         dev.off()
 
-        cat(sp_current_time(), "Finish plotting interest genes for each module-trait combination group.\n")
+        cat(sp_current_time(), paste0("Finish plotting interest genes for module (", module,
+                                      ") - trait (", pheno, ") combination group.\n"))
       }
     }
   }
@@ -1851,8 +1852,7 @@ WGCNA_onestep <-
                                categoricalTrait = categoricalTrait)
 
     datExpr <- wgcnaL$datExpr
-    traitData <- wgcnaL$traitData
-    traitColors <- wgcnaL$traitColors
+
 
     WGCNA_dataCheck(datExpr,
                     saveplot = paste0(prefix, ".WGCNA_dataCheck.pdf"),
@@ -1867,20 +1867,17 @@ WGCNA_onestep <-
         rmVarZero = rmVarZero
       )
 
-    traitData = WGCNA_filterTrait(datExpr, traitData)
-    traitColors = WGCNA_filterTrait(datExpr, traitColors)
 
     datExpr <-
       WGCNA_sampleClusterDetectOutlier(
         datExpr,
-        traitColors = traitColors,
+        traitColors = wgcnaL$traitColors,
         thresholdZ.k = thresholdZ.k,
         removeOutlier = removeOutlier,
         saveplot = paste0(prefix, ".WGCNA_sampleClusterDetectOutlier.pdf")
       )
 
-    traitData = WGCNA_filterTrait(datExpr, traitData)
-    traitColors = WGCNA_filterTrait(datExpr, traitColors)
+
 
     power <-
       WGCNA_softpower(
@@ -1890,6 +1887,8 @@ WGCNA_onestep <-
         maxPower = maxPower,
         RsquaredCut = RsquaredCut
       )
+
+    power <- power$power
 
     if (!sp.is.null(power_min) && (power < power_min)) {
       power = power_min
@@ -1928,11 +1927,11 @@ WGCNA_onestep <-
 
     net$MEs_col <- MEs_col
 
-    WGCNA_MEs_traitCorrelationHeatmap(
-      MEs_col,
-      traitData = traitData,
-      saveplot = paste0(prefix, ".WGCNA_moduletrait_correlation_plot.pdf")
-    )
+    # WGCNA_MEs_traitCorrelationHeatmap(
+    #   MEs_col,
+    #   traitData = traitData,
+    #   saveplot = paste0(prefix, ".WGCNA_moduletrait_correlation_plot.pdf")
+    # )
 
     cyt <-
       WGCNA_cytoscape(net, power, datExpr, TOM_plot = TOM_plot, prefix = prefix)
@@ -1946,7 +1945,7 @@ WGCNA_onestep <-
     if (!is.null(traitData)) {
       WGCNA_moduleTraitPlot(
         MEs_col,
-        traitData = traitData,
+        traitData = wgcnaL$traitData,
         saveplot = paste0(prefix, ".WGCNA_moduleTraitHeatmap.pdf"),
         corType = corType,
         prefix = prefix,
@@ -1956,7 +1955,7 @@ WGCNA_onestep <-
       geneTraitCor <-
         WGCNA_ModuleGeneTraitHeatmap(
           datExpr,
-          traitData = traitData,
+          traitData = wgcnaL$traitData,
           net = net,
           prefix = prefix,
           saveplot = paste0(prefix, ".WGCNA_ModuleGeneTraitHeatmap.pdf")
@@ -1968,7 +1967,7 @@ WGCNA_onestep <-
         datExpr,
         MEs_col,
         geneTraitCor,
-        traitData = traitData,
+        traitData = wgcnaL$traitData,
         net,
         corType = corType,
         prefix = prefix

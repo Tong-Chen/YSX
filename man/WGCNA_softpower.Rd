@@ -35,7 +35,7 @@ and 40 for other type. Any number less than 20 would be treated as 20.}
 \item{...}{Additional parameters given to plot output (\code{\link{pdf}}, \code{\link{png}},...) like "width", "height", .etc.}
 }
 \value{
-A number
+A list
 }
 \description{
 Select soft power, the minimum number to get scale Free Topology Model Fit value (R2) larger than 0.85.
