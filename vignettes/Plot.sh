@@ -93,3 +93,18 @@ splot_venn2.sh -f vennDiagram.data -a Gene -b Sample
 
 splot_venn2.sh -f vennDiagram.data -a Gene -b Sample -c "Set1, Set2,Set3"
 
+sp_enrichment.R -f enrichment.data -x "SampleGroup" -y "Description" -c "Qvalue" -l "Qvalue"  -s "Count"
+sp_enrichment.R -f enrichment.data -x "GeneRatio" -y "Description" -c "Qvalue" -l "Qvalue" -q "Count" -r "SampleGroup" -t "Demo1 title"
+sp_enrichment.R -f goeast.enrich.txt -x log_odds_ratio -y Term -c p -l p -q q -s q -r Ontology -p right -a 0 -C FALSE -i FALSE -v "Pastel1" -t "Demo2 title" -w 25 -W 25
+
+splot_enrichment.sh -f enrichment.data -x "SampleGroup" -y "Description" -c "Qvalue" -l "Qvalue"  -s "Count"
+splot_enrichment.sh -f enrichment.data -x "GeneRatio" -y "Description" -c "Qvalue" -l "Qvalue" -q "Count" -r "SampleGroup" -t "Demo1 title"
+splot_enrichment.sh -f goeast.enrich.txt -x log_odds_ratio -y Term -c p -l p -q q -s q -r Ontology -p right -a 0 -C FALSE -i FALSE -v "Pastel1" -t "Demo2 title" -w 25 -W 25
+
+
+sp_upsetview.R -f upset.wide.data -v 0
+sp_upsetview.R -f vennDiagram.data -v 2
+
+splot_upsetview.sh -f upset.wide.data -v 0
+splot_upsetview.sh -f vennDiagram.data -v 2
+

@@ -258,7 +258,7 @@ sp_volcano_plot <-
           )
       }
     }
-    if(!is.null(xintercept)) {
+    if(!sp.is.null(xintercept)) {
       if(xintercept=='fc'){
         if(length(significance_threshold) ==  2){
           xintercept = c(-1*fc,fc)
@@ -269,7 +269,7 @@ sp_volcano_plot <-
         xintercept = as.numeric(sp_string2vector(xintercept))
       }
     }
-    if(!is.null(yintercept)){
+    if(!sp.is.null(yintercept)){
       if(yintercept=='fdr'){
         if(length(significance_threshold) ==  2){
           yintercept = c(fdr)
@@ -283,8 +283,8 @@ sp_volcano_plot <-
 
     p <- sp_ggplot_add_vline_hline(
       p,
-      xintercept = xintercept,
-      yintercept = yintercept
+      custom_vline_x_position = xintercept,
+      custom_hline_y_position = yintercept
     )
 
     p <- sp_ggplot_layout(p,
