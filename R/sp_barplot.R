@@ -222,10 +222,10 @@ sp_barplot <- function (data,
   }
 
   if(bar_mode == "stack" && (!"Mean_value_cumsum_s_p" %in% colnames(data))){
-    print(data[[xvariable]])
+    # print(data[[xvariable]])
     data <- data %>% group_by(!!xvariable_en) %>%
       mutate(Mean_value_cumsum_s_p=rev(cumsum(rev(!!yvariable_en))))
-    print(data)
+    # print(data)
   }
 
 
@@ -404,7 +404,7 @@ sp_barplot <- function (data,
       xtics_angle = 0,
       legend.position = legend.position,
       extra_ggplot2_cmd = extra_ggplot2_cmd,
-      file_name = file_name,
+      filename = file_name,
       title = title,
       x_label = x_label,
       y_label = y_label,
