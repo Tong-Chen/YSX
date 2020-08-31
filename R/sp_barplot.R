@@ -91,7 +91,7 @@ sp_barplot <- function (data,
                         add_text = FALSE,
                         font_path = NULL,
                         debug = FALSE,
-                        file_name = NULL,
+                        filename = NULL,
                         ...) {
   options(scipen = 999)
 
@@ -404,7 +404,7 @@ sp_barplot <- function (data,
       xtics_angle = 0,
       legend.position = legend.position,
       extra_ggplot2_cmd = extra_ggplot2_cmd,
-      filename = file_name,
+      filename = filename,
       title = title,
       x_label = x_label,
       y_label = y_label,

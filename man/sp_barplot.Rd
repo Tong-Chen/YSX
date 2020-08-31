@@ -38,7 +38,7 @@ sp_barplot(
   add_text = FALSE,
   font_path = NULL,
   debug = FALSE,
-  file_name = NULL,
+  filename = NULL,
   ...
 )
 }
@@ -124,6 +124,8 @@ use same scale (x,y range), \code{free} (variable x, y ranges for each sub-plot)
 \item{font_path}{Specify font type. Give a path for one font type file
 like '/etc/fonts/Arial.ttf'
 or 'HeiArial.ttc'(if in current directory), Default system default.}
+
+\item{filename}{Output picture to given file.}
 
 \item{...}{}
 }
