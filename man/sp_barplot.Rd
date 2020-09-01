@@ -95,6 +95,8 @@ Giving \code{fill} to get stacked percent bar-plot.
 Giving \code{dodge} to arrange multiple bars side-by-side.
 Default \code{stack}, accept \code{dodge}, \code{fill}.}
 
+\item{facet_variable_order}{The levels of wrapping to set the order of each group.}
+
 \item{facet_nrow}{The number of rows one want when \code{facet} is used. Default NULL.}
 
 \item{facet_ncol}{The number of columns one want when \code{facet} is used. Default NULL.}
@@ -110,6 +112,18 @@ Default \code{stack}, accept \code{dodge}, \code{fill}.}
 \item{xtics_angle}{Rotation angle for a-axis. Default 0.}
 
 \item{ytics}{Display ytics. Default FALSE.}
+
+\item{manual_color_vector}{Manually set colors for each geom.
+Default NULL, meaning using ggplot2 default.
+Colors like c('red', 'blue', '#6181BD') (number of colors not matter) or
+a RColorBrewer color set like  "BrBG"     "PiYG"     "PRGn"     "PuOr"
+"RdBu"     "RdGy"     "RdYlBu"   "RdYlGn"  "Spectral" "Accent"
+"Dark2"    "Paired"   "Pastel1"  "Pastel2"  "Set1"
+"Set2"    "Set3"     "Blues"    "BuGn"     "BuPu"
+"GnBu"     "Greens"   "Greys"    "Oranges" "OrRd"     "PuBu"
+"PuBuGn"   "PuRd"     "Purples"  "RdPu"     "Reds"
+"YlGn"    "YlGnBu"   "YlOrBr"   "YlOrRd"
+(check http://www.sthda.com/english/wiki/colors-in-r for more).}
 
 \item{facet_scales}{Paramter for scales for facet. Default \code{fixed} meaning each inner graph
 use same scale (x,y range), \code{free} (variable x, y ranges for each sub-plot),

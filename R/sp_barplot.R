@@ -29,6 +29,7 @@
 #' Giving `fill` to get stacked percent bar-plot.
 #' Giving `dodge` to arrange multiple bars side-by-side.
 #' Default `stack`, accept `dodge`, `fill`.
+#' @param facet_variable_order The levels of wrapping to set the order of each group.
 #' @inheritParams sp_ggplot_facet
 #' @inheritParams sp_transfer_one_column
 #' @param error_bar_variable Error-bar column (one of column names). Specify the column containing error bars.
@@ -39,6 +40,7 @@
 #' @param add_text 	Add text to bar. Default FALSE.
 #' @inheritParams sp_load_font
 #' @inheritParams sp_ggplot_layout
+#' @inheritParams sp_manual_fill_ggplot2
 #' @importFrom dplyr %>%
 #' @importFrom dplyr mutate
 #' @importFrom dplyr group_by
