@@ -104,7 +104,7 @@ sp_upsetview <- function (data,
 
 
   if (!sp.is.null(saveplot)) {
-    base_plot_save(saveplot, pointsize=point_size, ...)
+    base_plot_save(saveplot, pointsize=pointsize, ...)
     print(a)
     dev.off()
   }
