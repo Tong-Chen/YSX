@@ -46,6 +46,8 @@
 #'
 flower_plot <- function(input, sep="\t", row.names=NULL, header=T,
                    quote="", comment="", check.names=F,
+                   item_variable = NULL,
+                   set_variable = NULL,
                    start=90, a=0.5, b=2, r=1,
                    group_color="Spectral",
 				   group_color_alpha=0.6,
@@ -58,12 +60,12 @@ flower_plot <- function(input, sep="\t", row.names=NULL, header=T,
 
   datam_nodup <- unique(data_m)
 
-  flower_input <- table(datam_nodup[,2])
+  flower_input <- table(datam_nodup[,set_variable])
   sample <- names(flower_input)
   num_of_groups <- length(flower_input)
   total_num <- as.vector(flower_input)
 
-  time_gene <- as.vector(table(datam_nodup[,1]))
+  time_gene <- as.vector(table(datam_nodup[,item_variable]))
   core_num <-length(which(time_gene==num_of_groups))
 
   if(! label_total_num_items){

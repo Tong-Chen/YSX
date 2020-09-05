@@ -28,7 +28,7 @@ sp_upsetview(
 
 \item{saveplot}{Save plot to given file "a.pdf", "b.png".}
 
-\item{...}{}
+\item{...}{Other parameters given to \code{base_plot_save}}
 }
 \value{
 A pdf file.

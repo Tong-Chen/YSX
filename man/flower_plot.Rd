@@ -14,6 +14,8 @@ flower_plot(
   quote = "",
   comment = "",
   check.names = F,
+  item_variable = NULL,
+  set_variable = NULL,
   start = 90,
   a = 0.5,
   b = 2,

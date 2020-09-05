@@ -104,9 +104,9 @@ library(RColorBrewer)
 
 set_data = "Set.data"
 
-flower_plot(set_data)
-flower_plot(set_data,group_color = c("Set2"),r = 1)
-flower_plot(set_data,label_total_num_items = T,a=1)
+flower_plot(set_data, item_variable = "Gene", set_variable = "Sample")
+flower_plot(set_data, group_color = c("Set2"), r = 1, item_variable = "Gene", set_variable = "Sample")
+flower_plot(set_data, label_total_num_items = T, a = 1, item_variable = "Gene", set_variable = "Sample")
 # flower_plot(set_data, saveplot="Set.data.flower.pdf")
 ```
 
@@ -260,6 +260,7 @@ sp_upsetview("upset.wide.data", vennFormat = 0)
 ```{r}
 sp_upsetview(vennDiagram_data, vennFormat = 2, saveplot="1.pdf")
 ```
+
 ```{r}
 str(a)
 ```

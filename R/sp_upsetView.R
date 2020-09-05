@@ -34,7 +34,7 @@
 #' @param pointsize Point size. Default 8.
 #' @param keep_empty Keep empty intersections. Default FALSE. Accept TRUE to remove empty intersections.
 #' @inheritParams base_plot_save
-#' @param ...
+#' @param ... Other parameters given to `base_plot_save`
 #'
 #' @return A pdf file.
 #' @export
