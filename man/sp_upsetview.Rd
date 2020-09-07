@@ -35,10 +35,12 @@ A pdf file.
 }
 \description{
 Input file is a matrix:
-vennFormat 0
 }
 \details{
+vennFormat 0
+
 (First row would be treated as header line. First column is just a normal column (but needed). 0 represents the sample does not contain the genes in row. 1 represents the containing relationship)
+
 ID	Samp1	Samp2	Samp3	Samp4	Samp5
 
 G1	1	0	1	0	1
@@ -52,6 +54,7 @@ G4	1	1	1	0	0
 G5	0	1	0	1	1
 
 G6	1	0	1	0	0
+
 vennFormat 1 or 2
 
 The output contains two barplots, horizontal bar represents the number of genes in each sample, which is the sum of all 1 in sample column. Vertical bar represents the number of sample specific and common genes as indicated by linking vertical lines and points (just as the overlapping regions of venndiagram).

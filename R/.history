@@ -27,3 +27,7 @@
 [/root/pipeline/YSX/R] 42737  [2020-08-21 09:46:23][root][124.64.17.242]git commit -m 'xline vline'
 [/root/pipeline/YSX/R] 42738  [2020-08-21 09:46:30][root][124.64.17.242]git push -u origin develop
 [/root/pipeline/YSX/R] 42739  [2020-08-21 10:11:30][root][124.64.17.242]vim `which sp_histogram.sh`
+[/root/pipeline/YSX/R] 43476  [2020-09-07 16:51:02][root][125.33.15.95]cd R
+[/root/pipeline/YSX/R] 43477  [2020-09-07 16:51:03][root][125.33.15.95]ltr
+[/root/pipeline/YSX/R] 43478  [2020-09-07 16:51:07][root][125.33.15.95]vim sp_upsetView.R 
+[/root/pipeline/YSX/R] 43479  [2020-09-07 16:51:30][root][125.33.15.95]../bin/bash/install_YSX.sh 
