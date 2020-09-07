@@ -5,102 +5,177 @@
 \title{Generating pheatmap plot}
 \usage{
 sp_pheatmap(
-  data = "pheatmap.txt",
-  deal_duplicateRname = 0,
+  data,
+  filename = NA,
+  renameDuplicateRowNames = F,
   logv = NULL,
+  log_add = 0,
   scale = "none",
-  gradient = 1,
-  mid_value = "Inf",
-  digits = FALSE,
-  givenSepartor = NULL,
   annotation_row = NULL,
   annotation_col = NULL,
-  clustering_method = "complete",
-  clustering_distance_rows = "correlation",
-  clustering_distance_cols = "correlation",
-  maximum = Inf,
-  minimum = -Inf,
-  xtics_angle = 270,
-  color_type = "function",
-  color_vector = "colorRampPalette(rev(brewer.pal(n=7, name=\\"RdYlBu\\")))(100)",
-  bias = 1,
-  fontsize = 14,
-  annotation_colors = "NA",
   cluster_rows = FALSE,
   cluster_cols = FALSE,
-  cor_plot = "None",
+  clustering_method = "complete",
+  clustering_distance_rows = "pearson",
+  clustering_distance_cols = "pearson",
+  breaks = NA,
+  breaks_mid = NULL,
+  breaks_digits = 2,
+  correlation_plot = "None",
+  maximum = Inf,
+  minimum = -Inf,
+  xtics_angle = 0,
+  manual_color_vector = NULL,
+  fontsize = 14,
+  manual_annotation_colors_sidebar = NULL,
+  cutree_cols = NA,
+  cutree_rows = NA,
   kclu = NA,
   ytics = TRUE,
   xtics = TRUE,
+  width = 0,
+  height = 0,
   title = "",
+  debug = FALSE,
   ...
 )
 }
 \arguments{
-\item{data}{Data file (with header line, the first column is the rowname, tab seperated. Colnames must be unique unless you know what you are doing.)}
+\item{data}{Data file or dataframe (with header line, the first column is the rowname, tab seperated.
+Colnames normally should be unique unless you know what you are doing.)}
 
-\item{deal_duplicateRname}{Specify the way to deal with duplicate row names.
-Default 0: representing duplicated row names are not allowed.
-Accept  1: representing make duplicated row names unique by adding <.1>, <.2> for the second, third appearances.}
+\item{filename}{Filename for output files.}
 
-\item{logv}{}
+\item{renameDuplicateRowNames}{Specify the way to deal with duplicate row names.
+Default FALSE: representing duplicated row names are not allowed.
+Accept  TRUE: representing make duplicated row names unique by adding <.1>, <.2>
+for the second, third appearances.}
 
-\item{scale}{}
+\item{logv}{First get log-value, then do other analysis.
+Accept an R function log2 or log10. Default FALSE.}
 
-\item{gradient}{}
+\item{log_add}{A value to add before log-transfer in-case log zero.
+Default 0 the program will automatically choose value to add.}
 
-\item{mid_value}{}
+\item{scale}{Scale the data or not for clustering and visualization.
+Default 'none' means no scale, accept 'row', 'column' to scale by row or column.}
 
-\item{digits}{}
+\item{annotation_row}{A file or datafrmae to specify row-annotation with first column
+same as first column of \code{data}. Default NULL.}
 
-\item{givenSepartor}{}
+\item{annotation_col}{A file or datafrmae to specify col-annotation with first column
+sanme as first row of \code{data}. Default NULL.}
 
-\item{annotation_row}{}
+\item{cluster_rows}{Hieratical cluster for rows. Default FALSE, accept TRUE.
+When there are less than 3 rows or more than 5000 rows, this parameter
+would always be set to FALSE.}
 
-\item{annotation_col}{}
+\item{cluster_cols}{Hieratical cluster for columns. Default FALSE, accept TRUE.
+When there are less than 3 columns or more than 5000 columns, this parameter
+would always be set to FALSE.}
 
-\item{clustering_method}{Clustering method, Default "complete". Accept "ward.D", "ward.D2","single", "average" (=UPGMA), "mcquitty" (=WPGMA), "median" (=WPGMC) or "centroid" (=UPGMC)}
+\item{clustering_method}{Clustering method, Default "complete".
+Accept "ward.D", "ward.D2","single", "average" (=UPGMA),
+"mcquitty" (=WPGMA), "median" (=WPGMC) or "centroid" (=UPGMC)}
 
-\item{clustering_distance_rows}{}
+\item{clustering_distance_rows}{Clustering distance method for rows.
+Default 'pearson', accept 'spearman','euclidean', "manhattan", "maximum",
+"canberra", "binary", "minkowski".}
 
-\item{clustering_distance_cols}{}
+\item{clustering_distance_cols}{Clustering distance method for cols.
+Default 'pearson', accept 'spearman','euclidean', "manhattan", "maximum",
+"canberra", "binary", "minkowski".}
 
-\item{maximum}{}
+\item{breaks}{A sequence of numbers that covers the range of values in mat and
+is one element longer than color vector. Used for mapping values to colors.
+Useful, if needed to map certain values to certain colors, to certain values.
+If value is NA then the breaks are calculated automatically. if value is \code{quantile}, then
+the breaks would be computed to generate each quantile.}
 
-\item{minimum}{}
+\item{breaks_mid}{Mid value for generating breaks when \code{quantile} is assigned to break.}
 
-\item{xtics_angle}{Rotation angle for x-axis value. Default 90.}
+\item{breaks_digits}{Number of digits kept for breaks. Default 2.}
 
-\item{color_type}{Color type, a vetcor which will be transferred as described in \code{color_vector} or a raw vector or    a function (default).}
+\item{correlation_plot}{First compute the correlation matrix of given \code{data}, then
+heatmap correlation data instead of raw data. Default "None", accept "row" or "col" for
+row correlation or column correlation.}
 
-\item{color_vector}{Color vector. Default pheatmap_default. Aceept a vector containing multiple colors such as 'c("white", "blue")' will be transferred
-to colorRampPalette(c("white", "blue"), bias=${bias})(30)  or an R function colorRampPalette(rev(brewer.pal(n=7, name="RdYlBu")))(100)  generating a list of colors.}
+\item{maximum}{The maximum value one want to keep, any number larger than given value
+would be taken as this given maximum value. Default Inf, Optional.}
 
-\item{bias}{}
+\item{minimum}{The smallest value one want to keep, any number smaller will be
+taken as this given minimum value. Default -Inf, Optional.}
 
-\item{fontsize}{}
+\item{xtics_angle}{Rotation angle for x-axis value. Default 0.}
 
-\item{annotation_colors}{}
+\item{manual_color_vector}{Manually set colors for each geom.
+Default NULL, meaning using ggplot2 default.
+Colors like c('red', 'blue', '#6181BD') (number of colors not matter) or
+a RColorBrewer color set like  "BrBG"     "PiYG"     "PRGn"     "PuOr"
+"RdBu"     "RdGy"     "RdYlBu"   "RdYlGn"  "Spectral" "Accent"
+"Dark2"    "Paired"   "Pastel1"  "Pastel2"  "Set1"
+"Set2"    "Set3"     "Blues"    "BuGn"     "BuPu"
+"GnBu"     "Greens"   "Greys"    "Oranges" "OrRd"     "PuBu"
+"PuBuGn"   "PuRd"     "Purples"  "RdPu"     "Reds"
+"YlGn"    "YlGnBu"   "YlOrBr"   "YlOrRd"
+(check http://www.sthda.com/english/wiki/colors-in-r for more).}
 
-\item{cluster_rows}{}
+\item{fontsize}{Font size. Default 14.}
 
-\item{cluster_cols}{}
+\item{manual_annotation_colors_sidebar}{Annotation color. One can only specify color for each column of
+row-annotatation or col-annotation. For example,
+'class' (two values: C1, C2) and group' (two values:G1, G2) are two row-annotations,
+'type' (three values, T1, T2, T3) and 'size' (four values, 1, 2, 3, 4)
+are two col-annoations.
+Colors can be specified in a string as \code{'class=c(C1="blue", C2="yellow"), size=c("white", "green"), type=c(T1="pink", T2="black", T3="cyan")'}
+or a list as \code{list(class=c(C1="blue", C2="yellow"),size=c("white", "green"))}.
+In R, one can use colors() function to get names of all available colors.}
 
-\item{cor_plot}{Do correlation plot. Default "None", accept "row" or "col" for row correlation or column correlation.}
+\item{cutree_cols}{similar to \code{cutree_rows}, but for columns}
 
-\item{kclu}{}
+\item{cutree_rows}{number of clusters the rows are divided into, based on the
+ hierarchical clustering (using cutree), if rows are not clustered, the 
+argument is ignored}
+
+\item{kclu}{Aggregate the rows using kmeans clustering.
+This is advisable if number of rows is so big that R cannot
+handle their hierarchical clustering anymore, roughly more than 1000.
+Instead of showing all the rows separately one can cluster the
+rows in advance and show only the cluster centers. The number of clusters can be tuned here.
+Default 'NA' which means no cluster, other positive interger is accepted for executing
+kmeans cluster, also the parameter represents the number of expected clusters}
 
 \item{ytics}{Display ytics.}
 
 \item{xtics}{Display xtics.}
 
+\item{width}{Picture width}
+
+\item{height}{Picture height}
+
 \item{title}{Title of picture. Default empty title}
 
-\item{...}{}
+\item{...}{Other parameters given to \link[pheatmap]{pheatmap}.}
 }
 \value{
-
+Generate a PDF and TXT file.
 }
 \description{
 Generating pheatmap plot
+}
+\examples{
+a = c(12,14,17,11,16)
+b = c(4,20,15,11,9)
+c = c(5,7,19,8,18)
+d = c(15,13,11,17,16)
+e = c(12,19,16,7,9)
+pheatmap_data = as.data.frame(cbind(a,b,c,d,e))
+sp_pheatmap(data = pheatmap_data)
+
+## Not run:
+pheatmap_data = "pheatmap.data"
+sp_pheatmap(data = pheatmap_data)
+## End(Not run)
+
+
 }

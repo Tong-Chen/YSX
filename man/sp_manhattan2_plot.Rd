@@ -58,8 +58,6 @@ sp_manhattan2_plot(
 
 \item{log10_transform_fdr}{Get \code{-log10(FDR)} for column given to \code{FDR_var}. Default FALSE, accept TRUE.}
 
-\item{file_name}{Output ggplot2 object to given file.}
-
 \item{point_label_var}{Name of columns containing labels for points.}
 
 \item{title}{Title of picture.}
