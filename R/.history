@@ -31,3 +31,26 @@
 [/root/pipeline/YSX/R] 43477  [2020-09-07 16:51:03][root][125.33.15.95]ltr
 [/root/pipeline/YSX/R] 43478  [2020-09-07 16:51:07][root][125.33.15.95]vim sp_upsetView.R 
 [/root/pipeline/YSX/R] 43479  [2020-09-07 16:51:30][root][125.33.15.95]../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 43480  [2020-09-07 16:51:37][root][125.33.15.95]~/pipeline/bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 43481  [2020-09-07 16:52:30][root][125.33.15.95]vim sp_upsetView.R 
+[/root/pipeline/YSX/R] 43482  [2020-09-07 16:53:23][root][125.33.15.95]ls
+[/root/pipeline/YSX/R] 43483  [2020-09-07 16:53:28][root][125.33.15.95]vim enrich.R 
+[/root/pipeline/YSX/R] 43483  [2020-09-07 16:53:28][root][125.33.15.95]vim enrich.R 
+[/root/pipeline/YSX/R] 43484  [2020-09-07 16:53:43][root][125.33.15.95]vim flowerplot.R 
+[/root/pipeline/YSX/R] 43485  [2020-09-07 16:53:54][root][125.33.15.95]vim sp_barplot.R 
+[/root/pipeline/YSX/R] 43486  [2020-09-07 16:54:02][root][125.33.15.95]vim sp_histogram.R 
+[/root/pipeline/YSX/R] 43487  [2020-09-07 16:54:10][root][125.33.15.95]vim sp_lines.R 
+[/root/pipeline/YSX/R] 43488  [2020-09-07 16:54:17][root][125.33.15.95]vim sp_manhattan2.R 
+[/root/pipeline/YSX/R] 43489  [2020-09-07 16:54:23][root][125.33.15.95]vim sp_pheatmap.R 
+[/root/pipeline/YSX/R] 43490  [2020-09-07 16:54:35][root][125.33.15.95]vim sp_scatter.R 
+[/root/pipeline/YSX/R] 43491  [2020-09-07 16:54:46][root][125.33.15.95]vim sp_vennDiagram2.R 
+[/root/pipeline/YSX/R] 43492  [2020-09-07 16:54:51][root][125.33.15.95]vim sp_volcano.R 
+[/root/pipeline/YSX/R] 43493  [2020-09-07 16:55:01][root][125.33.15.95]ls -ltr
+[/root/pipeline/YSX/R] 43494  [2020-09-07 16:55:09][root][125.33.15.95]vim sp_barplot.R 
+[/root/pipeline/YSX/R] 43495  [2020-09-07 16:57:35][root][125.33.15.95]vim sp_upsetView.R 
+[/root/pipeline/YSX/R] 43496  [2020-09-07 16:58:18][root][125.33.15.95]git status
+[/root/pipeline/YSX/R] 43497  [2020-09-07 18:34:18][root][125.33.15.95]git add enrich.R sp_histogram.R sp_upsetView.R 
+[/root/pipeline/YSX/R] 43498  [2020-09-07 18:34:34][root][125.33.15.95]git commit -m 'Function description not allow blank line'
+[/root/pipeline/YSX/R] 43499  [2020-09-07 18:34:40][root][125.33.15.95]git push -u origin develop
+[/root/pipeline/YSX/R] 43500  [2020-09-07 18:35:23][root][125.33.15.95]git pull
+[/root/pipeline/YSX/R] 43501  [2020-09-07 18:37:14][root][125.33.15.95]#splot_flower.sh 

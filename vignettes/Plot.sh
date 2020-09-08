@@ -94,12 +94,12 @@ splot_venn2.sh -f vennDiagram.data -a Gene -b Sample
 splot_venn2.sh -f vennDiagram.data -a Gene -b Sample -c "Set1, Set2,Set3"
 
 sp_enrichment.R -f enrichment.data -x "SampleGroup" -y "Description" -c "Qvalue" -l "Qvalue"  -s "Count"
-sp_enrichment.R -f enrichment.data -x "GeneRatio" -y "Description" -c "Qvalue" -l "Qvalue" -q "Count" -r "SampleGroup" -t "Demo1 title"
-sp_enrichment.R -f goeast.enrich.txt -x log_odds_ratio -y Term -c p -l p -q q -s q -r Ontology -p right -a 0 -C FALSE -i FALSE -v "Pastel1" -t "Demo2 title" -w 25 -W 25
+sp_enrichment.R -f enrichment.data -x "GeneRatio" -y "Description" -c "Qvalue" -l "Qvalue" -q "Count" -r "SampleGroup"
+sp_enrichment.R -f goeast.enrich.txt -x log_odds_ratio -y Term -c p -l p -q q -s q -r Ontology -p right -a 0 -C FALSE -i FALSE -v "Pastel1"  -w 25 -W 25
 
-splot_enrichment.sh -f enrichment.data -x "SampleGroup" -y "Description" -c "Qvalue" -l "Qvalue"  -s "Count"
-splot_enrichment.sh -f enrichment.data -x "GeneRatio" -y "Description" -c "Qvalue" -l "Qvalue" -q "Count" -r "SampleGroup" -t "Demo1 title"
-splot_enrichment.sh -f goeast.enrich.txt -x log_odds_ratio -y Term -c p -l p -q q -s q -r Ontology -p right -a 0 -C FALSE -i FALSE -v "Pastel1" -t "Demo2 title" -w 25 -W 25
+splot_enrichment.sh -f enrichment.data -x "SampleGroup" -y "Description" -c "Qvalue" -l "Qvalue"  -s "Count" -r "SampleGroup" -p "right"  -C FALSE -i 60 -v "#89E767, #E84921" -t "Enrichment plot for multiple groups DE genes" -X "Percentage of DE genes in enriched GO terms" -w 20 -W 12.36
+splot_enrichment.sh -f enrichment.data -x "GeneRatio" -y "Description" -c "Qvalue" -l "Qvalue" -q "Count" -r "SampleGroup"
+splot_enrichment.sh -f goeast.enrich.txt -x log_odds_ratio -y Term -c p -l p -q q -s q -r Ontology -p right -a 0 -C FALSE -i FALSE -v "Pastel1" -w 25 -W 25
 
 
 sp_upsetview.R -f upset.wide.data -v 0
@@ -108,3 +108,26 @@ sp_upsetview.R -f vennDiagram.data -v 2
 splot_upsetview.sh -f upset.wide.data -v 0
 splot_upsetview.sh -f vennDiagram.data -v 2
 
+scatter.R -f scatter_demo1.txt -x Gene -y Cluster -c Expr -d Percent -l Expr -M "white,blue"
+scatter.R -f scatter.txt -x "X_val" -y Y_val -c Color -s Shape -d Size -l Samp -m "1,3,2" -n "2,1,3" -C "grp2,grp1,grp3" -S "cluster2,cluster1" -D 2 -j TRUE -e Color -A "free_y"
+scatter.R -f scatter_demo1.txt -x Gene -y Cluster -c Expr -d Percent -l Expr -M "white,blue"
+
+
+splot_scatter.sh -f scatter_demo1.txt -x Gene -y Cluster -c Expr -d Percent -l Expr -M "white,blue"
+splot_scatter.sh -f scatter.txt -x "X_val" -y Y_val -c Color -s Shape -d Size -l Samp -m "1,3,2" -n "2,1,3" -C "grp2,grp1,grp3" -S "cluster2,cluster1" -D 2 -j TRUE -e Color -A "free_y"
+splot_scatter.sh -f scatter_demo1.txt -x Gene -y Cluster -c Expr -d Percent -l Expr -M "white,blue"
+
+
+sp_barplot.R -f bar.data -x ID -y Exper -c Gene -A TRUE -b "scale_y_log10()" -B stack -s identity -v TRUE -T TRUE
+sp_barplot.R -f exprTable.txt -m F -B fill -T TRUE
+
+
+splot_barplot.sh -f bar.data -x ID -y Exper -c Gene -A TRUE -b "scale_y_log10()" -B stack -s identity -v TRUE -T TRUE
+splot_barplot.sh -f bar.data -x ID -c Gene -y Exper -b log2 -a 0 -B stack -s identity -p "right" -u TRUE -v TRUE -A TRUE -T TRUE -P FALSE -r 0 -D 2  -w 25 -W 15
+splot_barplot.sh -m FALSE -f exprTable.txt -b NULL -a 0 -p "top" -u TRUE -T TRUE -P FALSE -r 0 -w 25 -W 15
+
+
+splot_histogram.R -f histogram_demo2.txt -S density  -P line
+
+
+splot_histogram.sh -f histogram_demo2.txt -S density  -P line

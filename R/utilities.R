@@ -996,6 +996,7 @@ sp_ggplot_layout <-
              units = c("cm"),
              width = width,
              height = height,
+			 useDingbats = FALSE,
              ...)
     }
   }
