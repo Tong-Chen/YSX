@@ -18,8 +18,8 @@ sp_enrichment(
   y_label = NULL,
   yvariable_width = 60,
   manual_color_vector = c("green", "red"),
-  log10_transform_variable = "no_transform",
-  sqrt_transform_variable = "no_transform",
+  log10_transform_variable = NULL,
+  sqrt_transform_variable = NULL,
   legend.position = "right",
   xtics_angle = 0,
   shape_variable = NULL,
@@ -73,11 +73,11 @@ a RColorBrewer color set like  "BrBG"     "PiYG"     "PRGn"     "PuOr"
 (check http://www.sthda.com/english/wiki/colors-in-r for more).}
 
 \item{log10_transform_variable}{Get log-transformed data for given variable.
-Default \code{no_transform}, means no log10 transform.
+Default \code{NULL}, means no log10 transform.
 Accept a variable like \code{p_value} to get \code{(-1) * log10(p_value)}.}
 
 \item{sqrt_transform_variable}{Get square root-transformed data for given variable.
-Default \code{no_transform}, means no sqrt transform.
+Default \code{NULL}, means no sqrt transform.
 Accept a variable like \code{count} to get \code{sqrt(count)}.}
 
 \item{legend.position}{Position of legend, accept top, bottom, left, right, none or c(0.8,0.8).}

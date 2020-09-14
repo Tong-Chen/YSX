@@ -21,10 +21,10 @@
 #' @param x_label X-axis title of picture. Default empty.
 #' @param y_label Y-axis title of picture. Default empty.
 #' @param log10_transform_variable Get log-transformed data for given variable.
-#' Default `no_transform`, means no log10 transform.
+#' Default `NULL`, means no log10 transform.
 #' Accept a variable like `p_value` to get `(-1) * log10(p_value)`.
 #' @param sqrt_transform_variable Get square root-transformed data for given variable.
-#' Default `no_transform`, means no sqrt transform.
+#' Default `NULL`, means no sqrt transform.
 #' Accept a variable like `count` to get `sqrt(count)`.
 #' @param color_variable One of column names used as the variable for defining point colors. Default the
 #' variable name given to `log10_transform_variable`.
@@ -74,8 +74,8 @@ sp_enrichment <- function(data,
                           y_label = NULL,
                           yvariable_width = 60,
                           manual_color_vector = c("green", "red"),
-                          log10_transform_variable = 'no_transform',
-                          sqrt_transform_variable = 'no_transform',
+                          log10_transform_variable = NULL,
+                          sqrt_transform_variable = NULL,
                           legend.position = "right",
                           xtics_angle = 0,
                           shape_variable = NULL,
@@ -101,7 +101,7 @@ sp_enrichment <- function(data,
   }
 
   xval_type = "string"
-  if (numCheck(data[[xvariable]])) {
+  if (is.numeric(data[[xvariable]]) || numCheck(data[[xvariable]])) {
     xval_type = "numeric"
     # When meets unusual numerical type like 2/3, transfer them to numeric
     if (!is.numeric(data[[xvariable]])) {
@@ -141,18 +141,18 @@ sp_enrichment <- function(data,
   }
 
   if (!sp.is.null(color_variable) &&
-      numCheck(data[[color_variable]]) &&
-      !is.numeric(data[[color_variable]])) {
+	  !is.numeric(data[[color_variable]]) &&
+      numCheck(data[[color_variable]])) {
     data[[color_variable]] = mixedToFloat(data[[color_variable]])
   }
 
-  if (log10_transform_variable != "no_transform" &&
+  if (!sp.is.null(log10_transform_variable) &&
       (sp.is.null(color_variable) ||
        color_variable == log10_transform_variable)) {
     color_variable = paste0("negLog10_", log10_transform_variable)
   }
 
-  if (log10_transform_variable != "no_transform") {
+  if (!sp.is.null(log10_transform_variable)) {
     log_name = paste0("negLog10_", log10_transform_variable)
     col_name_data <- colnames(data)
     col_name_data <- c(col_name_data, log_name)
@@ -160,7 +160,7 @@ sp_enrichment <- function(data,
       stop(
         paste(
           log10_transform_variable,
-          "column is not numerical column. Plase do not set log10 transform on this column."
+          "column is not numerical column. Please do not set log10 transform on this column."
         )
       )
     } else {
@@ -180,13 +180,13 @@ sp_enrichment <- function(data,
     data[[size_variable]] = mixedToFloat(data[[size_variable]])
   }
 
-  if (sqrt_transform_variable != "no_transform" &&
+  if (!sp.is.null(sqrt_transform_variable) &&
       (sp.is.null(size_variable) ||
        size_variable == sqrt_transform_variable)) {
     size_variable = paste0("sqrt_", sqrt_transform_variable)
   }
 
-  if (sqrt_transform_variable != "no_transform") {
+  if (!sp.is.null(sqrt_transform_variable)) {
     sqrt_name = paste0("sqrt_", sqrt_transform_variable)
     col_name_data <- colnames(data)
     col_name_data <- c(col_name_data, sqrt_name)

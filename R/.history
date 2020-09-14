@@ -54,3 +54,8 @@
 [/root/pipeline/YSX/R] 43499  [2020-09-07 18:34:40][root][125.33.15.95]git push -u origin develop
 [/root/pipeline/YSX/R] 43500  [2020-09-07 18:35:23][root][125.33.15.95]git pull
 [/root/pipeline/YSX/R] 43501  [2020-09-07 18:37:14][root][125.33.15.95]#splot_flower.sh 
+[/root/pipeline/YSX/R] 43827  [2020-09-14 11:05:34][root][124.64.17.46]cd R
+[/root/pipeline/YSX/R] 43828  [2020-09-14 11:05:39][root][124.64.17.46]vim sp_enrichment.R 
+[/root/pipeline/YSX/R] 43829  [2020-09-14 11:11:14][root][124.64.17.46]vim utilities.R 
+[/root/pipeline/YSX/R] 43829  [2020-09-14 11:11:14][root][124.64.17.46]vim utilities.R 
+[/root/pipeline/YSX/R] 43830  [2020-09-14 11:19:08][root][124.64.17.46]#vim sp_enrichment.R 

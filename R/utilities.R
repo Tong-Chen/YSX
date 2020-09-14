@@ -367,6 +367,9 @@ numCheck <- function(x) {
   # Function get from https://stackoverflow.com/questions/10674992/convert-a-character-vector-of-mixed-numbers-fractions-and-integers-to-numeric?rq=1
   # With little modifications
   is.numeric2 <- is.numeric(x)
+  if(is.numeric2){
+    return(is.numeric2)
+  }
   x <- sapply(x, as.character)
   is.integer  <- grepl("^-?\\d+$", x)
   is.fraction <- grepl("^-?\\d+\\/\\d+$", x)
@@ -374,7 +377,6 @@ numCheck <- function(x) {
   is.percent <- grepl("[0-9.]+%$", x)
   is.mixed    <- grepl("^-?\\d+ \\d+\\/\\d+$", x)
   return(all(
-    is.numeric2 |
       is.integer | is.fraction | is.float | is.mixed | is.percent
   ))
 }
@@ -996,6 +998,7 @@ sp_ggplot_layout <-
              units = c("cm"),
              width = width,
              height = height,
+			 # added for abnormal pdf output
 			 useDingbats = FALSE,
              ...)
     }
