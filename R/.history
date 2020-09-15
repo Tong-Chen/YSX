@@ -59,3 +59,11 @@
 [/root/pipeline/YSX/R] 43829  [2020-09-14 11:11:14][root][124.64.17.46]vim utilities.R 
 [/root/pipeline/YSX/R] 43829  [2020-09-14 11:11:14][root][124.64.17.46]vim utilities.R 
 [/root/pipeline/YSX/R] 43830  [2020-09-14 11:19:08][root][124.64.17.46]#vim sp_enrichment.R 
+[/root/pipeline/YSX/R] 43836  [2020-09-14 15:25:08][root][124.64.18.30]cd R
+[/root/pipeline/YSX/R] 43837  [2020-09-14 15:25:10][root][124.64.18.30]ls -ltr
+[/root/pipeline/YSX/R] 43838  [2020-09-14 15:25:15][root][124.64.18.30]vim sp_upsetView.R
+[/root/pipeline/YSX/R] 43839  [2020-09-14 15:25:25][root][124.64.18.30]vim utilities.R
+[/root/pipeline/YSX/R] 43840  [2020-09-14 15:27:48][root][124.64.18.30]vim ../../cloud_config/enrichment_input.json 
+[/root/pipeline/YSX/R] 43840  [2020-09-14 15:27:48][root][124.64.18.30]vim ../../cloud_config/enrichment_input.json 
+[/root/pipeline/YSX/R] 43914  [2020-09-15 21:22:43][root][221.221.104.240]cd R
+[/root/pipeline/YSX/R] 43915  [2020-09-15 21:22:46][root][221.221.104.240]vim WGCNA.R 

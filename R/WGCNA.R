@@ -1525,7 +1525,7 @@ WGCNA_ModuleGeneTraitHeatmap <-
     geneTraitCorMelt = as.data.frame(geneTraitCor)
     write.table(
       geneTraitCorMelt,
-      file = paste0(exprMat, ".gene_trait_correlation.xls"),
+      file = paste0(prefix, ".gene_trait_correlation.xls"),
       sep = "\t",
       quote = F
     )
@@ -1536,7 +1536,7 @@ WGCNA_ModuleGeneTraitHeatmap <-
     geneTraitPMelt = as.data.frame(geneTraitP)
     write.table(
       geneTraitPMelt,
-      file = paste0(exprMat, ".gene_trait_correlationPvalue.xls"),
+      file = paste0(prefix, ".gene_trait_correlationPvalue.xls"),
       sep = "\t",
       quote = F
     )
@@ -1668,7 +1668,7 @@ WGCNA_GeneModuleTraitCoorelation <-
     geneModuleMembershipMelt = as.data.frame(geneModuleMembership)
     write.table(
       geneModuleMembershipMelt,
-      file = paste0(exprMat, ".gene_module_correlation.xls"),
+      file = paste0(prefix, ".gene_module_correlation.xls"),
       sep = "\t",
       quote = F
     )
@@ -1839,13 +1839,13 @@ WGCNA_onestep <-
       os_system = Sys.info()['sysname']
     }
 
-    if (os_system == "Linux") {
-      # 打开多线程
-      enableWGCNAThreads()
-    } else {
-      # if mac
-      allowWGCNAThreads()
-    }
+    #if (os_system == "Linux") {
+    #  # 打开多线程
+    #  enableWGCNAThreads()
+    #} else {
+    #  # if mac
+    #  allowWGCNAThreads()
+    #}
 
 
     wgcnaL <- WGCNA_readindata(exprMat, traitData = traitData,
