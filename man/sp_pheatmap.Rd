@@ -15,6 +15,7 @@ sp_pheatmap(
   annotation_col = NULL,
   cluster_rows = FALSE,
   cluster_cols = FALSE,
+  cluster_cols_variable = NULL,
   clustering_method = "complete",
   clustering_distance_rows = "pearson",
   clustering_distance_cols = "pearson",
@@ -73,6 +74,8 @@ would always be set to FALSE.}
 \item{cluster_cols}{Hieratical cluster for columns. Default FALSE, accept TRUE.
 When there are less than 3 columns or more than 5000 columns, this parameter
 would always be set to FALSE.}
+
+\item{cluster_cols_variable}{Reorder branch order of clustered columns. (Test only)}
 
 \item{clustering_method}{Clustering method, Default "complete".
 Accept "ward.D", "ward.D2","single", "average" (=UPGMA),

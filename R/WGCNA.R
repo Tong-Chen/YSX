@@ -122,7 +122,7 @@ WGCNA_readindata <-
     result <- list(datExpr = datExpr,
                    traitData = NULL,
                    traitColors = NULL)
-    if (!is.null(traitData)) {
+    if (!sp.is.null(traitData)) {
       traitData <-
         read.table(
           file = traitData,
@@ -679,7 +679,7 @@ WGCNA_softpower <-
 
     p = p1 %>% aplot::insert_bottom(p2)
 
-    if (is.null(saveplot)) {
+    if (sp.is.null(saveplot)) {
       p
     } else {
       ggsave(
@@ -1028,7 +1028,7 @@ WGCNA_MEs_traitCorrelationHeatmap <-
     if (sp.is.null(saveplot)) {
       saveplot = NA
     }
-    if (is.null(traitData)) {
+    if (sp.is.null(traitData)) {
       # MEs_colpheno = orderMEs(MEs_col)
       MEs_colpheno = MEs_col
     } else {
@@ -1341,7 +1341,7 @@ WGCNA_moduleTraitPlot <-
            ...) {
     ### 模块与表型数据关联
     cat(sp_current_time(), "Plot correlation heatmap among all traits and modules.\n")
-    if (is.null(traitData)) {
+    if (sp.is.null(traitData)) {
       cat(sp_current_time(), "No plot since no trait data available.\n")
       return(1)
     }else{
@@ -1505,7 +1505,7 @@ WGCNA_ModuleGeneTraitHeatmap <-
 
     ## 只有连续型性状才能进行计算，如果是离散变量，在构建样品表时就转为0-1矩阵
     cat(sp_current_time(), "Plot module-gene-trait correlation heatmap.\n")
-    if (is.null(traitData)) {
+    if (sp.is.null(traitData)) {
       cat(sp_current_time(), "No module-gene-trait correlation heatmap plot since no trait data.\n")
       return(1)
     }else{
@@ -1645,7 +1645,7 @@ WGCNA_GeneModuleTraitCoorelation <-
            ...) {
     ### 计算模块与基因的相关性矩阵
 
-    if (is.null(traitData)) {
+    if (sp.is.null(traitData)) {
       cat(sp_current_time(), "No module-gene-trait correlation plot since no trait data.\n")
       return(1)
     }else{

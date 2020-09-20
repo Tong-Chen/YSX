@@ -67,3 +67,7 @@
 [/root/pipeline/YSX/R] 43840  [2020-09-14 15:27:48][root][124.64.18.30]vim ../../cloud_config/enrichment_input.json 
 [/root/pipeline/YSX/R] 43914  [2020-09-15 21:22:43][root][221.221.104.240]cd R
 [/root/pipeline/YSX/R] 43915  [2020-09-15 21:22:46][root][221.221.104.240]vim WGCNA.R 
+[/root/pipeline/YSX/R] 43916  [2020-09-15 21:25:56][root][221.221.104.240]../../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 43917  [2020-09-15 21:26:36][root][221.221.104.240]git add WGCNA.R 
+[/root/pipeline/YSX/R] 43918  [2020-09-15 21:26:47][root][221.221.104.240]git commit -m 'output prefix for some file'
+[/root/pipeline/YSX/R] 43919  [2020-09-15 21:26:52][root][221.221.104.240]git push -u origin develop

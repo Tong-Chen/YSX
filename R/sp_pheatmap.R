@@ -83,6 +83,7 @@ assignInNamespace(x = "draw_colnames",
 #' @param cluster_cols Hieratical cluster for columns. Default FALSE, accept TRUE.
 #' When there are less than 3 columns or more than 5000 columns, this parameter
 #' would always be set to FALSE.
+#' @param cluster_cols_variable Reorder branch order of clustered columns. (Test only)
 #' @param clustering_method Clustering method, Default "complete".
 #' Accept "ward.D", "ward.D2","single", "average" (=UPGMA),
 #' "mcquitty" (=WPGMA), "median" (=WPGMC) or "centroid" (=UPGMC)
@@ -160,6 +161,7 @@ sp_pheatmap <- function(data,
                         annotation_col = NULL,
                         cluster_rows = FALSE,
                         cluster_cols = FALSE,
+                        cluster_cols_variable = NULL,
                         clustering_method = 'complete',
                         clustering_distance_rows = 'pearson',
                         clustering_distance_cols = 'pearson',
@@ -481,6 +483,9 @@ sp_pheatmap <- function(data,
       }
     }
     cluster_rows_results = hclust(row_dist, method = clustering_method)
+    sv = svd(t(data))$v[,1]
+    dend = reorder(as.dendrogram(cluster_rows_results), wts=sv)
+    cluster_rows_results <- as.hclust(dend)
     row_order = cluster_rows_results$order
   }
 
@@ -517,6 +522,15 @@ sp_pheatmap <- function(data,
       }
     }
     cluster_cols_results = hclust(col_dist, method = clustering_method)
+    if(sp.is.null(cluster_cols_variable)){
+      sv = svd(data)$v[,1]
+    } else {
+      sv = annotation_col[[cluster_cols_variable]]
+    }
+
+    dend = reorder(as.dendrogram(cluster_cols_results), wts=sv)
+    cluster_cols_results <- as.hclust(dend)
+
     col_order = cluster_cols_results$order
   }
 
