@@ -1564,6 +1564,7 @@ WGCNA_ModuleGeneTraitHeatmap <-
     )
 
     #plot_me_trat <- cbind(dynamicColors,moduleColors,geneTraitCor)
+	print(geneTraitCor)
     geneTraitCorColor <- WGCNA::numbers2colors(geneTraitCor)
 
     if (!sp.is.null(saveplot)) {
