@@ -25,7 +25,6 @@ sp_enrichment(
   shape_variable = NULL,
   coordinate_flip = FALSE,
   extra_ggplot2_cmd = NULL,
-  file_name = NULL,
   ...
 )
 }

@@ -6,7 +6,7 @@
 \usage{
 WGCNA_moduleTraitPlot(
   MEs_col,
-  traitData,
+  traitData = NULL,
   corType = "bicor",
   saveplot = NULL,
   prefix = "ehbio",
