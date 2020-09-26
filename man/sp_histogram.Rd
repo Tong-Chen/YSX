@@ -7,113 +7,94 @@
 sp_histogram(
   data,
   melted = FALSE,
-  xvariable = NULL,
-  color_variable = NULL,
-  color_variable_order = NULL,
-  group_variable = NULL,
-  group_variable_order = NULL,
-  value_scale = 1,
-  facet_variable = NULL,
-  facet_variable_order = NULL,
-  maximum_allowed = Inf,
-  yaxis_statistics = "count/sum(count)",
-  plot_type = "line",
-  binwidth = NULL,
-  hist_bar_position = "identity",
+  yAxis_variable,
+  legend_variable,
+  stat = "density",
+  scale = 1,
+  level_i = c(),
+  facet = "haha",
+  facet_order_i = c(),
+  j_facet_order_i = c(),
+  largest = "Inf",
+  type_hist = "count/sum(count)",
+  type_p = "line",
+  adjust = NULL,
+  pos = "identity",
   alpha = 0.4,
-  yaxis_scale_mode = NULL,
-  y_add = 0,
   fill_area = FALSE,
   line_size = 1,
-  add_mean_value_vline = FALSE,
-  manual_color_vector = "Accent",
-  facet_scales = "fixed",
-  facet_ncol = NULL,
-  facet_nrow = NULL,
+  vline = FALSE,
+  color_v = c(),
+  j_facet = "haha",
+  facet_scale = "fixed",
+  facet_ncol = 1,
   xtics = TRUE,
   ytics = TRUE,
   legend.position = "right",
-  xtics_angle = 0,
-  manual_xtics_value = NULL,
-  manual_xtics_pos = NULL,
-  custom_vline_x_position = NULL,
+  xtics_angle = 90,
+  xtics_value = 0,
+  xtics_v = 0,
+  custom_vline_coord = NULL,
   custom_vline_anno = NULL,
   x_label = NULL,
   y_label = NULL,
   title = "",
-  font_path = NULL,
-  debug = F,
-  extra_ggplot2_cmd = NULL,
-  filename = NULL,
-  base_font_size = 11,
   ...
 )
 }
 \arguments{
-\item{data}{Data frame or data file (with header line, the first
-column will not be treated as the row-names, tab separated)}
+\item{data}{Data frame or data file (with header line, the first column will not be treated as the rowname, tab seperated)}
 
-\item{melted}{\code{TRUE} for dealing with long format matrix, the program will skip
-melt preprocess. If input is wide format matrix, this parameter should be set to \code{FALSE}.}
+\item{melted}{When FALSE, it will skip melt preprocesses.}
 
-\item{xvariable}{Specify the column name used as Y-axis value (one of column names,
-should be specified when inputting long format matrix).}
+\item{yAxis_variable}{Specify the column name used as value variable.}
 
-\item{color_variable}{Specify the column name used as color variable.}
+\item{legend_variable}{Specify the column name used as legend variable.}
 
-\item{color_variable_order}{Levels for color variable to set their appearing order.
-Accept a vector like \code{c('ctcf','h3k27ac')}
-(normally whole or a subset of unique values of one column with order specified).}
+\item{scale}{Scale value. All values will be divided by supplied one. Default 1.}
 
-\item{group_variable}{Specify the column name used as group variable.}
+\item{level_i}{Levels for legend variable. Accept a string like "'ctcf','h3k27ac'".}
 
-\item{group_variable_order}{Levels for color variable to set their appearing order.
-Accept a vector like \code{c('ctcf','h3k27ac')}
-(normally whole or a subset of unique values of one column with order specified).}
+\item{facet}{Variable name for facet. Optional, the name of one column representing a group should be given if group
+information is needed. Here 'set' can be given if you want to plot set-1 and set-2 separatelt.}
 
-\item{value_scale}{Scale value. All values will be divided by supplied one. Default 1.}
+\item{facet_order_i}{Order of s_facet (facet_variable given to \code{facet}). Optional even -s is given. Only specified if the facet order is what you want. Input format likes
+"'facet1','facet2',"facet10"".}
 
-\item{facet_variable}{Wrap plots by given column (one of column names should be specified).
-This is used to put multiple plot in one picture.}
+\item{j_facet_order_i}{Order of J_facet (facet variable given to \code{j_facet}). Optional even -s is given. Only specified if the facet order is what you want. Input format likes
+"'facet1','facet2',"facet10"".}
 
-\item{facet_variable_order}{Order of facets (to set the appearance order of each subplot).
-Accept a vector like \code{c('ctcf','h3k27ac')}
-(normally whole or a subset of unique values of one column with order specified).}
+\item{largest}{The largest value allowed. Values other than this will be set as this value. Default Inf.}
 
-\item{maximum_allowed}{The largest value allowed. Values other than this will be set
-as this value. Default Inf.}
+\item{type_hist}{Plot with density or count or frequency in y-axis. Default frequency, accept density, count. When \code{type_p} is both, frequency will be given here.}
 
-\item{yaxis_statistics}{Plot with density or count or frequency in y-axis.
-Default \code{frequency}, accept \code{density}, \code{count}.
-When \code{plot_type} is both, `frequency`` will be given here.}
+\item{type_p}{Plot frequency or density or hist or both frequency and histogram. Default line means frequency accept density_line, hist or both.}
 
-\item{plot_type}{Plot frequency or density or hist or both frequency and histogram.
-Default line means frequency accept \code{density_line}, \code{hist} or \code{both}.}
+\item{adjust}{The value for adjust (like the width of each bin) in geom_density, and binwidth for geom_histogram.}
 
-\item{binwidth}{The value for \verb{binwidth`` (like the width of each bin) in }geom_density\verb{, and }binwidth\code{for}geom_histogram`.}
+\item{pos}{Position paramter for hist bars. Default identity, accept dodge.}
 
-\item{hist_bar_position}{Position parameter for hist bars. Default \code{identity}, accept \code{dodge}.}
-
-\item{yaxis_scale_mode}{Give the following \code{scale_y_log10()},
-\code{coord_trans(y="log10")}, or other legal command for ggplot2 or
-simply \code{log2} to set the scale way.}
-
-\item{y_add}{A number to add if log scale is used.
-Default 0 meaning the minimum non-zero value would be used.}
+\item{alpha}{Alpha value for transparent. Default 0.4, accept a number form 0 to 1,  the smaller, the more transparent.}
 
 \item{fill_area}{Fill the area if TRUE. Default FALSE.}
 
 \item{line_size}{line size. Default 1. Accept a number.}
 
-\item{add_mean_value_vline}{Add mean value as vline. Default FALSE,  accept TRUE.}
+\item{vline}{Add mean value as vline. Default FALSE,  accept TRUE.}
 
-\item{facet_scales}{Paramter for scales for facet. Default \code{fixed} meaning each inner graph
-use same scale (x,y range), \code{free} (variable x, y ranges for each sub-plot),
-\code{free_x} (variable x ranges for each sub-plot), \code{free_y} (variable y ranges for each sub-plot).}
+\item{color_v}{Color for each line. Str in given
+format must be supplied, ususlly the number of colors should
+be equal to the number of lines.
+"'red','pink','blue','cyan','green','yellow'" or
+"rgb(255/255,0/255,0/255),rgb(255/255,0/255,255/255),rgb(0/255,0/255,255/255),
+rgb(0/255,255/255,255/255),rgb(0/255,255/255,0/255),rgb(255/255,255/255,0/255)"}
 
-\item{facet_ncol}{The number of columns one want when \code{facet} is used. Default NULL.}
+\item{j_facet}{Another variable for facet. Optional, same meaning as \code{facet} but different columns, like 'variable'. When this is given,
+facet_grid would be used in format like facet_grid(s_facet ~ j_facet) pay attention to the order.}
 
-\item{facet_nrow}{The number of rows one want when \code{facet} is used. Default NULL.}
+\item{facet_scale}{Parameter for scales for facet. Necessary if only \code{facet} is given. Default each inner graph use same scale (x, y range). "free", 'free_x', 'free_y' is accepted.}
+
+\item{facet_ncol}{Number of columns in one row when do faceting. Necessary if only \code{facet} is given}
 
 \item{xtics}{Show the X axis.}
 
@@ -121,20 +102,17 @@ use same scale (x,y range), \code{free} (variable x, y ranges for each sub-plot)
 
 \item{legend.position}{Position of legend, accept top, bottom, left, right, none or c(0.8,0.8).}
 
-\item{xtics_angle}{Rotation angle for a-axis. Default 0.}
+\item{xtics_angle}{Rotation angle for a-axis.}
 
-\item{manual_xtics_value}{Manually set the values of xtics when \code{manual_xtics_position} is specified.
-Default the content of \code{manual_xtics_position} when \code{manual_xtics_position} is specified,
-accept a series of numbers in following format "c(1,2,3,4,5)" or other R code that can
-generate a vector to set the value of manual xtics.}
+\item{xtics_value}{Manually set the value of xtics when \code{xtics_v} is specified. Default the content of \code{xtics_v} when \code{xtics_v} is specified,
+accept a series of numbers in following format "c(1,2,3,4,5)" or other R code that can generate a vector to set the position of xtics.}
 
-\item{manual_xtics_pos}{Manually set the positions of xtics. Default FALSE, accept a series of
-numbers in following format "c(1,2,3,4,5)" or other R code that can generate a vector
-to set the position of manual xtics.}
+\item{xtics_v}{Manually set xtics. Default FALSE, accept a series of
+numbers in following format "c(1,2,3,4,5)" or other R code that can generate a vector.}
 
-\item{custom_vline_x_position}{A vector of coordinates for vertical lines.}
+\item{custom_vline_coord}{Add vline by given point. Default FALSE, accept a series of numbers in following format "c(1,2,3,4,5)" or other R code that can generate a vector.}
 
-\item{custom_vline_anno}{Annotation text for each vertical line.}
+\item{custom_vline_anno}{Add labels to vline. Default FALSE, accept a series of numbers in following format "c(1,2,3,4,5)" or other R code that can generate a vector.}
 
 \item{x_label}{Xlab label.}
 
@@ -142,15 +120,7 @@ to set the position of manual xtics.}
 
 \item{title}{Title of picture.}
 
-\item{font_path}{Specify font type. Give a path for one font type file
-like '/etc/fonts/Arial.ttf'
-or 'HeiArial.ttc'(if in current directory), Default system default.}
-
-\item{extra_ggplot2_cmd}{Extra ggplot2 commands (currently unsupported)}
-
-\item{filename}{Output picture to given file.}
-
-\item{...}{Other parameters given to sp_ggplot_layout}
+\item{...}{}
 }
 \value{
 A ggplot2 object
@@ -161,12 +131,12 @@ Generating histogram plot
 \examples{
 
 histogram_test_data <- data.frame(Type = letters[1:2], Value = runif(80))
-sp_histogram(data = histogram_test_data, xvariable = "Value", color_variable = "Type",
- plot_type = "both", yaxis_statistics = "count/sum(count)")
+sp_histogram(data = histogram_test_data, yAxis_variable = "Value", legend_variable = "Type",
+ type_p = "both", type_hist = "count/sum(count)")
 
 ## Not run:
 input <- "histogram.data"
-sp_histogram(data=input, xvariable = "Value", color_variable = "Type",
- plot_type = "both", yaxis_statistics = "count/sum(count)")
+sp_histogram(data=input, yAxis_variable = "Value", legend_variable = "Type",
+ type_p = "both", type_hist = "count/sum(count)")
 ## End(Not run)
 }

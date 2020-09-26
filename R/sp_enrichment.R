@@ -81,7 +81,6 @@ sp_enrichment <- function(data,
                           shape_variable = NULL,
                           coordinate_flip = FALSE,
                           extra_ggplot2_cmd = NULL,
-                          file_name = NULL,
                           ...) {
   if (class(data) == "character") {
     data <- sp_readTable(data, row.names = NULL)

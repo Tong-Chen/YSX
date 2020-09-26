@@ -122,6 +122,9 @@ sp_vennDiagram <- function (data,
       }
     }
 
+    # 移除log
+    futile.logger::flog.threshold(futile.logger::ERROR, name = "VennDiagramLogger")
+
     num = length(labelRecord)
 
     generateVennData <- function(label, data){

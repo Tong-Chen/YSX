@@ -72,6 +72,8 @@ sp_barplot <- function (data,
                         xvariable_order = NULL,
                         y_add = 0,
                         group_variable = NULL,
+                        add_bar_link = FALSE,
+                        statistics = FALSE,
                         add_point = F,
                         yaxis_scale_mode = NULL,
                         facet_variable = NULL,
@@ -85,6 +87,7 @@ sp_barplot <- function (data,
                         legend.position = 'right',
                         xtics = TRUE,
                         xtics_angle = 0,
+                        statistics = FALSE,
                         ytics = TRUE,
                         manual_color_vector = "Set2",
                         facet_scales = 'fixed',
@@ -156,7 +159,15 @@ sp_barplot <- function (data,
       stop(paste(group_variable,'must be one of column names of data!'))
     }
     # group_variable_en = sym(group_variable)
-    data_sd_mean <- data %>% group_by(across(group_variable)) %>%
+    group_variable_vector <- unique(c(xvariable, group_variable, facet_variable))
+    group_variable_vector <- group_variable_vector[!sapply(group_variable_vector, sp.is.null)]
+    if (length(group_variable_vector) == 1 ){
+      xvariable = group_variable_vector
+      color_variable = group_variable_vector
+    } else {
+      color_variable = group_variable
+    }
+    data_sd_mean <- data %>% group_by(across(group_variable_vector)) %>%
       summarise(Standard_deviation=sd(!!yvariable_en), Mean_value=mean(!!yvariable_en)) %>%
       ungroup() %>%
       group_by(!!xvariable_en) %>%
@@ -231,7 +242,6 @@ sp_barplot <- function (data,
   }
 
 
-
   xvariable_en = sym(xvariable)
   color_variable_en = sym(color_variable)
   yvariable_en = sym(yvariable)
@@ -269,6 +279,67 @@ sp_barplot <- function (data,
       aes(fill = !!color_variable_en),
       width = width_dodge
     )
+
+  if (add_bar_link && bar_mode != "dodge") {
+    wild_data <- spread(  data = data_point,  key = xvariable, value = yvariable )
+    xvariable_order_link <- unique(data_point[,xvariable])
+    color_variable_order_link <- unique(data_point[,color_variable])
+    wild_data[[color_variable]] <- factor(wild_data[[color_variable]],
+                               levels = color_variable_order_link, ordered = T)
+    wild_data <- wild_data[order(wild_data[,color_variable],decreasing=T),]
+    wild_data <- wild_data[, c(color_variable,xvariable_order_link)]
+    wild_data_col <- colnames(wild_data)
+    wild_data_row <- rownames(wild_data)
+    if (sp.is.null(color_variable_order)){
+    if (bar_mode == "stack") {
+      link_dat <- wild_data %>%
+        arrange(by = desc(color_variable)) %>%
+        mutate_if(is.numeric, cumsum)
+    } else {
+      wild_data_colorvariable <- wild_data[color_variable]
+      wild_data <-
+        cbind(wild_data_colorvariable, as.data.frame(apply(wild_data[, -1], 2, function(x)
+          x / sum(x))))
+      link_dat <- wild_data  %>%
+        arrange(by = desc(color_variable)) %>%
+        mutate_if(is.numeric, cumsum)
+    }
+    } else {
+      wild_data = sp_set_factor_order(wild_data, color_variable, color_variable_order)
+      wild_data <- wild_data[order(wild_data[,color_variable],decreasing=T),]
+      if (bar_mode == "stack") {
+
+
+        link_dat <- wild_data %>%
+          arrange(by = desc(color_variable)) %>%
+          mutate_if(is.numeric, cumsum)
+      } else {
+
+        wild_data_colorvariable <- wild_data[color_variable]
+        wild_data <-
+          cbind(wild_data_colorvariable, as.data.frame(apply(wild_data[, -1], 2, function(x)
+            x / sum(x))))
+
+        link_dat <- wild_data  %>%
+          arrange(by = desc(color_variable)) %>%
+          mutate_if(is.numeric, cumsum)
+      }
+    }
+    link_dat <-
+      link_dat[, c(1, 2, rep(3:(ncol(link_dat) - 1), each = 2), ncol(link_dat))]
+    link_dat <- data.frame(y = t(matrix(t(link_dat[, -1]), nrow = 2)))
+    link_dat$x.1 <- 1:(ncol(wild_data) - 2) + width_dodge / 2
+    link_dat$x.2 <- 1:(ncol(wild_data) - 2) + (1 - width_dodge / 2)
+
+    p <- p + geom_segment(data = link_dat,
+                          aes(
+                            x = x.1,
+                            xend = x.2,
+                            y = y.1,
+                            yend = y.2
+                          ),
+                          inherit.aes = F)
+  }
 
   if (!sp.is.null(error_bar_variable)) {
     if (!(error_bar_variable %in% c(data_colnames, "Standard_deviation"))) {
@@ -329,6 +400,7 @@ sp_barplot <- function (data,
                               position =  position)
   }
 
+
   if(add_text){
     text_size =  base_font_size / 3.2
     geom_text_parameter <- list()
@@ -371,6 +443,81 @@ sp_barplot <- function (data,
     }
   }
 
+  if (statistics) {
+    # 代码修改自 amplicon包 microbiota/amplicon
+    # https://github.com/microbiota/amplicon/blob/master/R/alpha_boxplot.R
+
+    group_variable_vector <- unique(c(xvariable, color_variable, facet_variable))
+    group_variable_vector <- group_variable_vector[!sapply(group_variable_vector, sp.is.null)]
+    #data2 <- data[,group_variable_vector]
+    data$combine__grp__for__statistis_sp <- do.call(paste0, data[group_variable_vector])
+
+    formula = as.formula(paste(yvariable, "~", "combine__grp__for__statistis_sp"))
+    model = aov(formula, data = data)
+    if (length(unique(data$combine__grp__for__statistis_sp)) == 2) {
+      library(agricolae)
+      out = LSD.test(model, "combine__grp__for__statistis_sp", p.adj = "none")
+      # print(out)
+      LSD.test_table = as.data.frame(out$statistics)
+      stats = out$groups
+      data$stats = stats[as.character(data$combine__grp__for__statistis_sp), ]$groups
+
+      suppressWarnings(write.table(
+        LSD.test_table,
+        file = "barplot_LSD.test.txt",
+        sep = "\t",
+        quote = F,
+        row.names = F
+      ))
+    } else{
+      Tukey_HSD = TukeyHSD(model, ordered = TRUE, conf.level = 0.95)
+      # return(Tukey_HSD)
+      Tukey_HSD_table = as.data.frame(Tukey_HSD$combine__grp__for__statistis_sp)
+      Tukey.levels = Tukey_HSD$combine__grp__for__statistis_sp[, 4]
+      Tukey.labels = data.frame(multcompLetters(Tukey.levels)['Letters'])
+      Tukey.labels$group = rownames(Tukey.labels)
+      Tukey.labels = Tukey.labels[order(Tukey.labels$group),]
+      data$stats = Tukey.labels[as.character(data$combine__grp__for__statistis_sp), ]$Letters
+      # print(data)
+      suppressWarnings(write.table(
+        Tukey_HSD_table,
+        file = "barplot_TukeyHSD.txt",
+        sep = "\t",
+        quote = F,
+        row.names = F
+      ))
+    }
+
+    max = max(data[, c(yvariable)])
+    min = min(data[, yvariable])
+    x = data[, c(xvariable, yvariable, "combine__grp__for__statistis_sp")]
+    y = x %>% group_by(combine__grp__for__statistis_sp) %>% summarise(Max =
+                                                                        max(!!yvariable_en))
+    y = as.data.frame(y)
+    # print(y)
+    colnames(y) <- c("group", "Max")
+    rownames(y) = y$group
+    data$y = y[as.character(data$combine__grp__for__statistis_sp),]$Max * 1.04
+    # print(data)
+    p + geom_text(
+      data = data,
+      aes(
+        x = !!xvariable_en,
+        y = y,
+        color = !!color_variable_en,
+        label = stats,
+        group = !!color_variable_en
+      ),
+      position = position_dodge(width =
+                                  0.9),
+      show.legend = F
+    )
+
+    p <- sp_manual_color_ggplot2(p,
+                                 data,
+                                 color_variable,
+                                 manual_color_vector)
+  }
 
   if (!sp.is.null(facet_variable)) {
     p <-

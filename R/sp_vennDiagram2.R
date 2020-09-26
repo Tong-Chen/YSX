@@ -148,6 +148,8 @@ sp_vennDiagram2 <- function (data,
 
     names(labelContent) <- labelRecord
 
+    # 移除log
+    futile.logger::flog.threshold(futile.logger::ERROR, name = "VennDiagramLogger")
 
     color_v <- generate_color_list(manual_color_vector, num)
     #label.col = c("orange", "white", "darkorchid4", "white", "white", "white", "white", "white", "darkblue", "white", "white", "white", "white", "darkgreen", "white"),

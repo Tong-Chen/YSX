@@ -1,3 +1,14 @@
+
+#' Pheatmap function only for inner usages
+#'
+#' @param n Nothing
+#' @param gaps Nothing
+#' @param m Nothing
+#'
+#' @return A list
+#' @export
+#'
+#' @examples
 find_coordinates <- function(n, gaps, m = 1:n) {
   if (length(gaps) == 0) {
     return(list(coord = unit(m / n, "npc"), size = unit(1 / n, "npc")))
@@ -17,6 +28,17 @@ find_coordinates <- function(n, gaps, m = 1:n) {
   return(list(coord = coord, size = size))
 }
 
+#' Pheatmap function only for inner usages
+#'
+#' @param coln Nothing
+#' @param gaps Nothing
+#' @param xtics_angle Nothing
+#' @param ... Nothing
+#'
+#' @return A grob
+#' @export
+#'
+#' @examples
 draw_colnames_custom <-
   function (coln, gaps, xtics_angle = 0, ...) {
     coord = find_coordinates(length(coln),  gaps)
@@ -52,11 +74,6 @@ draw_colnames_custom <-
   }
 
 
-# Overwrite default draw_colnames with your own version
-assignInNamespace(x = "draw_colnames",
-                  value = "draw_colnames_custom",
-                  ns = asNamespace("pheatmap"))
-
 
 #' Generating pheatmap plot
 #'
@@ -83,7 +100,10 @@ assignInNamespace(x = "draw_colnames",
 #' @param cluster_cols Hieratical cluster for columns. Default FALSE, accept TRUE.
 #' When there are less than 3 columns or more than 5000 columns, this parameter
 #' would always be set to FALSE.
-#' @param cluster_cols_variable Reorder branch order of clustered columns. (Test only)
+#' @param cluster_cols_variable Reorder branch order of clustered columns by given variable. (Test only)
+#' @param cluster_rows_variable Reorder branch order of clustered rows by given variable. (Test only)
+#' @param remove_cluster_cols_variable_in_annocol Do not show `cluster_cols_variable` in column annotation.
+#' @param remove_cluster_rows_variable_in_annorow Do not show `cluster_rows_variable` in row annotation.
 #' @param clustering_method Clustering method, Default "complete".
 #' Accept "ward.D", "ward.D2","single", "average" (=UPGMA),
 #' "mcquitty" (=WPGMA), "median" (=WPGMC) or "centroid" (=UPGMC)
@@ -162,6 +182,9 @@ sp_pheatmap <- function(data,
                         cluster_rows = FALSE,
                         cluster_cols = FALSE,
                         cluster_cols_variable = NULL,
+                        cluster_rows_variable = NULL,
+                        remove_cluster_cols_variable_in_annocol = FALSE,
+                        remove_cluster_rows_variable_in_annorow = FALSE,
                         clustering_method = 'complete',
                         clustering_distance_rows = 'pearson',
                         clustering_distance_cols = 'pearson',
@@ -191,6 +214,12 @@ sp_pheatmap <- function(data,
     argg <- c(as.list(environment()), list(...))
     print(argg)
   }
+
+
+  # Overwrite default draw_colnames with your own version
+  assignInNamespace(x = "draw_colnames",
+                    value = "draw_colnames_custom",
+                    ns = asNamespace("pheatmap"))
 
   if (class(data) == "character") {
     # if (sp.is.null(outputprefix)) {
@@ -296,6 +325,14 @@ sp_pheatmap <- function(data,
         annotation_row[match(rownames(data), rownames(annotation_row)), , drop =
                          F]
     }
+    if(!sp.is.null(cluster_rows_variable)){
+      if (!cluster_rows_variable %in% colnames(annotation_row) ) {
+        stop(paste(
+          cluster_rows_variable,
+          'must be one of column names of row annotation matrix!'
+        ))
+      }
+    }
   } else {
     annotation_row <- NA
   }
@@ -307,6 +344,16 @@ sp_pheatmap <- function(data,
         annotation_col[match(colnames(data), rownames(annotation_col)), , drop =
                          F]
     }
+
+    if(!sp.is.null(cluster_cols_variable)){
+      if (!cluster_cols_variable %in% colnames(annotation_col) ) {
+        stop(paste(
+          cluster_cols_variable,
+          'must be one of column names of column annotation matrix!'
+        ))
+      }
+    }
+
   } else {
     annotation_col <- NA
   }
@@ -483,7 +530,17 @@ sp_pheatmap <- function(data,
       }
     }
     cluster_rows_results = hclust(row_dist, method = clustering_method)
-    sv = svd(t(data))$v[,1]
+
+    if(sp.is.null(cluster_rows_variable)){
+      sv = svd(data)$v[,1]
+    } else {
+      sv = annotation_row[[cluster_rows_variable]]
+      if(remove_cluster_rows_variable_in_annorow){
+        annotation_row[[cluster_rows_variable]] <- NULL
+      }
+    }
+
+    #print(sv)
     dend = reorder(as.dendrogram(cluster_rows_results), wts=sv)
     cluster_rows_results <- as.hclust(dend)
     row_order = cluster_rows_results$order
@@ -526,6 +583,10 @@ sp_pheatmap <- function(data,
       sv = svd(data)$v[,1]
     } else {
       sv = annotation_col[[cluster_cols_variable]]
+
+      if(remove_cluster_cols_variable_in_annocol){
+        annotation_col[[cluster_cols_variable]] <- NULL
+      }
     }
 
     dend = reorder(as.dendrogram(cluster_cols_results), wts=sv)

@@ -562,6 +562,9 @@ sp_transfer_one_column <- function(data, variable, yaxis_scale_mode=NULL, y_add=
 #'
 sp_set_factor_order <-
   function(data, variable, variable_order = NULL) {
+    if (!variable %in% colnames(data)){
+      stop(paste(variable,'must be one of column names of data!'))
+    }
     if(numCheck(data[[variable]])){
       if (!is.numeric(data[[variable]])) {
         data[[variable]] <- mixedToFloat(data[[variable]])

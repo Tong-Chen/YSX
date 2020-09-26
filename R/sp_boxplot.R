@@ -478,8 +478,17 @@ sp_boxplot <- function(data,
       library(agricolae)
       out = LSD.test(model, "combine__grp__for__statistis_sp", p.adj = "none")
       # print(out)
+      LSD.test_table = as.data.frame(out$statistics)
       stat = out$groups
       data$stat = stat[as.character(data$combine__grp__for__statistis_sp), ]$groups
+
+      suppressWarnings(write.table(
+        LSD.test_table,
+        file = "boxplot_LSD.test.txt",
+        sep = "\t",
+        quote = F,
+        row.names = F
+      ))
     } else{
       Tukey_HSD = TukeyHSD(model, ordered = TRUE, conf.level = 0.95)
       # return(Tukey_HSD)
@@ -490,8 +499,16 @@ sp_boxplot <- function(data,
       Tukey.labels = Tukey.labels[order(Tukey.labels$group),]
       data$stat = Tukey.labels[as.character(data$combine__grp__for__statistis_sp), ]$Letters
       # print(data)
-    }
 
+      suppressWarnings(write.table(
+        Tukey_HSD_table,
+        file = "boxplot_TukeyHSD.txt",
+        sep = "\t",
+        quote = F,
+        row.names = F
+      ))
+    }
+    alpha_boxplot
     max = max(data[, c(yvariable)])
     min = min(data[, yvariable])
     x = data[, c(xvariable, yvariable, "combine__grp__for__statistis_sp")]
