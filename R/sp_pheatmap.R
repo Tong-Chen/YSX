@@ -9,6 +9,9 @@
 #' @export
 #'
 #' @examples
+#'
+#' #Ignore
+#'
 find_coordinates <- function(n, gaps, m = 1:n) {
   if (length(gaps) == 0) {
     return(list(coord = unit(m / n, "npc"), size = unit(1 / n, "npc")))
@@ -39,6 +42,9 @@ find_coordinates <- function(n, gaps, m = 1:n) {
 #' @export
 #'
 #' @examples
+#'
+#' #Ignore
+#'
 draw_colnames_custom <-
   function (coln, gaps, xtics_angle = 0, ...) {
     coord = find_coordinates(length(coln),  gaps)
@@ -61,7 +67,7 @@ draw_colnames_custom <-
       hjust <- 0.5
     }
 
-    res = textGrob(
+    res = grid::textGrob(
       coln,
       x = x,
       y = unit(1, "npc") - unit(3, "bigpts"),

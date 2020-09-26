@@ -19,3 +19,8 @@ A list
 \description{
 Pheatmap function only for inner usages
 }
+\examples{
+
+#Ignore
+
+}
