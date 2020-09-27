@@ -508,7 +508,7 @@ sp_boxplot <- function(data,
         row.names = F
       ))
     }
-    alpha_boxplot
+
     max = max(data[, c(yvariable)])
     min = min(data[, yvariable])
     x = data[, c(xvariable, yvariable, "combine__grp__for__statistis_sp")]
