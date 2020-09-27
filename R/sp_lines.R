@@ -247,7 +247,6 @@ sp_lines <- function(data,
   if(sp.is.null(color_variable)){
     color_variable <- legend_variable[legend_variable!=xvariable][1]
   }
-  }
     errorbar_base_variable = yvariable
     errorbar_base_variable_en = sym(errorbar_base_variable)
     if(!sp.is.null(group_variable)){

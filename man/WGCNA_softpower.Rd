@@ -14,9 +14,6 @@ WGCNA_softpower(
 )
 }
 \arguments{
-\item{datExpr}{A transformed gene expression matrix normally output by \code{WGCNA_dataFilter}.
-Samples x Genes.}
-
 \item{networkType}{Default "signed". Allowed values are (unique abbreviations of)
 "unsigned", "signed", "signed hybrid". Correlation and distance are transformed as
 follows:
@@ -38,7 +35,7 @@ and 40 for other type. Any number less than 20 would be treated as 20.}
 \item{...}{Additional parameters given to plot output (\code{\link{pdf}}, \code{\link{png}},...) like "width", "height", .etc.}
 }
 \value{
-A number
+A list
 }
 \description{
 Select soft power, the minimum number to get scale Free Topology Model Fit value (R2) larger than 0.85.
