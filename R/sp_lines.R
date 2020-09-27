@@ -180,6 +180,7 @@ sp_lines <- function(data,
     data = sp_set_factor_order(data, color_variable, color_variable_order)
   }
 
+
   if (!sp.is.null(legend_variable_order)) {
     data = sp_set_factor_order(data, legend_variable, legend_variable_order)
   } else if (!melted) {
@@ -187,21 +188,7 @@ sp_lines <- function(data,
       factor(data[[legend_variable]], levels = wide_colnames, ordered = TRUE)
   }
 
-  # Not work
-  # line_size will always be a number
-  # if(!sp.is.null(line_size)){
-  #   if(is.numeric(line_size)){
-  #     data[["line_size"]] = line_size
-  #     line_size = "line_size"
-  #   }else{
-  #     if(!line_size %in% colnames(data)){
-  #       stop("Unexisted columns specifed for line_size parameters")
-  #     }
-  #   }
-  # }
-
-  # print(data)
-  xvariable_en = sym(xvariable)
+    xvariable_en = sym(xvariable)
   yvariable_en = sym(yvariable)
 
   color_variable_en = sym(color_variable)
@@ -218,6 +205,81 @@ sp_lines <- function(data,
       )
     )
   # +geom_errorbar(aes(ymin=value-se, ymax=value+se), width=1, size=0.5)
+
+  if (!sp.is.null(error_bar_variable)) {
+    if (!(error_bar_variable %in% c(data_colnames, "Standard_deviation"))) {
+      stop(paste(error_bar_variable,'must be column names of data!'))
+    }
+
+
+  # legend_variable_en = sym(legend_variable)
+  legend_variable_vector <- unique(c(xvariable, legend_variable))
+  legend_variable_vector <- legend_variable_vector[!sapply(legend_variable_vector, sp.is.null)]
+  if (length(legend_variable_vector) == 1 ){
+    xvariable = legend_variable_vector
+    color_variable = legend_variable_vector
+  } else {
+    color_variable = legend_variable
+  }
+  # library(Rmisc)
+  # summarySE(data, measurevar="Binding_strength", groupvars=c("Epi_type","Pos"))
+  # data$Pos <- as.character(data$Pos)
+  data_sd_mean <- data %>% group_by(across(legend_variable_vector)) %>%
+    summarise(Standard_deviation=sd(!!yvariable_en), Mean_value=mean(!!yvariable_en)) %>%
+    ungroup() %>%
+    group_by(!!xvariable_en) %>%
+    mutate(Mean_value_cumsum_s_p=rev(cumsum(rev(Mean_value))))
+
+  data <- as.data.frame(data_sd_mean)
+  print(data_sd_mean)
+
+  # data_sd_mean = sp_set_factor_order(data_sd_mean, legend_variable, legend_variable_order)
+
+
+  # data <- merge(data, data_sd_mean, by=legend_variable, all=F)
+
+  yvariable = "Mean_value"
+  yvariable_en = sym(yvariable)
+
+  error_bar_variable = "Standard_deviation"
+  error_bar_variable_en = sym(error_bar_variable)
+
+  if(sp.is.null(color_variable)){
+    color_variable <- legend_variable[legend_variable!=xvariable][1]
+  }
+  }
+    errorbar_base_variable = yvariable
+    errorbar_base_variable_en = sym(errorbar_base_variable)
+    if(!sp.is.null(group_variable)){
+      p <-
+        p + geom_errorbar(
+          mapping = aes(
+            ymin = !!errorbar_base_variable_en - !!error_bar_variable_en,
+            ymax = !!errorbar_base_variable_en + !!error_bar_variable_en,
+            group=!!color_variable_en
+          ),
+          data = data_sd_mean,
+          colour = "black",
+          width = 0.2,
+          position = "identity"
+          #position = position
+        )
+    } else {
+      p <-
+        p + geom_errorbar(
+          aes(
+            ymin = !!errorbar_base_variable_en - !!error_bar_variable_en,
+            ymax = !!errorbar_base_variable_en + !!error_bar_variable_en,
+            group=!!color_variable_en
+          ),
+          colour = "black",
+          width = 0.2,
+          position = "identity"
+          #position = position
+        )
+    }
+  }
+
 
   if (y_start_from_zero) {
     p <- p + expand_limits(y = 0)

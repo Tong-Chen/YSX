@@ -37,7 +37,7 @@ A tree with Multiple-Sequence-Alignment plot would be generated when given.}
 
 \item{color_branches}{Name of columns in \code{tree_attrib} used for color branches.}
 
-\item{layout}{one of 'rectangular', 'slanted', 'fan', 'circular', 'radial', 'equal_angle' or 'daylight'}
+\item{layout}{one of 'rectangular', 'slanted', 'fan', 'circular', 'radial', 'equal_angle', 'daylight' or 'ape'}
 
 \item{ladderize}{logical (default \code{TRUE}). Should the tree be re-organized to have a 'ladder'
 aspect?}

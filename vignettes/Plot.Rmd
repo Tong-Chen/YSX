@@ -27,7 +27,7 @@ library(YSX)
 library(pheatmap)
 library(RColorBrewer)
 library(grid)
-sp_pheatmap("exprTable.txt", xtics_angle = 90, cluster_rows = T, cluster_cols = T)
+sp_pheatmap("exprTable.txt", xtics_angle = 45, cluster_rows = T, cluster_cols = T)
 ```
 
 
@@ -53,6 +53,7 @@ sp_pheatmap(exprTable, cluster_rows = T, logv="log2", manual_color_vector="YlOrR
 ### Heatmap add side color bars
 
 ```{r}
+exprTable <- read.table("exprTable.txt", sep="\t", row.names=1, header=T)
 # Row annotation
 # Can be a dataframe or a file
 annotation_row = data.frame(Type=c("TF","TF","TF","TF","Enzyme","Enzyme"), row.names=rownames(exprTable))
@@ -67,6 +68,26 @@ sp_pheatmap(exprTable, xtics_angle = 90, cluster_rows = T, cluster_cols = T,
             annotation_row = annotation_row, annotation_col = annotation_col)
 ```
 
+Reorder branches
+
+```{r}
+exprTable <- read.table("exprTable.txt", sep="\t", row.names=1, header=T)
+# Row annotation
+# Can be a dataframe or a file
+annotation_row = data.frame(Type=c("TF","TF","TF","TF","Enzyme","Enzyme"), Weight=c(10,20,30,40,50,60), row.names=rownames(exprTable))
+
+# sp_writeTable(annotation_row, "exprTable.annorow.txt")
+
+annotation_col = data.frame(Count=c(1,2,4,8,16,32), row.names=colnames(exprTable))
+
+# sp_writeTable(annotation_col, "exprTable.annocol.txt")
+
+sp_pheatmap(exprTable, xtics_angle = 90, cluster_rows = T, cluster_cols = T,
+            annotation_row = annotation_row, annotation_col = annotation_col,
+            cluster_cols_variable = "Count", cluster_rows_variable = "Weight",
+            remove_cluster_cols_variable_in_annocol = FALSE,
+            remove_cluster_rows_variable_in_annorow = T)
+```
 
 
 ### Heatmap changing colors of side color bars
@@ -202,6 +223,8 @@ sp_vennDiagram(data = vennDiagram_data, header=T)
 ```{r}
 sp_vennDiagram(data = vennDiagram_data, label1 = "Set1",label2 = "Set2", label3="Set3", manual_color_vector = "Dark2")
 ```
+
+
 ```{r}
 sp_vennDiagram( supplyNumbers = TRUE,  numVector=c (120, 110, 50), labelVector=c('a','b'))
 ```
@@ -850,19 +873,17 @@ data="inflectionpoint.txt"
 sp_inflectionpoint(data=data,which_col = 2,keep_point = "little")
 ```
 
+## Eulerr plot
+
 ```{r}
+library(eulerr)
 library(YSX)
-data = "Euler.txt"
-data <- sp_readTable(data, row.names = NULL, header=T)
-```
 
-```{r}
-data$Intersection
-```
-
-```{r}
-plants[c("erigenia", "solanum", "cynodon")]
-plot(euler(plants[c("erigenia", "solanum", "cynodon")]))
+data = "Set.data"
+sp_EulerDiagrams(data = data, format = "items", # items or counts
+                              item_variable = "Gene",
+                              set_variable = "Sample",
+                 shape="circle",manual_color_vector = c("red","green","blue","yellow","purple"))
 ```
 
 ```{r}
@@ -871,6 +892,10 @@ library(YSX)
 
 data = "Euler.txt"
 
-sp_EulerDiagrams(data = data , saveplot = "euler.pdf" )
+sp_EulerDiagrams(data = data , format = "counts", # items or counts
+                 type = "percent",
+                              intersection_variable = "Intersection",
+                              count_variable = "Count",
+                 manual_color_vector = c("red","green","blue","yellow","purple"))
 ```
 
