@@ -26,13 +26,15 @@ sp_EulerDiagrams(
 \arguments{
 \item{data}{One filename or dataframe containing data in specified formats with header line.}
 
-\item{format}{\code{items} or \code{counts} with format specifed above.}
+\item{format}{\code{items} or \code{counts} with format specified above.}
 
 \item{intersection_variable}{Only used when \code{format=counts} to specify which column
 contains different types of interactions. For example data, first column name \code{Intersection}
 should be given here. Color should be specified for the appearance order of each set.}
 
-\item{count_variable}{Only used when \code{format=counts} to specify which column}
+\item{count_variable}{Only used when \code{format=counts} to specify which column
+contains computed counts for different types of interactions. For example data,
+first column name \code{Count} should be given here.}
 
 \item{item_variable}{Only used when \code{format=items} to specify which column
 contains all items like genes or OTUs or species. For example data, first column
@@ -45,7 +47,7 @@ order of each set.}
 
 \item{type}{Show \code{percent} or \code{counts} in the plot. Default \code{counts}.}
 
-\item{shape}{Use \code{circle} or \code{ellipse} in the plot. Default \code{ellipse}.}
+\item{shape}{Use \code{circle} or \code{ellipse} in the plot. Default \code{circle}.}
 
 \item{alpha}{Generate an alpha transparency values for return colors. 0 means fully transparent and 1 means opaque. Default 1.}
 

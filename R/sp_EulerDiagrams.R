@@ -30,7 +30,7 @@
 #' ```
 #'
 #' @param data One filename or dataframe containing data in specified formats with header line.
-#' @param format `items` or `counts` with format specifed above.
+#' @param format `items` or `counts` with format specified above.
 #' @param intersection_variable Only used when `format=counts` to specify which column
 #' contains different types of interactions. For example data, first column name `Intersection`
 #' should be given here. Color should be specified for the appearance order of each set.
@@ -44,9 +44,8 @@
 #' contains group information of items. For example data, second column
 #' name `Group` should be given here. Color should be specified for the alphabetial
 #' order of each set.
-#' @param count_variable Only used when `format=counts` to specify which column
 #' @param type Show `percent` or `counts` in the plot. Default `counts`.
-#' @param shape Use `circle` or `ellipse` in the plot. Default `ellipse`.
+#' @param shape Use `circle` or `ellipse` in the plot. Default `circle`.
 #' @inheritParams generate_color_list
 #' @inheritParams sp_ggplot_layout
 #' @param font_quantities Font size for numbers in Euler plot. Default `1`.
@@ -101,7 +100,7 @@ sp_EulerDiagrams <- function (data,
       stop(paste(intersection_variable,"and",count_variable,"are required for <items> format data."))
     }
     #data <- sort(data)
-    setname = unique(unlist(strsplit(data[[intersection_variable]],'&')))
+    setname = unique(unlist(strsplit(as.vector(data[[intersection_variable]]),'&')))
     intersection_count <- data[[count_variable]]
     names(intersection_count) = data[[intersection_variable]]
     data = intersection_count
