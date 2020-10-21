@@ -102,21 +102,54 @@ GeomFlatViolin <-
 
 
 
+#' raincloud
+#'
+#' @param data Data file (with header line, the first row is the colname,
+#' tab seperated. Multiple formats are allowed and described above)
+#' @param melted When TRUE, meaning a long format matrix is supplied to `data`.
+#' function will skip preprocess. Default FALSE.
+#' @param metadata Giving a metadata file with format specified in example
+#' to tell the group information for each sample.
+#' @param xvariable The column represents the x-axis values. For unmelted data, the program
+#' will use first column as x-variable. If one want to use first row of unmelted data
+#' as x-variable, please specify `variable` here (which is an inner name).
+#' Or if one want to use other columns in `metadata`.
+#' @param yvariable The column represents the digital values.
+#' For unmelted data, the program
+#' will use `value` as y-variable (which is an inner name).
+#' This parameter can only be set when `melted` is TRUE.
+#' @param ID_var Other columns one want to treat as ID variable columns
+#' except the one given to `xvariable`.
+#' @param coordinate_flip Rotate the plot from vertical to horizontal.
+#' Usefull for plots with many values or very long labels at X-axis
+#' @param position_nudge_flat_violin_x The violin moves on the X-axis. Default 0.3.
+#' @param position_nudge_flat_violin_y The violin moves on the Y-axis. Default 0.
+#' @param position_nudge_flat_violin_alpha The violin transparency.
+#' @param palette_color The violin palette.
+#' @param palette_fill The point palette.
+#' @param position_nudge_box_x  The box moves on the X-axis. Default 0.25.
+#' @param box_fill Box color.
+#' @param ... Parametes given to `sp_ggplot_layout`
+#'
+#' @return A ggplot2 object
+#' @export
+#'
+#' @examples
+#'
 sp_raincloud <- function (data,
-                          melted = FALSE ,
+                          melted = TRUE ,
                           xvariable = NULL,
                           yvariable = NULL,
-                          legend_variable = NULL,
                           metadata = NULL,
+                          ID_var = c(),
                           coordinate_flip = TRUE,
                           position_nudge_flat_violin_x = 0.3,
                           position_nudge_flat_violin_y = 0,
                           position_nudge_flat_violin_alpha = 0.8,
-                          palette_color = "Spectral",
-                          palette_fill = "Spectral",
-                          position_nudge_jitter_x = 0.25,
-                          position_nudge_jitter_fill = "white",
-                          position_nudge_jitter_size = 0.5,
+                          palette_color = "Set2",
+                          palette_fill = "Set2",
+                          position_nudge_box_x = 0.25,
+                          box_fill = "white",
                           legend.position = NULL,
                           extra_ggplot2_cmd = NULL,
                           x_label = NULL,
@@ -130,15 +163,9 @@ sp_raincloud <- function (data,
     print(argg)
   }
 
-  data = "boxplot2.txt"
-  metadata = "boxplot2metadata.txt"
-
   if (!melted) {
     if (sp.is.null(yvariable)) {
       yvariable = "value"
-    }
-    if (sp.is.null(legend_variable)) {
-      legend_variable = "variable"
     }
   }
 
@@ -165,11 +192,6 @@ sp_raincloud <- function (data,
   if (sp.is.null(xvariable) || sp.is.null(yvariable)) {
     stop('xvariable or yvariable must be specified!')
   }
-
-  if (sp.is.null(legend_variable)) {
-    legend_variable = xvariable
-  }
-
 
   # print(data)
   if (!sp.is.null(metadata)) {
@@ -199,7 +221,6 @@ sp_raincloud <- function (data,
 
   xvariable_en = sym(xvariable)
   yvariable_en = sym(yvariable)
-  legend_variable_en = sym(legend_variable)
 
   theme_boxplot <- theme(
     text = element_text(size = 10),
@@ -231,19 +252,19 @@ sp_raincloud <- function (data,
 
   p <-
     ggplot(data,
-           aes(!!xvariable_en, !!yvariable_en, fill = !!legend_variable_en)) +
+           aes(!!xvariable_en, !!yvariable_en, fill = !!xvariable_en)) +
     geom_flat_violin(
       position = position_nudge(x = position_nudge_flat_violin_x , y = position_nudge_flat_violin_y),
       alpha = position_nudge_flat_violin_alpha
     ) +
     scale_color_brewer(palette = palette_color) +
     scale_fill_brewer(palette = palette_fill) +
-    geom_jitter(aes(color = !!legend_variable_en), width = 0.1) +
+    geom_jitter(aes(color = !!xvariable_en), width = 0.1) +
     geom_boxplot(
       width = .1,
-      position = position_nudge(x = position_nudge_jitter_x),
-      fill = position_nudge_jitter_fill,
-      size = position_nudge_jitter_size
+      position = position_nudge(x = position_nudge_box_x),
+      fill = box_fill,
+      size = 0.5
     ) +
     theme_bw() + theme_boxplot
 

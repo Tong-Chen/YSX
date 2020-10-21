@@ -31,6 +31,14 @@
 #' 0: represents wide data listed above.
 #' 1: represents venn diagram format without header line.
 #' 2: represents venn diagram format with header line.
+#' @param sets Specific sets to look at (Include as combinations. Ex: c('Name1', 'Name2')).
+#' @param nintersects Number of intersections to plot. If set to NA, all intersections will be plotted.
+#' @param order.by How the intersections in the matrix should be ordered by. Options include frequency (entered as 'freq'), degree.
+#' @param decreasing How the variables in order.by should be ordered. 'freq' is decreasing (greatest to least) and 'degree' is increasing (least to greatest).
+#' @param scale.intersections The scale to be used for the intersection sizes. Options: 'identity', 'log10', 'log2'.
+#' @param scale.sets The scale to be used for the set sizes. Options: 'identity', 'log10', 'log2'.
+#' @param queries_bar1 Specifies an intersection. Changes the column color.
+#' @param queries_bar1_color Input color. Specifies an intersection to use this color.
 #' @param pointsize Point size. Default 8.
 #' @param keep_empty Keep empty intersections. Default FALSE. Accept TRUE to remove empty intersections.
 #' @inheritParams base_plot_save
@@ -54,6 +62,18 @@ sp_upsetview <- function (data,
                           vennFormat = 0,
                           pointsize = 8,
                           keep_empty = FALSE,
+                          sets = NULL,
+                          nintersects = NA,
+                          order.by = "freq",
+                          decreasing = TRUE,
+                          scale.intersections="identity",
+                          scale.sets= "identity",
+                          queries_bar1 = NULL,
+                          queries_bar2 = NULL,
+                          queries_bar3 = NULL,
+                          queries_bar1_color = NULL,
+                          queries_bar2_color = NULL,
+                          queries_bar3_color = NULL,
                           saveplot=NULL,
                           debug = FALSE,
                           ...) {
@@ -93,14 +113,45 @@ sp_upsetview <- function (data,
     keep_empty = NULL
   }
 
-  a = UpSetR::upset(
+  list1= list2 = list3 =NULL
+  if (!sp.is.null(queries_bar1)){
+    list1 = list(query=intersects, params=list(queries_bar1),color = queries_bar1_color,active=T)
+  }
+  if (!sp.is.null(queries_bar2)){
+    list2 = list(query=intersects, params=list(queries_bar2),color = queries_bar2_color,active=T)
+  }
+  if (!sp.is.null(queries_bar3)){
+    list3 = list(query=intersects, params=list(queries_bar3),color = queries_bar3_color,active=T)
+  }
+  queries_para = list(list1,list2, list3)
+  if (!sp.is.null(list1) && !sp.is.null(list1) && !sp.is.null(list1)){
+    queries_para1 = queries_para[!sapply(queries_para, is.null)]
+  } else {
+    queries_para1 = NULL
+  }
+  # if (sp.is.null(queries_bar1) && sp.is.null(queries_bar2) && sp.is.null(queries_bar3) ){
+  #   queries_para = NULL
+  # } else {
+    # queries_para =  eval(parse(text = paste(
+    #   "list(", list1,")")))
+  # }
+
+
+    a = UpSetR::upset(
     data,
+    sets = sets,
     nsets = nsets,
-    nintersects = NA,
+    nintersects = nintersects,
     sets.bar.color = "#56B4E9",
-    order.by = "freq",
-    empty.intersections = keep_empty
-  )
+    order.by = order.by,
+    decreasing = decreasing,
+    scale.intersections = scale.intersections,
+    scale.sets = scale.sets,
+    empty.intersections = keep_empty,
+    queries = queries_para1 )
+
+
+    # list1 = list(list(query=intersects, params=list("Samp1","Samp3"), color="red", active=T))
 
 
   if (!sp.is.null(saveplot)) {

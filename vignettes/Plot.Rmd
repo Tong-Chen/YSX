@@ -280,6 +280,12 @@ sp_upsetview(vennDiagram_data, vennFormat = 2)
 
 ```{r}
 sp_upsetview("upset.wide.data", vennFormat = 0)
+sp_upsetview("upset.wide.data", vennFormat = 0,nintersects = 4)
+sp_upsetview("upset.wide.data", vennFormat = 0,order.by = "degree")
+sp_upsetview("upset.wide.data", vennFormat = 0,decreasing = FALSE)
+sp_upsetview("upset.wide.data", vennFormat = 0,scale.intersections = "log2")
+sp_upsetview("upset.wide.data", vennFormat = 0,queries_bar1 = c("Samp1","Samp3"),queries_bar1_color = "#FF0000")
+sp_upsetview("upset.wide.data", vennFormat = 0,scale.intersections = "log2",sets = c("Samp1","Samp2"))
 ```
 
 ```{r}
@@ -833,25 +839,15 @@ data <- data.frame(Value = rnorm(300),
                    Repeat = rep(paste("Repeat", 1:3, sep = "_"), 100),
                    Condition = rep(c("Control", "Test"), 150))
 
-sp_raincloud(data = data,xvariable = "Condition", yvariable = "Value", legend_variable = "Condition",position_nudge_flat_violin_x = 0.3)
+sp_raincloud(data = data,xvariable = "Condition", yvariable = "Value")
 
 ```
 
 
 
 ```{r}
-
-source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R")
-# 导入数据
-my_data<-read.csv(url("https://data.bris.ac.uk/datasets/112g2vkxomjoo1l26vjmvnlexj/2016.08.14_AnxietyPaper_Data%20Sheet.csv"))
-# 整理数据
-colnames(my_data)[1] <- c("Participant") 
-library(reshape2)
-my_datal <- melt(my_data, id.vars = c("Participant"), 
-                 measure.vars = c("AngerUH", "DisgustUH", "FearUH", "HappyUH"), 
-                 variable.name = "EmotionCondition", value.name = "Sensitivity")
-sp_raincloud(data= my_datal,xvariable= "EmotionCondition",yvariable= "Sensitivity",legend_variable="EmotionCondition")
-
+data = "exprTable.txt"
+sp_raincloud(data= data, melted = FALSE,position_nudge_jitter_size = 0.1 )
 ```
 
 

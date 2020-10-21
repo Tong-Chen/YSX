@@ -101,12 +101,16 @@ splot_enrichment.sh -f enrichment.data -x "SampleGroup" -y "Description" -c "Qva
 splot_enrichment.sh -f enrichment.data -x "GeneRatio" -y "Description" -c "Qvalue" -l "Qvalue" -q "Count" -r "SampleGroup"
 splot_enrichment.sh -f goeast.enrich.txt -x log_odds_ratio -y Term -c p -l p -q q -s q -r Ontology -p right -a 0 -C FALSE -i FALSE -v "Pastel1" -w 25 -W 25
 
-
 sp_upsetview.R -f upset.wide.data -v 0
 sp_upsetview.R -f vennDiagram.data -v 2
+sp_upsetview.R -f upset.wide.data -v 0 -n 5 -r "degree" -d FALSE -q "Samp1,Samp3"
+sp_upsetview.R -f upset.wide.data -v 0 -n 5 -r "degree" -d FALSE -q "Samp1,Samp3" -N "Samp1,Samp3"
 
 splot_upsetview.sh -f upset.wide.data -v 0
 splot_upsetview.sh -f vennDiagram.data -v 2
+splot_upsetview.sh -f upset.wide.data -v 0 -n 5 -r "degree" -d FALSE -q "Samp1,Samp3" -N "Samp1,Samp3"
+
+
 
 scatter.R -f scatter_demo1.txt -x Gene -y Cluster -c Expr -d Percent -l Expr -M "white,blue"
 scatter.R -f scatter.txt -x "X_val" -y Y_val -c Color -s Shape -d Size -l Samp -m "1,3,2" -n "2,1,3" -C "grp2,grp1,grp3" -S "cluster2,cluster1" -D 2 -j TRUE -e Color -A "free_y"
@@ -127,7 +131,7 @@ splot_barplot.sh -f bar.data -x ID -c Gene -y Exper -b log2 -a 0 -B stack -s ide
 splot_barplot.sh -m FALSE -f exprTable.txt -b NULL -a 0 -p "top" -u TRUE -T TRUE -P FALSE -r 0 -w 25 -W 15
 
 
-splot_histogram.R -f histogram_demo2.txt -S density  -P line
+sp_histogram.R -f histogram_demo2.txt -S density  -P line
 
 
-splot_histogram.sh -f histogram_demo2.txt -S density  -P line
+splot_histogram.sh -f histogram_demo2.txt -S density  -P line -i identity

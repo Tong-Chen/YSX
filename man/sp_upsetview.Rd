@@ -9,6 +9,18 @@ sp_upsetview(
   vennFormat = 0,
   pointsize = 8,
   keep_empty = FALSE,
+  sets = NULL,
+  nintersects = NA,
+  order.by = "freq",
+  decreasing = TRUE,
+  scale.intersections = "identity",
+  scale.sets = "identity",
+  queries_bar1 = NULL,
+  queries_bar2 = NULL,
+  queries_bar3 = NULL,
+  queries_bar1_color = NULL,
+  queries_bar2_color = NULL,
+  queries_bar3_color = NULL,
   saveplot = NULL,
   debug = FALSE,
   ...
@@ -25,6 +37,22 @@ sp_upsetview(
 \item{pointsize}{Point size. Default 8.}
 
 \item{keep_empty}{Keep empty intersections. Default FALSE. Accept TRUE to remove empty intersections.}
+
+\item{sets}{Specific sets to look at (Include as combinations. Ex: c('Name1', 'Name2')).}
+
+\item{nintersects}{Number of intersections to plot. If set to NA, all intersections will be plotted.}
+
+\item{order.by}{How the intersections in the matrix should be ordered by. Options include frequency (entered as 'freq'), degree.}
+
+\item{decreasing}{How the variables in order.by should be ordered. 'freq' is decreasing (greatest to least) and 'degree' is increasing (least to greatest).}
+
+\item{scale.intersections}{The scale to be used for the intersection sizes. Options: 'identity', 'log10', 'log2'.}
+
+\item{scale.sets}{The scale to be used for the set sizes. Options: 'identity', 'log10', 'log2'.}
+
+\item{queries_bar1}{Specifies an intersection. Changes the column color.}
+
+\item{queries_bar1_color}{Input color. Specifies an intersection to use this color.}
 
 \item{saveplot}{Save plot to given file "a.pdf", "b.png".}
 
