@@ -315,7 +315,7 @@ base_plot_save <- function(saveplot, ...) {
   ending = substr(saveplot, r + 1, r + attr(r, "match.length"))
 
   f = switch(ending,
-             pdf = function(x, ...) pdf(x, paper="special",  ...),
+             pdf = function(x, ...) pdf(x, paper="special", useDingbats=T, ...),
              png = function(x, ...) png(x, units = "in", res = 300, ...),
              jpeg = function(x, ...) jpeg(x, units = "in", res = 300, ...),
              jpg = function(x, ...) jpeg(x, units = "in", res = 300, ...),
