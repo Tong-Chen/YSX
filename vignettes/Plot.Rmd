@@ -127,7 +127,7 @@ library(RColorBrewer)
 
 set_data = "Set.data"
 
-flower_plot(set_data, item_variable = "Gene", set_variable = "Sample")
+flower_plot(set_data, item_variable = "Gene", set_variable = "Sample",saveplot = "flower.pdf",saveppt = TRUE)
 flower_plot(set_data, group_color = c("Set2"), r = 1, item_variable = "Gene", set_variable = "Sample")
 flower_plot(set_data, label_total_num_items = T, a = 1, item_variable = "Gene", set_variable = "Sample")
 # flower_plot(set_data, saveplot="Set.data.flower.pdf")
@@ -242,7 +242,10 @@ sp_vennDiagram(data = vennDiagram_data, label1 = "Set1",label2 = "Set2", label3=
 library(YSX)
 library(VennDiagram)
 vennDiagram_data = "vennDiagram.data"
+
 sp_vennDiagram2(data = vennDiagram_data, header=T, item_variable = "Gene", set_variable = "Sample")
+
+sp_vennDiagram2(data = vennDiagram_data, header=T, item_variable = "Gene", set_variable = "Sample",saveppt = TRUE,filename = "venn2.pdf")
 ```
 
 ```{r}
@@ -262,10 +265,39 @@ sp_vennDiagram2(data = vennDiagram_data, item_variable = "Gene", set_variable = 
 ```
 
 
+
 ```{r}
 sp_vennDiagram2(data = vennDiagram_data, 
                 item_variable = "Gene", set_variable = "Sample",
                set_variable_order = c("Set1","Set2","Set3", "Set4"))
+```
+
+```{r}
+library(Vennerable)
+vennDiagram_data = "vennDiagram.data"
+sp_vennDiagram3(data=vennDiagram_data,
+                             header = TRUE,
+                             item_variable = "Gene",
+                             set_variable = "Sample",
+                             select_set_to_show = c("Set1","Set2","Set3"),
+                             doWeights = TRUE,
+                             type = "AWFE")
+sp_vennDiagram3(data=vennDiagram_data,
+                             header = TRUE,
+                             item_variable = "Gene",
+                             set_variable = "Sample",
+                             doWeights = TRUE,
+                             type = "squares")
+sp_vennDiagram3(data=vennDiagram_data,
+                             header = TRUE,
+                             item_variable = "Gene",
+                             set_variable = "Sample",
+                             doWeights = TRUE,
+                             type = "squares",
+                             saveplot = "venn.pdf",
+                             saveppt = TRUE)
+
+
 ```
 
 ## UpSet View Plot
@@ -276,6 +308,8 @@ library(reshape2)
 library(YSX)
 vennDiagram_data = "vennDiagram.data"
 sp_upsetview(vennDiagram_data, vennFormat = 2)
+sp_upsetview(vennDiagram_data, vennFormat = 2, saveppt = TRUE, saveplot = "upsetview.pdf")
+
 ```
 
 ```{r}

@@ -27,6 +27,7 @@ flower_plot(
   label = "core",
   common_color = "white",
   common_color_alpha = 1,
+  saveppt = FALSE,
   ...
 )
 }

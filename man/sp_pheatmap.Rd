@@ -41,6 +41,7 @@ sp_pheatmap(
   height = 0,
   title = "",
   debug = FALSE,
+  saveppt = FALSE,
   ...
 )
 }
@@ -166,6 +167,8 @@ kmeans cluster, also the parameter represents the number of expected clusters}
 \item{height}{Picture height}
 
 \item{title}{Title of picture. Default empty title}
+
+\item{saveppt}{Whether to output PPT format. Default false, doesn't output. Accept TRUE, will output ppt file.}
 
 \item{...}{Other parameters given to \link[pheatmap]{pheatmap}.}
 }

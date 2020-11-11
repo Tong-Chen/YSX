@@ -65,27 +65,27 @@
 #' ## End(Not run)
 #'
 sp_vennDiagram2 <- function (data,
-                            supplyNumbers = FALSE,
-                            header = TRUE,
-                            title = '',
-                            item_variable = NULL,
-                            set_variable = NULL,
-                            set_variable_order = NULL,
-                            color_for_circumference = "transparent",
-                            numVector = c(),
-                            labelVector = c(),
-                            manual_color_vector = c("dodgerblue",
-                                                    "goldenrod1",
-                                                    "darkorange1",
-                                                    "seagreen3",
-                                                    "orchid3"),
-                            alpha = 0.5,
-                            label_size = NULL,
-                            margin = NULL,
-                            filename = NULL,
-                            debug = FALSE,
-                            ...) {
-
+                             supplyNumbers = FALSE,
+                             header = TRUE,
+                             title = '',
+                             item_variable = NULL,
+                             set_variable = NULL,
+                             set_variable_order = NULL,
+                             color_for_circumference = "transparent",
+                             numVector = c(),
+                             labelVector = c(),
+                             manual_color_vector = c("dodgerblue",
+                                                     "goldenrod1",
+                                                     "darkorange1",
+                                                     "seagreen3",
+                                                     "orchid3"),
+                             alpha = 0.5,
+                             label_size = NULL,
+                             margin = NULL,
+                             filename = NULL,
+                             debug = FALSE,
+                             saveppt = FALSE,
+                             ...) {
   options(stringsAsFactors = FALSE)
 
   if (debug) {
@@ -100,7 +100,7 @@ sp_vennDiagram2 <- function (data,
   if (!supplyNumbers)  {
     if (class(data) == "character") {
       data <- sp_readTable(data, row.names = NULL, header = header)
-    }else if (class(data) != "data.frame") {
+    } else if (class(data) != "data.frame") {
       stop("Unknown input format for `data` parameter.")
     }
 
@@ -109,10 +109,8 @@ sp_vennDiagram2 <- function (data,
       stop("<item_variable> and <set_variable> should be supplied.")
     }
 
-    if (!(
-      item_variable %in% data_colnames &&
-      set_variable %in% data_colnames
-    )) {
+    if (!(item_variable %in% data_colnames &&
+          set_variable %in% data_colnames)) {
       stop(paste(
         set_variable,
         'or',
@@ -121,27 +119,29 @@ sp_vennDiagram2 <- function (data,
       ))
     }
 
-    data <- data[!is.na(data[[item_variable]]),c(item_variable, set_variable)]
+    data <-
+      data[!is.na(data[[item_variable]]), c(item_variable, set_variable)]
     data[[set_variable]] <- make.names(data[[set_variable]])
     data <- unique(data)
 
 
 
     labelRecord = set_variable_order
-    labelRecord = labelRecord[labelRecord!="NULL"]
+    labelRecord = labelRecord[labelRecord != "NULL"]
 
-    if(length(labelRecord)==0){
+    if (length(labelRecord) == 0) {
       labelRecord = unique(data[[set_variable]])
-      if(length(labelRecord)>5){
+      if (length(labelRecord) > 5) {
         labelRecord = labelRecord[1:5]
       }
     }
 
     num = length(labelRecord)
 
-    generateVennData <- function(label, data){
+    generateVennData <- function(label, data) {
       label = make.names(label)
-      label_content <- data[data[[set_variable]] == label, item_variable]
+      label_content <-
+        data[data[[set_variable]] == label, item_variable]
     }
 
     labelContent = lapply(labelRecord, generateVennData, data)
@@ -153,8 +153,9 @@ sp_vennDiagram2 <- function (data,
 
     color_v <- generate_color_list(manual_color_vector, num)
     #label.col = c("orange", "white", "darkorchid4", "white", "white", "white", "white", "white", "darkblue", "white", "white", "white", "white", "darkgreen", "white"),
-    if(color_for_circumference != "transparent"){
-      color_for_circumference <- generate_color_list(color_for_circumference, num)
+    if (color_for_circumference != "transparent") {
+      color_for_circumference <-
+        generate_color_list(color_for_circumference, num)
     }
 
     main.pos = c(0.5, 1.05)
@@ -168,7 +169,7 @@ sp_vennDiagram2 <- function (data,
       margin = 0.01
     }
     if (num == 5) {
-      cat.pos = c(0,225,270,135,90)
+      cat.pos = c(0, 225, 270, 135, 90)
       cat.dist = 0.12
       if (sp.is.null(label_size)) {
         label_size = 0.6
@@ -177,11 +178,11 @@ sp_vennDiagram2 <- function (data,
       if (sp.is.null(margin)) {
         margin = 0.05
       }
-    } else if (num == 4 ){
+    } else if (num == 4) {
       cat.pos = c(-15, 15, 0, 0)
       cat.dist = c(0.22, 0.22, 0.11, 0.11)
-    } else if (num ==3 ){
-      cat.pos = c(0,0,180)
+    } else if (num == 3) {
+      cat.pos = c(0, 0, 180)
     }
     p <- venn.diagram(
       x = labelContent,
@@ -206,8 +207,9 @@ sp_vennDiagram2 <- function (data,
     num <- length(labelVector)
     color_v <- generate_color_list(manual_color_vector, num)
     #label.col = c("orange", "white", "darkorchid4", "white", "white", "white", "white", "white", "darkblue", "white", "white", "white", "white", "darkgreen", "white"),
-    if(color_for_circumference != "transparent"){
-      color_for_circumference <- generate_color_list(color_for_circumference, num)
+    if (color_for_circumference != "transparent") {
+      color_for_circumference <-
+        generate_color_list(color_for_circumference, num)
     }
 
     if (num == 2) {
@@ -275,4 +277,30 @@ sp_vennDiagram2 <- function (data,
   }
   grid::grid.newpage()
   grid::grid.draw(p)
+
+  if (!sp.is.null(filename)) {
+    if (saveppt) {
+      if (!supplyNumbers)  {
+        venn.diagram(
+          x = labelContent,
+          filename = NULL,
+          col = color_for_circumference,
+          lwd = 1,
+          fill = color_v,
+          alpha = alpha,
+          main = title,
+          label.col = c("black"),
+          cex = 1,
+          cat.col = color_v,
+          cat.cex = label_size,
+          margin = margin,
+          main.pos = main.pos,
+          cat.default.pos = cat.default.pos,
+          cat.pos = cat.pos,
+          cat.dist = cat.dist
+        )
+        eoffice::topptx(filename = paste0(filename, ".pptx"))
+      }
+    }
+  }
 }

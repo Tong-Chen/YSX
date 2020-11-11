@@ -2,7 +2,7 @@
 % Please edit documentation in R/sp_vennDiagram3.R
 \name{sp_vennDiagram3}
 \alias{sp_vennDiagram3}
-\title{Generating vennDiagram plot}
+\title{Generating venDiagram plot}
 \usage{
 sp_vennDiagram3(
   data,
@@ -18,27 +18,26 @@ sp_vennDiagram3(
   FaceText = "weight",
   saveplot = NULL,
   debug = FALSE,
+  saveppt = FALSE,
   ...
 )
 }
 \arguments{
 \item{data}{Data file (the first column is the name of genes or other things one want to compare, the second column is set name of each items, tab separated).}
 
-\item{header}{a logical value indicating whether the file contains the
-    names of the variables as its first line.  If missing, the value is
-    determined from the file format: \code{header} is set to \code{TRUE}
-    if and only if the first row contains one fewer field than the
-    number of columns.}
-
 \item{item_variable}{Specify the column containing all items (one of column names of data).}
 
 \item{set_variable}{Specify the column containing set names (one of column names of data).}
 
-\item{select_set_to_show}{Specify which sets would be used.}
+\item{select_set_to_show}{Specific sets to look at.}
 
 \item{doWeights}{Whether to use weights to represent data sets}
 
-\item{type}{Represent data sets in different shapes.}
+\item{type}{Represent data sets in different shapes. Do weighted select NO if the results are wrong
+For 2-set Venn diagrams: circles, squares.
+For 3-set Venn diagrams: circles, squares, ChowRuskey, triangles, AWFE.
+For 4-set Venn diagrams: ChowRuskey, AWFE, squares or ellipses.
+For Venn diagrams on more than four sets: classic(up to 8 sets), battle(up to 9 sets).}
 
 \item{SetLabels}{Whether to plot the names of the Sets. Default TRUE.}
 
@@ -56,9 +55,14 @@ sp_vennDiagram3(
 A pdf file.
 }
 \description{
-Generating vennDiagram plot
+Generating venDiagram plot
 }
 \examples{
-sp_vennDiagram3()
+
+## Not run:
+vennDiagram_data = "vennDiagram.data"
+sp_vennDiagram3(data=vennDiagram_data, header = TRUE, item_variable = "Gene",  set_variable = "Sample",
+select_set_to_show = c("Set1","Set2","Set3"), doWeights = TRUE, type = "AWFE")
+## End(Not run)
 
 }

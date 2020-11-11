@@ -66,18 +66,18 @@ sp_upsetview <- function (data,
                           nintersects = NA,
                           order.by = "freq",
                           decreasing = TRUE,
-                          scale.intersections="identity",
-                          scale.sets= "identity",
+                          scale.intersections = "identity",
+                          scale.sets = "identity",
                           queries_bar1 = NULL,
                           queries_bar2 = NULL,
                           queries_bar3 = NULL,
                           queries_bar1_color = NULL,
                           queries_bar2_color = NULL,
                           queries_bar3_color = NULL,
-                          saveplot=NULL,
+                          saveplot = NULL,
                           debug = FALSE,
+                          saveppt = FALSE,
                           ...) {
-
   if (debug) {
     argg <- c(as.list(environment()), list(...))
     print(argg)
@@ -90,8 +90,8 @@ sp_upsetview <- function (data,
     } else if (class(data) != "data.frame") {
       stop("Unknown input format for `data` parameter.")
     }
-    data[, -1][data[, -1] != 0] <- 1
-    data[, -1][data[, -1] == 0] <- 0
+    data[,-1][data[,-1] != 0] <- 1
+    data[,-1][data[,-1] == 0] <- 0
   } else {
     header = ifelse(vennFormat == 1, F, T)
     if (class(data) == "character") {
@@ -113,18 +113,34 @@ sp_upsetview <- function (data,
     keep_empty = NULL
   }
 
-  list1= list2 = list3 =NULL
-  if (!sp.is.null(queries_bar1)){
-    list1 = list(query=intersects, params=list(queries_bar1),color = queries_bar1_color,active=T)
+  list1 = list2 = list3 = NULL
+  if (!sp.is.null(queries_bar1)) {
+    list1 = list(
+      query = intersects,
+      params = list(queries_bar1),
+      color = queries_bar1_color,
+      active = T
+    )
   }
-  if (!sp.is.null(queries_bar2)){
-    list2 = list(query=intersects, params=list(queries_bar2),color = queries_bar2_color,active=T)
+  if (!sp.is.null(queries_bar2)) {
+    list2 = list(
+      query = intersects,
+      params = list(queries_bar2),
+      color = queries_bar2_color,
+      active = T
+    )
   }
-  if (!sp.is.null(queries_bar3)){
-    list3 = list(query=intersects, params=list(queries_bar3),color = queries_bar3_color,active=T)
+  if (!sp.is.null(queries_bar3)) {
+    list3 = list(
+      query = intersects,
+      params = list(queries_bar3),
+      color = queries_bar3_color,
+      active = T
+    )
   }
-  queries_para = list(list1,list2, list3)
-  if (!sp.is.null(list1) && !sp.is.null(list1) && !sp.is.null(list1)){
+  queries_para = list(list1, list2, list3)
+  if (!sp.is.null(list1) &&
+      !sp.is.null(list1) && !sp.is.null(list1)) {
     queries_para1 = queries_para[!sapply(queries_para, is.null)]
   } else {
     queries_para1 = NULL
@@ -132,12 +148,12 @@ sp_upsetview <- function (data,
   # if (sp.is.null(queries_bar1) && sp.is.null(queries_bar2) && sp.is.null(queries_bar3) ){
   #   queries_para = NULL
   # } else {
-    # queries_para =  eval(parse(text = paste(
-    #   "list(", list1,")")))
+  # queries_para =  eval(parse(text = paste(
+  #   "list(", list1,")")))
   # }
 
 
-    a = UpSetR::upset(
+  a = UpSetR::upset(
     data,
     sets = sets,
     nsets = nsets,
@@ -148,17 +164,35 @@ sp_upsetview <- function (data,
     scale.intersections = scale.intersections,
     scale.sets = scale.sets,
     empty.intersections = keep_empty,
-    queries = queries_para1 )
+    queries = queries_para1
+  )
 
 
-    # list1 = list(list(query=intersects, params=list("Samp1","Samp3"), color="red", active=T))
+  # list1 = list(list(query=intersects, params=list("Samp1","Samp3"), color="red", active=T))
 
 
   if (!sp.is.null(saveplot)) {
-    base_plot_save(saveplot, pointsize=pointsize, ...)
+    base_plot_save(saveplot, pointsize = pointsize, ...)
     print(a)
     dev.off()
   }
+  if (saveppt) {
+    p <- UpSetR::upset(
+      data,
+      sets = sets,
+      nsets = nsets,
+      nintersects = nintersects,
+      sets.bar.color = "#56B4E9",
+      order.by = order.by,
+      decreasing = decreasing,
+      scale.intersections = scale.intersections,
+      scale.sets = scale.sets,
+      empty.intersections = keep_empty,
+      queries = queries_para1
+    )
+    eoffice::topptx(p, filename = paste0(saveplot, ".pptx"))
+    dev.off()
+  }
   a
-}
 
+}

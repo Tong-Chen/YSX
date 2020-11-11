@@ -23,6 +23,7 @@ sp_upsetview(
   queries_bar3_color = NULL,
   saveplot = NULL,
   debug = FALSE,
+  saveppt = FALSE,
   ...
 )
 }

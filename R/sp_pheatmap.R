@@ -156,6 +156,7 @@ draw_colnames_custom <-
 #' @param title Title of picture. Default empty title
 #' @param width Picture width
 #' @param height Picture height
+#' @param saveppt Whether to output PPT format. Default false, doesn't output. Accept TRUE, will output ppt file.
 #' @inheritParams pheatmap::pheatmap
 #' @param ... Other parameters given to \link[pheatmap]{pheatmap}.
 #'
@@ -213,6 +214,7 @@ sp_pheatmap <- function(data,
                         height = 0,
                         title = '',
                         debug = FALSE,
+                        saveppt = FALSE,
                         ...) {
   #filename = 'anything'
 
@@ -658,4 +660,7 @@ sp_pheatmap <- function(data,
     ...
   )
 
+  if (saveppt){
+  eoffice::topptx(gt, filename = paste0(filename,".pptx"))
+  }
 }

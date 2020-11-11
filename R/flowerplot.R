@@ -53,7 +53,7 @@ flower_plot <- function(input, sep="\t", row.names=NULL, header=T,
 				   group_color_alpha=0.6,
 				   label_total_num_items=TRUE,
 				   saveplot=NULL,
-                   label="core",common_color="white",common_color_alpha=1, ...) {
+                   label="core",common_color="white",common_color_alpha=1,saveppt=FALSE, ...) {
 
   data_m <- read.table(input, sep=sep, row.names=row.names, header=header,
                        quote=quote, comment=comment, check.names=check.names)
@@ -85,14 +85,22 @@ flower_plot <- function(input, sep="\t", row.names=NULL, header=T,
                     start=start, a=a, b=b, r=r,
                     group_color=group_color,
                     label=label,common_color=common_color)
+
+
   if(!is.null(saveplot)) {
     dev.off()
   }
-
+  if (saveppt){
+    flower_plot_inner(sample=sample,
+                      total_num=total_num, core_num=core_num,
+                      start=start, a=a, b=b, r=r,
+                      group_color=group_color,
+                      label=label,common_color=common_color)
+    eoffice::topptx(filename = paste0(saveplot,".pptx"))
+    dev.off()
+  }
 
 }
-
-
 
 
 
