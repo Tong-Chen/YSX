@@ -1004,6 +1004,11 @@ sp_ggplot_layout <-
 			 # added for abnormal pdf output
 			 useDingbats = FALSE,
              ...)
+      eoffice::topptx(p, filename = paste0(filename,".pptx"),
+             width = width, height = height)
+
+      plot_p <- plotly::ggplotly(p)
+      htmlwidgets::saveWidget(as_widget(plot_p), paste0(filename,".index.html"))
     }
   }
 

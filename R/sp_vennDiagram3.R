@@ -1,11 +1,10 @@
-
-#' Generating venDiagram plot
+#' Generating vennDiagram plot
 #'
 #' @param data Data file (the first column is the name of genes or other things one want to compare, the second column is set name of each items, tab separated).
 #' @inheritParams sp_readTable
 #' @param item_variable Specify the column containing all items (one of column names of data).
 #' @param set_variable Specify the column containing set names (one of column names of data).
-#' @param select_set_to_show
+#' @param select_set_to_show	Specify which sets would be used.
 #' @param doWeights Whether to use weights to represent data sets
 #' @param type Represent data sets in different shapes.
 #' @param SetLabels Whether to plot the names of the Sets. Default TRUE.
@@ -19,6 +18,9 @@
 #' @export
 #'
 #' @examples
+#' sp_vennDiagram3()
+#'
+
 sp_vennDiagram3 <- function (data,
                              header = TRUE,
                              item_variable = NULL,

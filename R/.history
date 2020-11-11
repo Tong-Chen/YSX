@@ -71,3 +71,6 @@
 [/root/pipeline/YSX/R] 43917  [2020-09-15 21:26:36][root][221.221.104.240]git add WGCNA.R 
 [/root/pipeline/YSX/R] 43918  [2020-09-15 21:26:47][root][221.221.104.240]git commit -m 'output prefix for some file'
 [/root/pipeline/YSX/R] 43919  [2020-09-15 21:26:52][root][221.221.104.240]git push -u origin develop
+[/root/pipeline/YSX/R] 45835  [2020-11-04 15:42:29][root][114.242.248.19]cd R
+[/root/pipeline/YSX/R] 45836  [2020-11-04 15:42:30][root][114.242.248.19]ltr
+[/root/pipeline/YSX/R] 45837  [2020-11-04 15:42:51][root][114.242.248.19]vim sp_vennDiagram3.R 

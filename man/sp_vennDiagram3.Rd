@@ -2,7 +2,7 @@
 % Please edit documentation in R/sp_vennDiagram3.R
 \name{sp_vennDiagram3}
 \alias{sp_vennDiagram3}
-\title{Generating venDiagram plot}
+\title{Generating vennDiagram plot}
 \usage{
 sp_vennDiagram3(
   data,
@@ -34,6 +34,8 @@ sp_vennDiagram3(
 
 \item{set_variable}{Specify the column containing set names (one of column names of data).}
 
+\item{select_set_to_show}{Specify which sets would be used.}
+
 \item{doWeights}{Whether to use weights to represent data sets}
 
 \item{type}{Represent data sets in different shapes.}
@@ -54,5 +56,9 @@ sp_vennDiagram3(
 A pdf file.
 }
 \description{
-Generating venDiagram plot
+Generating vennDiagram plot
+}
+\examples{
+sp_vennDiagram3()
+
 }
