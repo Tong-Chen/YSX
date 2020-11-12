@@ -278,11 +278,11 @@ sp_barplot <- function (data,
       aes(fill = !!color_variable_en),
       width = width_dodge
     )
-
+  data_link<- sp_set_factor_order(data_point, xvariable, xvariable_order)
   if (add_bar_link && bar_mode != "dodge") {
-    wild_data <- spread(  data = data_point,  key = xvariable, value = yvariable )
-    xvariable_order_link <- unique(data_point[,xvariable])
-    color_variable_order_link <- unique(data_point[,color_variable])
+    wild_data <- spread(  data = data_link,  key = xvariable, value = yvariable )
+    xvariable_order_link <- as.character(unique(data_link[,xvariable]))
+    color_variable_order_link <- as.character(unique(data_link[,color_variable]))
     wild_data[[color_variable]] <- factor(wild_data[[color_variable]],
                                levels = color_variable_order_link, ordered = T)
     wild_data <- wild_data[order(wild_data[,color_variable],decreasing=T),]
@@ -324,6 +324,14 @@ sp_barplot <- function (data,
           mutate_if(is.numeric, cumsum)
       }
     }
+
+    if (ncol(link_dat) < 4){
+      link_dat <- data.frame(y=t(matrix(t(link_dat[,-1]), nrow=2)))
+
+      link_dat$x.1 <- 1:(ncol(wild_data) - 2) + width_dodge / 2
+      link_dat$x.2 <- 1:(ncol(wild_data) - 2) + (1 - width_dodge / 2)
+      p <- p + geom_segment(data=link_dat, aes(x=x.1, xend=x.2, y=y.1, yend=y.2), inherit.aes = F)
+    } else {
     link_dat <-
       link_dat[, c(1, 2, rep(3:(ncol(link_dat) - 1), each = 2), ncol(link_dat))]
     link_dat <- data.frame(y = t(matrix(t(link_dat[, -1]), nrow = 2)))
@@ -338,6 +346,7 @@ sp_barplot <- function (data,
                             yend = y.2
                           ),
                           inherit.aes = F)
+    }
   }
 
   if (!sp.is.null(error_bar_variable)) {
@@ -391,7 +400,7 @@ sp_barplot <- function (data,
     p <- p + geom_quasirandom(aes(x = !!xvariable_en,
                                   y = !!point_yvariable_en,
                                   group=!!color_variable_en),
-                              data = data_point,
+                              data = data,
                               color = "grey",
                               varwidth = T,
                               groupOnX = TRUE,

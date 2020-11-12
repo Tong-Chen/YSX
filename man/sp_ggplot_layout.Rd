@@ -19,6 +19,8 @@ sp_ggplot_layout(
   fontname = "",
   base_font_size = 10,
   additional_theme = NULL,
+  saveppt = FALSE,
+  savehtml = FALSE,
   ...
 )
 }

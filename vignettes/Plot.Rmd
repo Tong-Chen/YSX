@@ -28,6 +28,9 @@ library(pheatmap)
 library(RColorBrewer)
 library(grid)
 sp_pheatmap("exprTable.txt", xtics_angle = 45, cluster_rows = T, cluster_cols = T)
+
+sp_pheatmap("exprTable.txt", xtics_angle = 45, cluster_rows = T, cluster_cols = T, saveppt = TRUE, filename = "pheatmap.pdf")
+
 ```
 
 
@@ -436,15 +439,31 @@ sp_barplot(data = bar_test_data, xvariable = "ID", yvariable = "Exper", color_va
 
 bar_data = "bar.data"
 
-sp_barplot(data = bar_data, xvariable = "ID", yvariable = "Exper", color_variable = "Gene",height=12.36,width=20,filename = "s.pdf")
+sp_barplot(data = bar_data, xvariable = "ID", yvariable = "Exper", color_variable = "Gene",height=12.36,width=20,filename = "bar.pdf")
+
+
+library(eoffice)
+sp_barplot(data = bar_data, xvariable = "ID", yvariable = "Exper", color_variable = "Gene",height=12.36,width=20,filename = "bar.pdf",saveppt = T  )
+
+
+library(htmlwidgets)
+library(plotly)
+sp_barplot(data = bar_data, xvariable = "ID", yvariable = "Exper", color_variable = "Gene",height=12.36,width=20,filename = "bar.pdf",savehtml = T  )
 ```
 
 ```{r}
+library(tidyr)
+library(dplyr)
 bar_data = "bar.txt"
 sp_barplot(data = bar_data, melted =TRUE,xvariable= "ID",color_variable = "Gene", yvariable = "Expression",add_bar_link = T)
 
 sp_barplot(data = bar_data, melted =TRUE,xvariable= "ID",color_variable = "Gene", yvariable = "Expression",add_bar_link = T, bar_mode = "fill")
 
+sp_barplot(data = bar_data, melted =TRUE,xvariable= "ID",color_variable = "Gene", yvariable = "Expression",add_bar_link = T, bar_mode = "stack",xvariable_order = c("2_cell","4_cell"))
+
+sp_barplot(data = bar_data, melted =TRUE,xvariable= "ID",color_variable = "Gene", yvariable = "Expression",add_bar_link = T, bar_mode = "stack",xvariable_order = c("2_cell","4_cell"),color_variable_order = c("Tet1","Tet3"))
+
+sp_barplot(data = bar_data, melted =TRUE,xvariable= "ID",color_variable = "Gene", yvariable = "Expression",add_bar_link = T, bar_mode = "fill",xvariable_order = c("2_cell","4_cell"),color_variable_order = c("Tet1","Tet3"))
 ```
 
 

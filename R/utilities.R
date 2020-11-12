@@ -910,6 +910,8 @@ sp_ggplot_layout <-
            fontname = '',
            base_font_size = 10,
            additional_theme = NULL,
+           saveppt = FALSE,
+           savehtml = FALSE,
            ...) {
     p <-
       p + theme(
@@ -1004,11 +1006,14 @@ sp_ggplot_layout <-
 			 # added for abnormal pdf output
 			 useDingbats = FALSE,
              ...)
+      if (saveppt){
       eoffice::topptx(p, filename = paste0(filename,".pptx"),
              width = width, height = height)
-
+      }
+      if (savehtml){
       plot_p <- plotly::ggplotly(p)
-      htmlwidgets::saveWidget(as_widget(plot_p), paste0(filename,".index.html"))
+      htmlwidgets::saveWidget(as.widget(plot_p), paste0(filename,".index.html"))
+      }
     }
   }
 
