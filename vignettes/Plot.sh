@@ -129,6 +129,7 @@ sp_barplot.R -f exprTable.txt -m F -B fill -T TRUE
 splot_barplot.sh -f bar.data -x ID -y Exper -c Gene -A TRUE -b "scale_y_log10()" -B stack -s identity -v TRUE -T TRUE
 splot_barplot.sh -f bar.data -x ID -c Gene -y Exper -b log2 -a 0 -B stack -s identity -p "right" -u TRUE -v TRUE -A TRUE -T TRUE -P FALSE -r 0 -D 2  -w 25 -W 15
 splot_barplot.sh -m FALSE -f exprTable.txt -b NULL -a 0 -p "top" -u TRUE -T TRUE -P FALSE -r 0 -w 25 -W 15
+splot_barplot.sh -m FALSE -f exprTable.txt -b NULL -a 0 -p "top" -u TRUE -T TRUE -P FALSE -r 0 -w 25 -W 15 -i TRUE
 
 
 sp_histogram.R -f histogram_demo2.txt -S density  -P line
