@@ -558,7 +558,7 @@ sp_barplot <- function (data,
 
   p <- sp_ggplot_layout(
       p,
-      xtics_angle = 0,
+      xtics_angle = xtics_angle,
       legend.position = legend.position,
       extra_ggplot2_cmd = extra_ggplot2_cmd,
       filename = filename,

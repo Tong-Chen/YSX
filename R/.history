@@ -80,3 +80,9 @@
 [/root/pipeline/YSX/R] 46365  [2020-11-12 10:58:49][root][124.64.17.15]vim flowerplot.R
 [/root/pipeline/YSX/R] 46365  [2020-11-12 10:58:49][root][124.64.17.15]vim flowerplot.R
 [/root/pipeline/YSX/R] 46366  [2020-11-12 10:59:09][root][124.64.17.15]vim sp_pheatmap.R
+[/root/pipeline/YSX/R] 46496  [2020-11-17 10:22:43][root][124.64.19.71]cd ../YSX/R
+[/root/pipeline/YSX/R] 46497  [2020-11-17 10:22:44][root][124.64.19.71]ltr
+[/root/pipeline/YSX/R] 46498  [2020-11-17 10:22:47][root][124.64.19.71]less sp_barplot.R 
+[/root/pipeline/YSX/R] 46506  [2020-11-17 10:38:58][root][124.64.19.71]cd R
+[/root/pipeline/YSX/R] 46507  [2020-11-17 10:38:59][root][124.64.19.71]ltr
+[/root/pipeline/YSX/R] 46508  [2020-11-17 10:39:02][root][124.64.19.71]vim sp_barplot.R 
