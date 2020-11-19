@@ -86,3 +86,13 @@
 [/root/pipeline/YSX/R] 46506  [2020-11-17 10:38:58][root][124.64.19.71]cd R
 [/root/pipeline/YSX/R] 46507  [2020-11-17 10:38:59][root][124.64.19.71]ltr
 [/root/pipeline/YSX/R] 46508  [2020-11-17 10:39:02][root][124.64.19.71]vim sp_barplot.R 
+[/root/pipeline/YSX/R] 46513  [2020-11-17 10:41:34][root][124.64.19.71]cd YSX/R
+[/root/pipeline/YSX/R] 46514  [2020-11-17 10:41:41][root][124.64.19.71]grep 'xtics_angle' *.R
+[/root/pipeline/YSX/R] 46515  [2020-11-17 10:42:08][root][124.64.19.71]git status
+[/root/pipeline/YSX/R] 46516  [2020-11-17 10:42:18][root][124.64.19.71]git add sp_barplot.R
+[/root/pipeline/YSX/R] 46517  [2020-11-17 10:42:27][root][124.64.19.71]git commit -m 'barplot xtics angle bug'
+[/root/pipeline/YSX/R] 46518  [2020-11-17 10:42:33][root][124.64.19.71]git push -u origin develop
+[/root/pipeline/YSX/R] 46529  [2020-11-17 12:22:51][root][124.64.19.71]cd R
+[/root/pipeline/YSX/R] 46530  [2020-11-17 12:22:54][root][124.64.19.71]vim sp_histogram.R 
+[/root/pipeline/YSX/R] 46531  [2020-11-17 12:23:22][root][124.64.19.71]ls
+[/root/pipeline/YSX/R] 46532  [2020-11-17 12:23:24][root][124.64.19.71]vim utilities.R 

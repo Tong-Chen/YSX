@@ -132,10 +132,14 @@ sp_string2vector <- function(x, pattern = ",") {
     return(x)
   }
   if (requireNamespace("stringr", quietly = TRUE)) {
-    return(stringr::str_trim(stringr::str_split(x, pattern, simplify = T)))
+    str2v <- stringr::str_trim(stringr::str_split(x, pattern, simplify = T))
   } else {
-    return(trimws(unlist(strsplit(x, split = pattern))))
+    str2v <- trimws(unlist(strsplit(x, split = pattern)))
   }
+  if(numCheck(str2v)){
+  	str2v <- mixedToFloat(str2v)
+  }
+  return(str2v)
 }
 
 #' Read in data
