@@ -483,6 +483,8 @@ sp_barplot(data = bar_data, melted =TRUE,xvariable= "ID",color_variable = "Gene"
 ```{r}
 box_demo1_data <- "exprTable.txt"
 sp_barplot(data = box_demo1_data, melted = F)
+sp_barplot(data = box_demo1_data, melted = F, ylim = c(0,20))
+sp_barplot(data = box_demo1_data, melted = F, ylim = c(20,40))
 ```
 
 ```{r}

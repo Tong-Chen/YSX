@@ -14,6 +14,7 @@ sp_ggplot_layout(
   y_label = NULL,
   title = NULL,
   coordinate_flip = FALSE,
+  ylim = NULL,
   width = 12,
   height = 6.18,
   fontname = "",

@@ -909,6 +909,7 @@ sp_ggplot_layout <-
            y_label = NULL,
            title = NULL,
            coordinate_flip = FALSE,
+           ylim = NULL,
            width=12,
            height=6.18,
            fontname = '',
@@ -991,6 +992,9 @@ sp_ggplot_layout <-
       p <- p + coord_flip()
     }
 
+    if (!sp.is.null(ylim)){
+      p <- p + coord_cartesian(ylim = ylim)
+    }
 
 
     additional_theme <- additional_theme[!sapply(additional_theme, sp.is.null)]
