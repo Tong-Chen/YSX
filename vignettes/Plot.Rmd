@@ -33,6 +33,13 @@ sp_pheatmap("exprTable.txt", xtics_angle = 45, cluster_rows = T, cluster_cols = 
 
 ```
 
+```{r}
+
+library(vegan)
+sp_pheatmap("exprTable.txt", xtics_angle = 45, cluster_rows = T, cluster_cols = T, clustering_distance_cols = "binomial")
+
+sp_pheatmap("exprTable.txt", xtics_angle = 45, cluster_rows = T, cluster_cols = T, clustering_distance_cols = "spearman")
+```
 
 ### Transfer a matrix to heatmap
 
@@ -316,6 +323,12 @@ sp_upsetview(vennDiagram_data, vennFormat = 2, saveppt = TRUE, saveplot = "upset
 ```
 
 ```{r}
+sp_upsetview("upset.txt", vennFormat = 0, nintersects = 7,saveplot = "upset.pdf")
+
+```
+
+
+```{r}
 sp_upsetview("upset.wide.data", vennFormat = 0)
 sp_upsetview("upset.wide.data", vennFormat = 0,nintersects = 4)
 sp_upsetview("upset.wide.data", vennFormat = 0,order.by = "degree")
@@ -326,7 +339,7 @@ sp_upsetview("upset.wide.data", vennFormat = 0,scale.intersections = "log2",sets
 ```
 
 ```{r}
-sp_upsetview(vennDiagram_data, vennFormat = 2, saveplot="1.pdf", width=10, height=4)
+sp_upsetview(vennDiagram_data, vennFormat = 2, width=10, height=4, saveplot = "upsetview2.pdf")
 ```
 
 ```{r}
@@ -463,7 +476,7 @@ sp_barplot(data = bar_data, melted =TRUE,xvariable= "ID",color_variable = "Gene"
 
 sp_barplot(data = bar_data, melted =TRUE,xvariable= "ID",color_variable = "Gene", yvariable = "Expression",add_bar_link = T, bar_mode = "stack",xvariable_order = c("2_cell","4_cell"),color_variable_order = c("Tet1","Tet3"))
 
-sp_barplot(data = bar_data, melted =TRUE,xvariable= "ID",color_variable = "Gene", yvariable = "Expression",add_bar_link = T, bar_mode = "fill",xvariable_order = c("2_cell","4_cell"),color_variable_order = c("Tet1","Tet3"))
+sp_barplot(data = bar_data, melted =TRUE,xvariable= "ID",color_variable = "Gene", yvariable = "Expression",add_bar_link = T, bar_mode = "fill",xvariable_order = c("2_cell","4_cell"),color_variable_order = c("Tet1","Tet3","Pou5f1","Sox2"))
 ```
 
 
@@ -589,8 +602,9 @@ sp_boxplot(data = exprTableWithReps, melted=F, metadata = metadata,
 ```
 
 ```{r}
+#test ylim
 sp_boxplot(data = exprTableWithReps, melted=F, metadata = metadata,
-           legend_variable = "Class")
+           legend_variable = "Class",ylim= c(0,8))
 ```
 
 单细胞Marker基因小提琴图展示
@@ -627,7 +641,7 @@ library(YSX)
 enrichment_data <- "goeast.enrich.txt"
 enrichment.data <- sp_readTable(enrichment_data) 
 head(enrichment.data)
-
+flower_plot()
 p <- sp_enrichment(data = enrichment.data, xvariable = "log_odds_ratio", 
               yvariable = "Term", color_variable = "p", 
               log10_transform_variable="p", size_variable = "q",
@@ -757,6 +771,10 @@ color_variable = "Color", shape_variable= "Shape",
 size_variable = "Size",label_variable="Samp",Jitter = F)
 ```
 
+```{r}
+sp_scatterplot(data=faithful, xvariable = "eruptions", yvariable = "waiting",
+smooth_method = "lm",line_size=1)
+```
 
 
 ```{r}

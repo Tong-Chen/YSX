@@ -115,10 +115,12 @@ draw_colnames_custom <-
 #' "mcquitty" (=WPGMA), "median" (=WPGMC) or "centroid" (=UPGMC)
 #' @param clustering_distance_rows Clustering distance method for rows.
 #' Default 'pearson', accept 'spearman','euclidean', "manhattan", "maximum",
-#' "canberra", "binary", "minkowski".
+#' "canberra", "binary", "minkowski", "bray", "kulczynski", "jaccard", "gower", "altGower",
+#'  "morisita", "horn", "mountford", "raup" , "binomial", "chao", "cao", "mahalanobis".
 #' @param clustering_distance_cols Clustering distance method for cols.
 #' Default 'pearson', accept 'spearman','euclidean', "manhattan", "maximum",
-#' "canberra", "binary", "minkowski".
+#' "canberra", "binary", "minkowski", "bray", "kulczynski", "jaccard", "gower", "altGower",
+#'  "morisita", "horn", "mountford", "raup" , "binomial", "chao", "cao", "mahalanobis".
 #' @param breaks A sequence of numbers that covers the range of values in mat and
 #' is one element longer than color vector. Used for mapping values to colors.
 #' Useful, if needed to map certain values to certain colors, to certain values.
@@ -528,7 +530,12 @@ sp_pheatmap <- function(data,
       }
     } else {
       if (!cor_data) {
+        dist_method = c('euclidean', "manhattan", "maximum", "canberra", "binary", "minkowski")
+        if (clustering_distance_rows %in% dist_method){
         row_dist = dist(data, method = clustering_distance_rows)
+        } else {
+          row_dist = vegdist(data, method = clustering_distance_rows)
+        }
       } else {
         row_cor = data
         row_dist <- as.dist(1 - row_cor)
@@ -577,7 +584,12 @@ sp_pheatmap <- function(data,
       }
     } else {
       if (!cor_data) {
-        col_dist = dist(t(data), method = clustering_distance_cols)
+        dist_method = c('euclidean', "manhattan", "maximum", "canberra", "binary", "minkowski")
+        if (clustering_distance_cols %in% dist_method){
+          col_dist = dist(t(data), method = clustering_distance_cols)
+        } else {
+          col_dist = vegdist(t(data), method = clustering_distance_cols)
+        }
       } else {
         col_cor = data
         col_dist <- as.dist(1 - col_cor)
