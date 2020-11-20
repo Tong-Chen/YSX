@@ -774,7 +774,7 @@ size_variable = "Size",label_variable="Samp",Jitter = F)
 ```
 
 ```{r}
-sp_scatterplot(data=faithful, xvariable = "eruptions", yvariable = "waiting",
+sp_scatterplot(data="scatter3.txt", xvariable = "eruptions", yvariable = "waiting",
 smooth_method = "lm",line_size=1)
 ```
 

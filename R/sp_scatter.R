@@ -33,6 +33,10 @@
 #' @param label_font_size Label font size. Default system default. Accept a number.
 #' @param scale_y_way The way to scale Y-axis like `scale_y_log10`, `coord_trans(y="log10")`,
 #' `scale_y_continuous(trans="log2")`, `coord_trans(y="log2")`.
+#' @param smooth_method The smooth method one wants to use, eg. auto, lm, glm, gam, loess, rlm.
+#' For observations < 1000 default is 'loess', observations >= 1000 defaults to 'gam'.
+#' Default 'no smooth' meaning show the real lines and do not smooth lines. Accept auto, lm, glm, gam, loess, rlm.
+#' @param line_size line size. Default NULL. Accept a number.
 #' @param facet Wrap plots by given column. This is used to put multiple plot
 #' in one picture. Used when `melted` is FALSE, normally a string `set` (one of column names)
 #' should be suitable for this parameter.
@@ -87,6 +91,8 @@ sp_scatterplot <- function (data,
                             shape_variable = NULL,
                             color_variable = NULL,
                             point_hjust = 0,
+                            line_size = NULL,
+                            smooth_method = "no smooth",
                             alpha = 1,
                             jitter = FALSE,
                             jitter_text = F,
@@ -253,6 +259,26 @@ sp_scatterplot <- function (data,
 
   if (!sp.is.null(scale_y_way)) {
     p <- p + eval(parse(text = scale_y_way))
+  }
+
+
+  if(!sp.is.null(line_size)){
+    if(numCheck(line_size)){
+      line_size = as.numeric(line_size)
+    } else{
+      line_size_en = sym(line_size)
+    }
+  }
+
+  if (smooth_method != "no smooth") {
+    if(!sp.is.null(line_size) && is.numeric(line_size)){
+      p <- p + stat_smooth(method = smooth_method,
+                           se = FALSE,
+                           size=line_size)
+    }else{
+      p <- p + stat_smooth(method = smooth_method,
+                           se = FALSE)
+    }
   }
 
   p <- sp_ggplot_layout(
