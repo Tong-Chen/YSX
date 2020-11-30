@@ -551,16 +551,20 @@ sp_boxplot <- function(data,
 
   if (!sp.is.null(facet_variable)) {
     if (facet_singlecell_style) {
+	  if(coordinate_flip){
+        strip.position = "top"
+	  } else {
+	    strip.position = 'left'
+	  } 
       p <-
         p + facet_wrap(
           ~  .data[[facet_variable]],
           ncol = facet_ncol,
           nrow = facet_nrow,
           scales = facet_scales,
-          strip.position = "left",
+          strip.position = strip.position,
           labeller = as_labeller(unique(data[facet_variable]))
         )
-
       additional_theme$strip.background = element_blank()
       additional_theme$strip.placement = "outside"
       additional_theme$panel.background = element_rect(fill = NA, colour = 'black')

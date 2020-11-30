@@ -96,3 +96,10 @@
 [/root/pipeline/YSX/R] 46530  [2020-11-17 12:22:54][root][124.64.19.71]vim sp_histogram.R 
 [/root/pipeline/YSX/R] 46531  [2020-11-17 12:23:22][root][124.64.19.71]ls
 [/root/pipeline/YSX/R] 46532  [2020-11-17 12:23:24][root][124.64.19.71]vim utilities.R 
+[/root/pipeline/YSX/R] 47507  [2020-11-30 15:18:46][root][61.148.243.93]cd R
+[/root/pipeline/YSX/R] 47508  [2020-11-30 15:18:47][root][61.148.243.93]ltr
+[/root/pipeline/YSX/R] 47509  [2020-11-30 15:18:51][root][61.148.243.93]vim sp_boxplot.R 
+[/root/pipeline/YSX/R] 47510  [2020-11-30 15:20:55][root][61.148.243.93]vim utilities.R 
+[/root/pipeline/YSX/R] 47511  [2020-11-30 15:21:12][root][61.148.243.93]vim sp_boxplot.R 
+[/root/pipeline/YSX/R] 47512  [2020-11-30 15:27:42][root][61.148.243.93]../../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 47513  [2020-11-30 15:27:54][root][61.148.243.93]vim sp_boxplot.R 
