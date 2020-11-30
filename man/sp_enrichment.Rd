@@ -25,6 +25,8 @@ sp_enrichment(
   shape_variable = NULL,
   coordinate_flip = FALSE,
   extra_ggplot2_cmd = NULL,
+  scale_size_min = NULL,
+  scale_size_max = NULL,
   ...
 )
 }
@@ -89,11 +91,11 @@ Accept a variable like \code{count} to get \code{sqrt(count)}.}
 
 \item{extra_ggplot2_cmd}{Extra ggplot2 commands (currently unsupported)}
 
-\item{...}{Parameters given to \code{sp_ggplot_layout}}
-
 \item{scale_size_min}{Scale size with minimum value specified}
 
 \item{scale_size_max}{Scale size with maximum value specified}
+
+\item{...}{Parameters given to \code{sp_ggplot_layout}}
 }
 \value{
 A ggplot2 object

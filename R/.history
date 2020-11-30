@@ -103,3 +103,19 @@
 [/root/pipeline/YSX/R] 47511  [2020-11-30 15:21:12][root][61.148.243.93]vim sp_boxplot.R 
 [/root/pipeline/YSX/R] 47512  [2020-11-30 15:27:42][root][61.148.243.93]../../bin/bash/install_YSX.sh 
 [/root/pipeline/YSX/R] 47513  [2020-11-30 15:27:54][root][61.148.243.93]vim sp_boxplot.R 
+[/root/pipeline/YSX/R] 47514  [2020-11-30 15:28:21][root][61.148.243.93]../../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 47515  [2020-11-30 15:39:09][root][61.148.243.93]locate boxplot_singeclee.txt
+[/root/pipeline/YSX/R] 47516  [2020-11-30 15:39:16][root][61.148.243.93]locate boxplot_singecell.txt
+[/root/pipeline/YSX/R] 47517  [2020-11-30 15:39:29][root][61.148.243.93]locate boxplot_singlecell.txt
+[/root/pipeline/YSX/R] 47518  [2020-11-30 15:39:37][root][61.148.243.93]vim /var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot/boxplot_singlecell.txt
+[/root/pipeline/YSX/R] 47518  [2020-11-30 15:39:37][root][61.148.243.93]vim /var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot/boxplot_singlecell.txt
+[/root/pipeline/YSX/R] 47519  [2020-11-30 16:03:05][root][61.148.243.93]git status
+[/root/pipeline/YSX/R] 47520  [2020-11-30 16:03:20][root][61.148.243.93]vim ../../cloud_config/boxplot_input.json 
+[/root/pipeline/YSX/R] 47520  [2020-11-30 16:03:20][root][61.148.243.93]vim ../../cloud_config/boxplot_input.json 
+[/root/pipeline/YSX/R] 47520  [2020-11-30 16:03:20][root][61.148.243.93]vim ../../cloud_config/boxplot_input.json 
+[/root/pipeline/YSX/R] 47521  [2020-11-30 16:08:15][root][61.148.243.93]vim ../../bin/s-plotR/splot_boxplot.sh 
+[/root/pipeline/YSX/R] 47522  [2020-11-30 16:09:00][root][61.148.243.93]vim ../../cloud_config/boxplot_input.json 
+[/root/pipeline/YSX/R] 47564  [2020-11-30 21:35:21][root][125.33.21.78]cd R
+[/root/pipeline/YSX/R] 47565  [2020-11-30 21:35:23][root][125.33.21.78];ltr
+[/root/pipeline/YSX/R] 47566  [2020-11-30 21:35:24][root][125.33.21.78]ltr
+[/root/pipeline/YSX/R] 47567  [2020-11-30 21:35:28][root][125.33.21.78]vim sp_enrichment.R 
