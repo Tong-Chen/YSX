@@ -119,3 +119,11 @@
 [/root/pipeline/YSX/R] 47565  [2020-11-30 21:35:23][root][125.33.21.78];ltr
 [/root/pipeline/YSX/R] 47566  [2020-11-30 21:35:24][root][125.33.21.78]ltr
 [/root/pipeline/YSX/R] 47567  [2020-11-30 21:35:28][root][125.33.21.78]vim sp_enrichment.R 
+[/root/pipeline/YSX/R] 47568  [2020-11-30 21:36:19][root][125.33.21.78]../../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 47569  [2020-11-30 21:41:11][root][125.33.21.78]ltr
+[/root/pipeline/YSX/R] 47570  [2020-11-30 21:41:16][root][125.33.21.78]cd ,,/../
+[/root/pipeline/YSX/R] 47582  [2020-12-02 19:00:23][root][125.33.22.62]cd R
+[/root/pipeline/YSX/R] 47583  [2020-12-02 19:00:24][root][125.33.22.62]ls -ltr
+[/root/pipeline/YSX/R] 47584  [2020-12-02 19:00:33][root][125.33.22.62]vim 1.R 
+[/root/pipeline/YSX/R] 47585  [2020-12-02 19:00:40][root][125.33.22.62]rm -f 1.R
+[/root/pipeline/YSX/R] 47586  [2020-12-02 19:00:50][root][125.33.22.62]vim transcriptome.R 

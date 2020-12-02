@@ -569,7 +569,7 @@ multipleGroupDEgenes <- function(
   }
 
   if(!is.null(comparePairFile)){
-    compare_data <- read.table(comparePair, sep="\t",
+    compare_data <- read.table(comparePairFile, sep="\t",
                                check.names=F, quote='', com='')
     colnames(compare_data) <- c("sampA", "sampB")
   } else {
