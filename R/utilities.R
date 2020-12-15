@@ -887,6 +887,11 @@ sp_load_font <- function(font_path){
 #' @param coordinate_flip Flip cartesian coordinates so that horizontal becomes vertical, and vertical, horizontal. This is primarily useful for converting geoms and statistics which display y conditional on x, to x conditional on y.
 #' @param width Picture width (units: cm)
 #' @param height Picture height (units: cm)
+#' @param zoom_split If both x and y is given, should each axis zoom be shown separately as well? Defaults to FALSE.
+#' @param zoom_xlim Specific zoom ranges for x axis.
+#' @param zoom_ylim Specific zoom ranges for y axis.
+#' @param saveppt Output PPT format.
+#' @param savehtml Save the images as HTML files.
 #' @param ... Extra parameters to \code{\link[ggplot2]{ggsave}}.
 #'
 #' @return A ggplot2 object
@@ -915,6 +920,9 @@ sp_ggplot_layout <-
            fontname = '',
            base_font_size = 10,
            additional_theme = NULL,
+           zoom_split = FALSE,
+           zoom_xlim = NULL,
+           zoom_ylim = NULL,
            saveppt = FALSE,
            savehtml = FALSE,
            ...) {
@@ -1001,6 +1009,14 @@ sp_ggplot_layout <-
     if(length(additional_theme)>0){
       p <- p + do.call(theme, additional_theme)
     }
+
+    # if (!sp.is.null(zoom_variable) && !sp.is.null(zoom_range)){
+    #   p <- p + eval(parse(text = paste("facet_zoom(",zoom_axis,"=",zoom_variable,"==c(",zoom_range,"))")))
+    # }
+    if (!sp.is.null(zoom_xlim) || !sp.is.null(zoom_ylim)){
+      p <- p + facet_zoom(xlim = zoom_xlim, ylim = zoom_ylim, split = zoom_split)
+    }
+
 
     # output pictures
     if (sp.is.null(filename)) {

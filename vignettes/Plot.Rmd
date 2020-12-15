@@ -373,8 +373,11 @@ res_output <- data.frame(Pos=1:10,value =runif(20))
 value=0.5
 res_output$Group <- ifelse(res_output$value<=value,"groupA", "groupB")
 head(res_output)
-sp_lines(data=res_output, xvariable="Pos", melted=T, yvariable="value", legend_variable="Group")
+sp_lines(data=res_output, xvariable="Pos", melted=T, yvariable="value", legend_variable="Group",zoom_xlim = c(3,5),zoom_split =F)
 
+
+library(ggforce)
+sp_lines(data=res_output, xvariable="Pos", melted=T, yvariable="value", legend_variable="Group",zoom_xlim = c(3,5),zoom_split =F)
 ```
 
 
@@ -533,7 +536,7 @@ library(RColorBrewer)
 library(ggbeeswarm)
 
 box_demo4_data <- "barplot_demo4.txt"
-sp_barplot(data = box_demo4_data, melted = T, 
+p <- sp_barplot(data = box_demo4_data, melted = T, 
            xvariable="Gene", yvariable="Mean_value", 
            color_variable = "Cluster",
            bar_mode = "stack",
@@ -926,7 +929,6 @@ sp_raincloud(data= data, melted = FALSE,position_nudge_jitter_size = 0.1 )
 
 ### hclust
 ```{r}
-
 library(WGCNA)
 x = runif(10)
 y = runif(10)

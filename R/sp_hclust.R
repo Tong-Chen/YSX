@@ -1,3 +1,24 @@
+#' Hierarchical cluster diagram
+#'
+#' @param data A matrix file or an object.
+#' @param method Clustering method :"ward.D", "single", "complete", "average", "mcquitty", "median", "centroid", "ward.D2"
+#' @param thresholdZ.k Threshold for defining outliers. First compute the overall
+#' corelation of one sample to other samples. Then do Z-score transfer for all
+#' correlation values. The samples with corelation values less than given value
+#' would be treated as outliers.
+#' Default -2.5 meaning -2.5 std.
+#' @param ...
+#'
+#' @return A data frame.
+#' @export
+#'
+#' @examples
+#' x = runif(10)
+#' y = runif(10)
+#' data=cbind(x, y)
+#' rownames(data) = paste("exam", 1:10)
+#' sp_hclust(data)
+#'
 sp_hclust <- function (data,
                        method = "average",
                        thresholdZ.k = -2.5,

@@ -385,8 +385,8 @@ sp_barplot <- function (data,
           ),
           colour = "black",
           width = 0.2,
-          position = "identity"
-          #position = position
+          # position = "identity"
+          position = position
         )
     }
   }

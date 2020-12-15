@@ -16,6 +16,8 @@ sp_enrichment(
   title = NULL,
   x_label = NULL,
   y_label = NULL,
+  scale_size_max = NULL,
+  scale_size_min = NULL,
   yvariable_width = 60,
   manual_color_vector = c("green", "red"),
   log10_transform_variable = NULL,
@@ -25,8 +27,6 @@ sp_enrichment(
   shape_variable = NULL,
   coordinate_flip = FALSE,
   extra_ggplot2_cmd = NULL,
-  scale_size_min = NULL,
-  scale_size_max = NULL,
   ...
 )
 }
@@ -56,6 +56,10 @@ accept a vector like c('SampA_Up','SampB_Up').}
 \item{x_label}{X-axis title of picture. Default empty.}
 
 \item{y_label}{Y-axis title of picture. Default empty.}
+
+\item{scale_size_max}{Scale size with maximum value specified}
+
+\item{scale_size_min}{Scale size with minimum value specified}
 
 \item{yvariable_width}{Default 60. Normally yvariable would be terms. This is used to set
 the max-allowed term length. Terms with length larger than given  value will be wrap
@@ -90,10 +94,6 @@ Accept a variable like \code{count} to get \code{sqrt(count)}.}
 \item{coordinate_flip}{Flip cartesian coordinates so that horizontal becomes vertical, and vertical, horizontal. This is primarily useful for converting geoms and statistics which display y conditional on x, to x conditional on y.}
 
 \item{extra_ggplot2_cmd}{Extra ggplot2 commands (currently unsupported)}
-
-\item{scale_size_min}{Scale size with minimum value specified}
-
-\item{scale_size_max}{Scale size with maximum value specified}
 
 \item{...}{Parameters given to \code{sp_ggplot_layout}}
 }

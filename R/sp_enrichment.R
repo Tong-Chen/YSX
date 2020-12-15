@@ -72,6 +72,8 @@ sp_enrichment <- function(data,
                           title = NULL,
                           x_label = NULL,
                           y_label = NULL,
+                          scale_size_max = NULL,
+                          scale_size_min = NULL,
                           yvariable_width = 60,
                           manual_color_vector = c("green", "red"),
                           log10_transform_variable = NULL,
@@ -81,8 +83,6 @@ sp_enrichment <- function(data,
                           shape_variable = NULL,
                           coordinate_flip = FALSE,
                           extra_ggplot2_cmd = NULL,
-						  scale_size_min = NULL,
-						  scale_size_max = NULL,
                           ...) {
   if (class(data) == "character") {
     data <- sp_readTable(data, row.names = NULL)
