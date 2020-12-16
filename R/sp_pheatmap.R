@@ -553,6 +553,9 @@ sp_pheatmap <- function(data,
       if(remove_cluster_rows_variable_in_annorow){
         annotation_row[[cluster_rows_variable]] <- NULL
       }
+      if(length(annotation_row)==0){
+        annotation_row = NULL
+      }
     }
 
     #print(sv)
@@ -606,6 +609,9 @@ sp_pheatmap <- function(data,
 
       if(remove_cluster_cols_variable_in_annocol){
         annotation_col[[cluster_cols_variable]] <- NULL
+      }
+      if(length(annotation_col) == 0){
+        annotation_col = NULL
       }
     }
 

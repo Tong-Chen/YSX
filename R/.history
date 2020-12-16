@@ -127,3 +127,18 @@
 [/root/pipeline/YSX/R] 47584  [2020-12-02 19:00:33][root][125.33.22.62]vim 1.R 
 [/root/pipeline/YSX/R] 47585  [2020-12-02 19:00:40][root][125.33.22.62]rm -f 1.R
 [/root/pipeline/YSX/R] 47586  [2020-12-02 19:00:50][root][125.33.22.62]vim transcriptome.R 
+[/root/pipeline/YSX/R] 48181  [2020-12-16 09:48:49][root][114.242.248.233]cd pipeline/YSX/R
+[/root/pipeline/YSX/R] 48182  [2020-12-16 09:48:51][root][114.242.248.233]ls -ltr
+[/root/pipeline/YSX/R] 48182  [2020-12-16 09:48:51][root][114.242.248.233]ls -ltr
+[/root/pipeline/YSX/R] 48182  [2020-12-16 09:48:51][root][114.242.248.233]ls -ltr
+[/root/pipeline/YSX/R] 48183  [2020-12-16 09:49:11][root][114.242.248.233]crontab -e
+[/root/pipeline/YSX/R] 48184  [2020-12-16 09:49:33][root][114.242.248.233]ltr
+[/root/pipeline/YSX/R] 48184  [2020-12-16 09:49:33][root][114.242.248.233]ltr
+[/root/pipeline/YSX/R] 48185  [2020-12-16 09:57:58][root][114.242.248.233]crontab -e
+[/root/pipeline/YSX/R] 48186  [2020-12-16 09:58:06][root][114.242.248.233]find ~/pipeline/YSX/R -name "*.R" -newer ~/YSX/build 
+[/root/pipeline/YSX/R] 48187  [2020-12-16 09:58:10][root][114.242.248.233]crontab -e
+[/root/pipeline/YSX/R] 48188  [2020-12-16 10:02:22][root][114.242.248.233]find ~/pipeline/YSX/R -name "*.R" -newer ~/YSX/build 
+[/root/pipeline/YSX/R] 48188  [2020-12-16 10:02:22][root][114.242.248.233]find ~/pipeline/YSX/R -name "*.R" -newer ~/YSX/build 
+[/root/pipeline/YSX/R] 48188  [2020-12-16 10:02:22][root][114.242.248.233]find ~/pipeline/YSX/R -name "*.R" -newer ~/YSX/build 
+[/root/pipeline/YSX/R] 48188  [2020-12-16 10:02:22][root][114.242.248.233]find ~/pipeline/YSX/R -name "*.R" -newer ~/YSX/build 
+[/root/pipeline/YSX/R] 48189  [2020-12-16 10:14:41][root][114.242.248.233]crontab -e
