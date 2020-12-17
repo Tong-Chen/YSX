@@ -143,3 +143,8 @@
 [/root/pipeline/YSX/R] 48188  [2020-12-16 10:02:22][root][114.242.248.233]find ~/pipeline/YSX/R -name "*.R" -newer ~/YSX/build 
 [/root/pipeline/YSX/R] 48189  [2020-12-16 10:14:41][root][114.242.248.233]crontab -e
 [/root/pipeline/YSX/R] 48190  [2020-12-16 10:14:57][root][114.242.248.233]find ~/pipeline/YSX/R -name "*.R" -newer ~/YSX/build -exec ~/pipeline/bin/bash/install_YSX.sh {} \;
+[/root/pipeline/YSX/R] 48599  [2020-12-17 21:46:36][root][125.33.4.125]cd R
+[/root/pipeline/YSX/R] 48600  [2020-12-17 21:46:37][root][125.33.4.125]ltr
+[/root/pipeline/YSX/R] 48601  [2020-12-17 21:46:43][root][125.33.4.125]vim utilities.R 
+[/root/pipeline/YSX/R] 48602  [2020-12-17 21:52:38][root][125.33.4.125]../../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 48603  [2020-12-17 21:52:58][root][125.33.4.125]vim utilities.R 
