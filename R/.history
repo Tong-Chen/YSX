@@ -142,3 +142,4 @@
 [/root/pipeline/YSX/R] 48188  [2020-12-16 10:02:22][root][114.242.248.233]find ~/pipeline/YSX/R -name "*.R" -newer ~/YSX/build 
 [/root/pipeline/YSX/R] 48188  [2020-12-16 10:02:22][root][114.242.248.233]find ~/pipeline/YSX/R -name "*.R" -newer ~/YSX/build 
 [/root/pipeline/YSX/R] 48189  [2020-12-16 10:14:41][root][114.242.248.233]crontab -e
+[/root/pipeline/YSX/R] 48190  [2020-12-16 10:14:57][root][114.242.248.233]find ~/pipeline/YSX/R -name "*.R" -newer ~/YSX/build -exec ~/pipeline/bin/bash/install_YSX.sh {} \;

@@ -37,7 +37,7 @@ geom_flat_violin <-
     )
   }
 
-#' @rdname ggplot2-ggproto
+#' @inheritParams ggplot2::ggproto
 #' @format NULL
 #' @usage NULL
 #' @export
