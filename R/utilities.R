@@ -1031,11 +1031,11 @@ sp_ggplot_layout <-
 			 useDingbats = FALSE,
              ...)
       if (saveppt){
-	  print(filename)
-	  print(dirname(filename))
-	  print(getSrcDirectory(function(x) {x}))
+	  # print(filename)
+	  # print(dirname(filename))
+	  # print(getSrcDirectory(function(x) {x}))
 	  # print(dirname(sys.frame(1)$ofile))
-	  normalizePath(paste0(getwd(),dirname(filename),sep="/"))
+	  # normalizePath(paste0(getwd(),dirname(filename),sep="/"))
       eoffice::topptx(p, filename = paste0(filename,".pptx"),
              width = width, height = height)
       }
