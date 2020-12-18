@@ -109,6 +109,7 @@ sp_boxplot <- function(data,
                        facet_scales = 'fixed',
                        metadata = NULL,
                        debug = F,
+                       filename = NULL,
                        extra_ggplot2_cmd = NULL,
                        ...) {
   if (debug) {
@@ -484,7 +485,7 @@ sp_boxplot <- function(data,
 
       suppressWarnings(write.table(
         LSD.test_table,
-        file = "boxplot_LSD.test.txt",
+        file = paste0(filename,"LSD.test.txt"),
         sep = "\t",
         quote = F,
         row.names = F
@@ -502,7 +503,7 @@ sp_boxplot <- function(data,
 
       suppressWarnings(write.table(
         Tukey_HSD_table,
-        file = "boxplot_TukeyHSD.txt",
+        file = paste0(filename,"TukeyHSD.txt"),
         sep = "\t",
         quote = F,
         row.names = F
@@ -555,7 +556,7 @@ sp_boxplot <- function(data,
         strip.position = "top"
 	  } else {
 	    strip.position = 'left'
-	  } 
+	  }
       p <-
         p + facet_wrap(
           ~  .data[[facet_variable]],

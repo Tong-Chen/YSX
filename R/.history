@@ -156,3 +156,17 @@
 [/root/pipeline/YSX/R] 48609  [2020-12-17 22:12:29][root][125.33.4.125]vim utilities.R 
 [/root/pipeline/YSX/R] 48610  [2020-12-17 22:13:31][root][125.33.4.125]../../bin/bash/install_YSX.sh 
 [/root/pipeline/YSX/R] 48611  [2020-12-17 22:18:24][root][125.33.4.125]vim utilities.R 
+[/root/pipeline/YSX/R] 48588  [2020-12-17 22:19:04][root][125.33.4.125]cd ~/pipeline/YSX/R
+[/root/pipeline/YSX/R] 48589  [2020-12-17 22:19:07][root][125.33.4.125]git add utilities.R 
+[/root/pipeline/YSX/R] 48612  [2020-12-17 22:18:40][root][125.33.4.125]../../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 48590  [2020-12-17 22:19:12][root][125.33.4.125]git commit -m 'unsolved'
+[/root/pipeline/YSX/R] 48591  [2020-12-17 22:19:20][root][125.33.4.125]git push -u origin develop
+[/root/pipeline/YSX/R] 48592  [2020-12-18 19:03:06][root][125.33.4.125]ltr
+[/root/pipeline/YSX/R] 48593  [2020-12-18 19:03:09][root][125.33.4.125]vim utilities.R 
+[/root/pipeline/YSX/R] 48594  [2020-12-18 19:04:18][root][125.33.4.125]vim sp_vennDiagram2.R 
+[/root/pipeline/YSX/R] 48595  [2020-12-18 19:05:25][root][125.33.4.125]vim sp_boxplot.R 
+[/root/pipeline/YSX/R] 48596  [2020-12-18 19:07:58][root][125.33.4.125]vim sp_vennDiagram.R 
+[/root/pipeline/YSX/R] 48597  [2020-12-18 19:08:10][root][125.33.4.125]vim sp_vennDiagram2.R 
+[/root/pipeline/YSX/R] 48613  [2020-12-18 21:48:33][root][125.33.4.125]vim utilities.R 
+[/root/pipeline/YSX/R] 48614  [2020-12-18 21:51:34][root][125.33.4.125]vim ../../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 48615  [2020-12-18 21:51:55][root][125.33.4.125]vim utilities.R 
