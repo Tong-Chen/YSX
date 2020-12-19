@@ -177,3 +177,6 @@
 [/root/pipeline/YSX/R] 48620  [2020-12-18 21:57:00][root][125.33.4.125]git push -u origin develop
 [/root/pipeline/YSX/R] 48621  [2020-12-18 21:57:30][root][125.33.4.125]ltr
 [/root/pipeline/YSX/R] 48622  [2020-12-18 21:57:34][root][125.33.4.125]vim utilities.R 
+[/root/pipeline/YSX/R] 48614  [2020-12-19 16:56:38][root][125.33.4.125]cd R
+[/root/pipeline/YSX/R] 48615  [2020-12-19 16:56:38][root][125.33.4.125]ltr
+[/root/pipeline/YSX/R] 48616  [2020-12-19 16:56:41][root][125.33.4.125]vim utilities.R 
