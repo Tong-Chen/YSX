@@ -1042,6 +1042,7 @@ sp_ggplot_layout <-
 	  	cwd = "/var/www/html/Cloud_Platform/Cloud_Platform/public/"
 	    filename_ = basename(filename)
 		filename = paste0(cwd, filename_)
+		print(filename)
 	  }
       eoffice::topptx(p, filename = paste0(filename,".pptx"),
              width = width, height = height)
