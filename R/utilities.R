@@ -1038,8 +1038,9 @@ sp_ggplot_layout <-
 	  # normalizePath(paste0(getwd(),dirname(filename),sep="/"))
 	  cwd = getwd()
 	  print(cwd)
+	  print(filename)
 	  if(cwd == "/Cloud_Platform/public"){
-	  	cwd = "/var/www/html/Cloud_Platform/Cloud_Platform/public/"
+	  	cwd = "/var/www/html/Cloud_Platform//Cloud_Platform/public/"
 	    filename_ = basename(filename)
 		filename = paste0(cwd, filename_)
 		print(filename)
