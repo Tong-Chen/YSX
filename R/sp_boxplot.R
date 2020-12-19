@@ -485,7 +485,7 @@ sp_boxplot <- function(data,
 
       suppressWarnings(write.table(
         LSD.test_table,
-        file = paste0(filename,"LSD.test.txt"),
+        file = paste0(filename,".LSD.test.txt"),
         sep = "\t",
         quote = F,
         row.names = F
@@ -503,7 +503,7 @@ sp_boxplot <- function(data,
 
       suppressWarnings(write.table(
         Tukey_HSD_table,
-        file = paste0(filename,"TukeyHSD.txt"),
+        file = paste0(filename,".TukeyHSD.txt"),
         sep = "\t",
         quote = F,
         row.names = F
@@ -585,6 +585,7 @@ sp_boxplot <- function(data,
     y_label = y_label,
     title = title,
     coordinate_flip = coordinate_flip,
+    filename = filename,
     additional_theme = additional_theme,
     ...
   )

@@ -1,0 +1,100 @@
+[/root/pipeline/YSX/vignettes] 40624  [2020-07-18 21:44:26][root][111.192.247.108]cd ../YSX/vignettes/
+[/root/pipeline/YSX/vignettes] 40625  [2020-07-18 21:44:31][root][111.192.247.108]ls -lt
+[/root/pipeline/YSX/vignettes] 40625  [2020-07-18 21:44:31][root][111.192.247.108]ls -lt
+[/root/pipeline/YSX/vignettes] 40625  [2020-07-18 21:44:31][root][111.192.247.108]ls -lt
+[/root/pipeline/YSX/vignettes] 40625  [2020-07-18 21:44:31][root][111.192.247.108]ls -lt
+[/root/pipeline/YSX/vignettes] 40625  [2020-07-18 21:44:31][root][111.192.247.108]ls -lt
+[/root/pipeline/YSX/vignettes] 40625  [2020-07-18 21:44:31][root][111.192.247.108]ls -lt
+[/root/pipeline/YSX/vignettes] 40625  [2020-07-18 21:44:31][root][111.192.247.108]ls -lt
+[/root/pipeline/YSX/vignettes] 40625  [2020-07-18 21:44:31][root][111.192.247.108]ls -lt
+[/root/pipeline/YSX/vignettes] 40626  [2020-07-18 21:44:34][root][111.192.247.108]ls
+[/root/pipeline/YSX/vignettes] 40627  [2020-07-18 21:47:03][root][111.192.247.108]git pull
+[/root/pipeline/YSX/vignettes] 40627  [2020-07-18 21:47:03][root][111.192.247.108]git pull
+[/root/pipeline/YSX/vignettes] 40628  [2020-07-18 21:52:29][root][111.192.247.108]less Plot.sh 
+[/root/pipeline/YSX/vignettes] 40628  [2020-07-18 21:52:29][root][111.192.247.108]less Plot.sh 
+[/root/pipeline/YSX/vignettes] 40892  [2020-07-20 20:33:13][root][125.33.6.125]cd vignettes/
+[/root/pipeline/YSX/vignettes] 40893  [2020-07-20 20:33:13][root][125.33.6.125]ls
+[/root/pipeline/YSX/vignettes] 40894  [2020-07-20 20:33:26][root][125.33.6.125]less exprMat.txt 
+[/root/pipeline/YSX/vignettes] 40895  [2020-07-20 20:33:37][root][125.33.6.125]less Plot.sh 
+[/root/pipeline/YSX/vignettes] 40896  [2020-07-20 20:34:03][root][125.33.6.125]less Plot.Rmd 
+[/root/pipeline/YSX/vignettes] 40897  [2020-07-20 20:35:02][root][125.33.6.125]rz
+[/root/pipeline/YSX/vignettes] 40898  [2020-07-20 20:35:56][root][125.33.6.125]ls
+[/root/pipeline/YSX/vignettes] 40899  [2020-07-20 20:36:02][root][125.33.6.125]wc -l ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls
+[/root/pipeline/YSX/vignettes] 40900  [2020-07-20 20:36:07][root][125.33.6.125]less ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls
+[/root/pipeline/YSX/vignettes] 40901  [2020-07-20 20:37:39][root][125.33.6.125]#awk 'BEGIN{OFS=FS="\t"}ARGIND==1{}ARGIND==2{}' /var/www/html/gene_anno/biomart/Human.anno ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls
+[/root/pipeline/YSX/vignettes] 40902  [2020-07-20 20:37:48][root][125.33.6.125]head -n 3 /var/www/html/gene_anno/biomart/Human.anno 
+[/root/pipeline/YSX/vignettes] 40903  [2020-07-20 20:39:24][root][125.33.6.125]awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$1]=$2;}ARGIND==2{if(FNR==1) print $0; else {$1=a[$1];if($1!="") print $0,"-";}}' /var/www/html/gene_anno/biomart/Human.anno ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls | head -n 5000 >volcano.txt
+[/root/pipeline/YSX/vignettes] 40904  [2020-07-20 20:40:22][root][125.33.6.125]vim volcano.txt 
+[/root/pipeline/YSX/vignettes] 40905  [2020-07-20 20:40:38][root][125.33.6.125]sed -i 's///' volcano.txt 
+[/root/pipeline/YSX/vignettes] 40906  [2020-07-20 20:40:40][root][125.33.6.125]vim volcano.txt 
+[/root/pipeline/YSX/vignettes] 40907  [2020-07-20 20:41:51][root][125.33.6.125]awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$1]=$2;}ARGIND==2{if(FNR==1) print $0; else {$1=a[$1];if($1!="") print $0,"-";}}' /var/www/html/gene_anno/biomart/Human.anno ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls | head -n 5000 | cut -f 2,3 --complement >volcano.txt
+[/root/pipeline/YSX/vignettes] 40908  [2020-07-20 20:41:53][root][125.33.6.125]vim volcano.txt 
+[/root/pipeline/YSX/vignettes] 40909  [2020-07-20 20:42:30][root][125.33.6.125]awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$1]=$2;}ARGIND==2{if(FNR==1) print $0; else {$1=a[$1];if($1!="") print $0,"-";}}' /var/www/html/gene_anno/biomart/Human.anno ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls | head -n 5000 | cut -f 2,3,6 --complement | sed 's///' >volcano.txt
+[/root/pipeline/YSX/vignettes] 40910  [2020-07-20 20:43:54][root][125.33.6.125]vim volcano.txt 
+[/root/pipeline/YSX/vignettes] 40910  [2020-07-20 20:43:54][root][125.33.6.125]vim volcano.txt 
+[/root/pipeline/YSX/vignettes] 40910  [2020-07-20 20:43:54][root][125.33.6.125]vim volcano.txt 
+[/root/pipeline/YSX/vignettes] 40911  [2020-07-20 21:03:38][root][125.33.6.125]ls -sh volcano.txt 
+[/root/pipeline/YSX/vignettes] 40912  [2020-07-20 21:03:40][root][125.33.6.125]vim volcano.txt 
+[/root/pipeline/YSX/vignettes] 40913  [2020-07-20 21:04:30][root][125.33.6.125]awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$1]=$2;}ARGIND==2{if(FNR==1) print $0; else {$1=a[$1];if($1!="") {$4=int($4); $5=int($5); print $0,"-";}}' /var/www/html/gene_anno/biomart/Human.anno ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls | head -n 5000 | cut -f 2,3,6 --complement | sed 's///' >volcano.txt
+[/root/pipeline/YSX/vignettes] 40914  [2020-07-20 21:05:11][root][125.33.6.125]awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$1]=$2;}ARGIND==2{if(FNR==1) print $0; else {$1=a[$1];if($1!="") {$4=int($4); $5=int($5); print $0,"-";}}}' /var/www/html/gene_anno/biomart/Human.anno ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls | head -n 5000 | cut -f 2,3,6 --complement | sed 's///' >volcano.txt
+[/root/pipeline/YSX/vignettes] 40915  [2020-07-20 21:05:14][root][125.33.6.125]awk  volcano.txt 
+[/root/pipeline/YSX/vignettes] 40916  [2020-07-20 21:05:17][root][125.33.6.125]vim volcano.txt 
+[/root/pipeline/YSX/vignettes] 40917  [2020-07-20 21:05:32][root][125.33.6.125]ls -sh volcano.txt 
+[/root/pipeline/YSX/vignettes] 40918  [2020-07-20 21:05:36][root][125.33.6.125]vim volcano.txt 
+[/root/pipeline/YSX/vignettes] 40919  [2020-07-20 21:07:04][root][125.33.6.125]cat volcano.txt | sed 's/\t/\\t/' | less
+[/root/pipeline/YSX/vignettes] 40920  [2020-07-20 21:07:10][root][125.33.6.125]cat volcano.txt | sed 's/\t/\\t/g' | less
+[/root/pipeline/YSX/vignettes] 40921  [2020-07-20 21:09:10][root][125.33.6.125]cat volcano.txt | sed 's/\t/\\t/g' | sed 's/\n/\\n/' | less
+[/root/pipeline/YSX/vignettes] 40922  [2020-07-20 21:09:42][root][125.33.6.125]cat volcano.txt | sed 's/\t/\\t/g' | tr '\n' '\\n' | less
+[/root/pipeline/YSX/vignettes] 40923  [2020-07-20 21:10:07][root][125.33.6.125]cat volcano.txt | sed 's/\t/\\t/g' | tr '\n' '$' | less
+[/root/pipeline/YSX/vignettes] 40924  [2020-07-20 21:10:23][root][125.33.6.125]cat volcano.txt | sed 's/\t/\\t/g' | tr '\n' '$' | sed 's/\$/\\n/g' | less
+[/root/pipeline/YSX/vignettes] 40925  [2020-07-20 21:10:37][root][125.33.6.125]cat volcano.txt | sed 's/\t/\\t/g' | tr '\n' '$' | sed 's/\$/\\n/g' >volcano.demo
+[/root/pipeline/YSX/vignettes] 40926  [2020-07-20 21:10:43][root][125.33.6.125]ls -sh volcano.demo
+[/root/pipeline/YSX/vignettes] 40927  [2020-07-20 21:12:42][root][125.33.6.125]less Plot.sh 
+[/root/pipeline/YSX/vignettes] 40927  [2020-07-20 21:12:42][root][125.33.6.125]less Plot.sh 
+[/root/pipeline/YSX/vignettes] 40927  [2020-07-20 21:12:42][root][125.33.6.125]less Plot.sh 
+[/root/pipeline/YSX/vignettes] 40928  [2020-07-20 21:20:07][root][125.33.6.125]awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$1]=$2;}ARGIND==2{if(FNR==1) print $0,"Label","Level"; else {$1=a[$1];if($1!="") {$4=int($4*10)/10; $5=int($5*10)/10; if($6<0.05) {if($5>=1) level="treat_UP"; else if($5<=-1} level="treat_DW"; else $5="NoDiff";} print $0,"-",level;}}}' /var/www/html/gene_anno/biomart/Human.anno ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls | head -n 5000 | cut -f 2,3,6 --complement | sed 's///' >volcano.txt
+[/root/pipeline/YSX/vignettes] 40929  [2020-07-20 21:20:20][root][125.33.6.125]awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$1]=$2;}ARGIND==2{if(FNR==1) print $0,"Label","Level"; else {$1=a[$1];if($1!="") {$4=int($4*10)/10; $5=int($5*10)/10; if($6<0.05) {if($5>=1) level="treat_UP"; else if($5<=-1) level="treat_DW"; else $5="NoDiff";} print $0,"-",level;}}}' /var/www/html/gene_anno/biomart/Human.anno ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls | head -n 5000 | cut -f 2,3,6 --complement | sed 's///' >volcano.txt
+[/root/pipeline/YSX/vignettes] 40930  [2020-07-20 21:20:25][root][125.33.6.125]vim volcano.txt 
+[/root/pipeline/YSX/vignettes] 40931  [2020-07-20 21:20:55][root][125.33.6.125]awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$1]=$2;}ARGIND==2{if(FNR==1) print $0,"Label","Level"; else {$1=a[$1];if($1!="") {$4=int($4*10)/10; $5=int($5*10)/10; if($6<0.05) {if($5>=1) level="treat_UP"; else if($5<=-1) level="treat_DW"; else level="NoDiff";} print $0,"-",level;}}}' /var/www/html/gene_anno/biomart/Human.anno ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls | head -n 5000 | cut -f 2,3,6 --complement | sed 's///' >volcano.txt
+[/root/pipeline/YSX/vignettes] 40932  [2020-07-20 21:20:57][root][125.33.6.125]vim volcano.txt 
+[/root/pipeline/YSX/vignettes] 40889  [2020-07-21 11:01:35][root][114.242.250.135]cd pipeline/YSX/vignettes/
+[/root/pipeline/YSX/vignettes] 40890  [2020-07-21 11:01:37][root][114.242.250.135]ls -ltr
+[/root/pipeline/YSX/vignettes] 40891  [2020-07-21 11:02:59][root][114.242.250.135]less volcano.txt 
+[/root/pipeline/YSX/vignettes] 40892  [2020-07-21 11:03:07][root][114.242.250.135]ls -sh volcano.txt 
+[/root/pipeline/YSX/vignettes] 40893  [2020-07-21 11:05:02][root][114.242.250.135]head -n 1 volcano.
+[/root/pipeline/YSX/vignettes] 40894  [2020-07-21 11:05:04][root][114.242.250.135]head -n 1 volcano.txt 
+[/root/pipeline/YSX/vignettes] 40895  [2020-07-21 11:24:28][root][114.242.250.135]cut -f 6 volcano.txt | sort -u
+[/root/pipeline/YSX/vignettes] 40896  [2020-07-21 11:30:10][root][114.242.250.135]less Plot.sh 
+[/root/pipeline/YSX/vignettes] 40915  [2020-07-21 14:12:29][root][114.242.250.135]cd pipeline/YSX/vignettes/
+[/root/pipeline/YSX/vignettes] 40916  [2020-07-21 14:12:30][root][114.242.250.135]ltr
+[/root/pipeline/YSX/vignettes] 40917  [2020-07-21 14:12:32][root][114.242.250.135]less .history 
+[/root/pipeline/YSX/vignettes] 40918  [2020-07-21 14:12:48][root][114.242.250.135]vim volcano.txt 
+[/root/pipeline/YSX/vignettes] 40919  [2020-07-21 14:13:44][root][114.242.250.135]sed 's/\t/\\t/g' volcano.txt | less
+[/root/pipeline/YSX/vignettes] 40920  [2020-07-21 14:14:12][root][114.242.250.135]sed 's/\t/\\t/g' volcano.txt | tr '\n' ';' | sed 's/;/\\n/g' | less
+[/root/pipeline/YSX/vignettes] 40921  [2020-07-21 14:14:26][root][114.242.250.135]sed 's/\t/\\t/g' volcano.txt | tr '\n' ';' | sed 's/;/\\n/g' >/tmp/v
+[/root/pipeline/YSX/vignettes] 40922  [2020-07-21 14:54:31][root][114.242.250.135]sp_pheatmap.sh 
+[/root/pipeline/YSX/vignettes] 40923  [2020-07-21 15:13:27][root][114.242.250.135]splot_pheatmap.sh -f /var/www/html/Cloud_Platform/Cloud_Platform/public/text_upload_file/e6913778-e14e-4a28-b765-0b022577594f.txt -p None -c TRUE -d TRUE -e complete -m pearson -n binary -r TRUE -l NULL -s none -g 2 -C TRUE -B TRUE -A 0 -o /var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/result_output/pheatmap2020-07-21_15:12:48.724873/d256fb09-73e7-49c7-869d-0c5d26de1ebf
+[/root/pipeline/YSX/vignettes] 40924  [2020-07-21 15:13:50][root][114.242.250.135]less /var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/result_output/pheatmap2020-07-21_15\:12\:48.724873/d256fb09-73e7-49c7-869d-0c5d26de1ebf.pheatmap.r 
+[/root/pipeline/YSX/vignettes] 40925  [2020-07-21 15:14:08][root][114.242.250.135]less /var/www/html/Cloud_Platform/Cloud_Platform/public/text_upload_file/e6913778-e14e-4a28-b765-0b022577594f.txt
+[/root/pipeline/YSX/vignettes] 40926  [2020-07-21 15:14:12][root][114.242.250.135]less -S /var/www/html/Cloud_Platform/Cloud_Platform/public/text_upload_file/e6913778-e14e-4a28-b765-0b022577594f.txt
+[/root/pipeline/YSX/vignettes] 40927  [2020-07-21 15:14:36][root][114.242.250.135]R
+[/root/pipeline/YSX/vignettes] 40932  [2020-07-20 21:20:57][root][125.33.6.125]vim volcano.txt 
+[/root/pipeline/YSX/vignettes] 40933  [2020-07-23 18:53:41][root][125.33.6.125]cp /var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/volcano.txt .
+[/root/pipeline/YSX/vignettes] 40934  [2020-07-23 18:53:56][root][125.33.6.125]cat volcano.txt | sed 's/\t/\\t/g' | tr '\n' '$' | sed 's/\$/\\n/g' >volcano.demo
+[/root/pipeline/YSX/vignettes] 40939  [2020-07-23 18:56:51][root][125.33.6.125]cd vignettes/
+[/root/pipeline/YSX/vignettes] 40940  [2020-07-23 18:56:51][root][125.33.6.125]ls
+[/root/pipeline/YSX/vignettes] 41008  [2020-07-23 18:57:06][root][125.33.6.125]cd ~/pipeline/YSX/vignettes
+[/root/pipeline/YSX/vignettes] 40941  [2020-07-23 18:57:22][root][125.33.6.125]head ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls
+[/root/pipeline/YSX/vignettes] 40942  [2020-07-23 19:01:23][root][125.33.6.125]awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$1]=$2;}ARGIND==2{if(FNR==1) print $0，“Label"; else {$1=a[$1];if($1!="") {$4=int($4*10)/10; $5=int($5*10)/10; print $0,"-";}}}' /var/www/html/gene_anno/biomart/Human.anno ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls | cut -f 2,3,6 --complement | sed 's/^M//' >volcano.txt
+[/root/pipeline/YSX/vignettes] 40943  [2020-07-23 19:01:38][root][125.33.6.125]awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$1]=$2;}ARGIND==2{if(FNR==1) print $0,"Label"; else {$1=a[$1];if($1!="") {$4=int($4*10)/10; $5=int($5*10)/10; print $0,"-";}}}' /var/www/html/gene_anno/biomart/Human.anno ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls | cut -f 2,3,6 --complement | sed 's/^M//' >volcano.txt
+[/root/pipeline/YSX/vignettes] 40944  [2020-07-23 19:01:45][root][125.33.6.125]head volcano.txt 
+[/root/pipeline/YSX/vignettes] 40945  [2020-07-23 19:02:28][root][125.33.6.125]awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$1]=$2;}ARGIND==2{if(FNR==1) print $0,"Label"; else {$1=a[$1];if($1!="") {$4=int($4*10)/10; $5=int($5*10)/10; print $0,"-";}}}' /var/www/html/gene_anno/biomart/Human.anno ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls | less
+[/root/pipeline/YSX/vignettes] 40946  [2020-07-23 19:02:42][root][125.33.6.125]#awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$1]=$2;}ARGIND==2{if(FNR==1) print $0,"Label"; else {$1=a[$1];if($1!="") {$4=int($4*10)/10; $5=int($5*10)/10; print $0,"-";}}}' /var/www/html/gene_anno/biomart/Human.anno ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls | less
+[/root/pipeline/YSX/vignettes] 40947  [2020-07-23 19:03:03][root][125.33.6.125]sed -i 's///' ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls
+[/root/pipeline/YSX/vignettes] 40948  [2020-07-23 19:03:09][root][125.33.6.125]awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$1]=$2;}ARGIND==2{if(FNR==1) print $0,"Label"; else {$1=a[$1];if($1!="") {$4=int($4*10)/10; $5=int($5*10)/10; print $0,"-";}}}' /var/www/html/gene_anno/biomart/Human.anno ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls | less
+[/root/pipeline/YSX/vignettes] 40949  [2020-07-23 19:03:28][root][125.33.6.125]awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$1]=$2;}ARGIND==2{if(FNR==1) print $0,"Label"; else {$1=a[$1];if($1!="") {$4=int($4*10)/10; $5=int($5*10)/10; print $0,"-";}}}' /var/www/html/gene_anno/biomart/Human.anno ehbio.simplier.DESeq2.untrt._vs_.trt.results.xls | cut -f 2,3,6 --complement >volcano.txt
+[/root/pipeline/YSX/vignettes] 40950  [2020-07-23 19:03:44][root][125.33.6.125]vim volcano.txt 
+[/root/pipeline/YSX/vignettes] 40951  [2020-07-23 19:05:48][root][125.33.6.125]less volcano2.txt 
+[/root/pipeline/YSX/vignettes] 41009  [2020-07-23 18:57:12][root][125.33.6.125]R
+[/root/pipeline/YSX/vignettes] 40952  [2020-07-23 19:06:14][root][125.33.6.125]cp volcano2.txt /var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/volcano.txt 
+[/root/pipeline/YSX/vignettes] 40953  [2020-07-23 20:40:35][root][125.33.6.125]/var/www/html/Cloud_Platform/Cloud_Platform/public/Tools_file/splot_flower.sh
