@@ -9,20 +9,19 @@ sp_volcano_plot(
   log2fc_var = "log2FoldChange",
   fdr_var = "padj",
   coordinate_flip = FALSE,
-  status_col_var = NULL,
+  status_col = NULL,
   significance_threshold = c(0.05, 1),
-  status_col_var_order = NULL,
+  status_col_level = c(),
   point_color_vector = c("red", "green", "grey"),
   log10_transform_fdr = TRUE,
   max_allowed_log10p = Inf,
-  max_allowed_log2fc = Inf,
-  title = NULL,
+  title = "",
   point_label_var = "CTctctCT",
   log2fc_symmetry = TRUE,
   alpha = NA,
   point_size = NA,
   extra_ggplot2_cmd = NULL,
-  filename = NULL,
+  file_name = NULL,
   xtics_angle = 0,
   x_label = "Log2 fold change",
   y_label = "Negative log10 transformed qvalue",
@@ -41,22 +40,17 @@ sp_volcano_plot(
 
 \item{coordinate_flip}{Default FALSE meaning \code{log2fc_var} in \code{X-axis}. Specify \code{TRUE} to make \code{fdr_var} in \code{X-axis}.}
 
-\item{status_col_var}{Name of the column containining labels of gene expression status like \verb{"No differnece", "UP-regulated", "Down-regulated"}. If exists, this column would be used to color each group of points. This parameter has higher priority than \code{significance_threshold}.}
+\item{status_col}{Name of the column containining labels of gene expression status like \verb{"No differnece", "UP-regulated", "Down-regulated"}. If exists, this column would be used to color each group of points. This parameter has higher priority than \code{significance_threshold}.}
 
-\item{significance_threshold}{Set the threshold for defining DE genes in format like \code{c(pvalue,abs_log_fodchange)}. If this parameter is given, the program will generate \code{status_col_var} based on given thresholds.}
+\item{significance_threshold}{Set the threshold for defining DE genes in format like \code{c(pvalue,abs_log_fodchange)}. If this parameter is given, the program will generate \code{status_col} based on given thresholds.}
 
-\item{status_col_var_order}{Changing the order of status column values.
-Normally, the unique values of status column would be sorted alphabetically. For example, the order of \verb{"No differnece", "UP-regulated", "Down-regulated"} would be \verb{"Down-regulated", "No differnece", "UP-regulated"}. Here we can specify their order manually like \verb{"UP-regulated", "Down-regulated", "No differnece"} to match the color specified below.}
+\item{status_col_level}{Changing the order of status column values. Normally, the unique values of status column would be sorted alphabetically. For example, the order of \verb{"No differnece", "UP-regulated", "Down-regulated"} would be \verb{"Down-regulated", "No differnece", "UP-regulated"}. Here we can specify their order manually like \verb{"UP-regulated", "Down-regulated", "No differnece"} to match the color specified below.}
 
-\item{point_color_vector}{Color vector. Defgault 'red, green, grey' for 'up, dw, nodiff'
-when \code{status_col_var} is not given. The order of color vector must match the order
-of levels of \code{status_col_var}.}
+\item{point_color_vector}{Color vector. Defgault 'red, green, grey' for 'up, dw, nodiff' when \code{status_col} is not given. The order of color vector must match the order of levels of \code{status_col}.}
 
 \item{log10_transform_fdr}{Get \code{-log10(pvalue)} or \code{-log10(fdr)} for column given to \code{fdr_var}. Default FALSE, accept TRUE.}
 
 \item{max_allowed_log10p}{Maximum allowed \code{-log10(pvalue)}. Default \code{Inf} meaning no limitation. Normally this should be set to 3 or 4 to make the output picture beautiful.}
-
-\item{max_allowed_log2fc}{Maximum allowed \code{log2(foldchange)}. Default \code{Inf} meaning no limitation. Normally this should be set to 3 or 4 to make the output picture beautiful.}
 
 \item{title}{Title of picture.}
 
@@ -68,11 +62,11 @@ of levels of \code{status_col_var}.}
 
 \item{point_size}{Point size. Default 0.8. Accept a number of name of one column.}
 
-\item{extra_ggplot2_cmd}{Extra ggplot2 commands (currently unsupported)}
+\item{extra_ggplot2_cmd}{ggplot2 commands}
 
-\item{filename}{Output picture to given file.}
+\item{file_name}{Output ggplot2 object to given file.}
 
-\item{xtics_angle}{Rotation angle for a-axis. Default 0.}
+\item{xtics_angle}{Rotation angle for a-axis}
 
 \item{x_label}{Xlab label.Default "Log2 fold change".}
 
@@ -84,7 +78,7 @@ of levels of \code{status_col_var}.}
 
 \item{yintercept}{Default 'fdr' to show fdr lines. This needs \code{significance_threshold}. Specify NULL to hide lines.}
 
-\item{...}{Parametes given to \code{sp_ggplot_layout}}
+\item{...}{}
 }
 \value{
 A ggplot2 object
@@ -110,7 +104,7 @@ volcanoPlot(res_output, )
 
 ## Not run:
 input <- "KO-OE_all.txt"
-volcano_plot(input,log2fc_var='Log2FoldChange',fdr_var='Padj',status_col_var='',
+volcano_plot(input,log2fc_var='Log2FoldChange',fdr_var='Padj',status_col='',
              title="sd",label="Label",log10_transform_fdr=TRUE,point_size=5)
 ## End(Not run)
 }

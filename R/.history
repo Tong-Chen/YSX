@@ -170,3 +170,10 @@
 [/root/pipeline/YSX/R] 48613  [2020-12-18 21:48:33][root][125.33.4.125]vim utilities.R 
 [/root/pipeline/YSX/R] 48614  [2020-12-18 21:51:34][root][125.33.4.125]vim ../../bin/bash/install_YSX.sh 
 [/root/pipeline/YSX/R] 48615  [2020-12-18 21:51:55][root][125.33.4.125]vim utilities.R 
+[/root/pipeline/YSX/R] 48616  [2020-12-18 21:52:29][root][125.33.4.125]../../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 48617  [2020-12-18 21:54:43][root][125.33.4.125]vim utilities.R 
+[/root/pipeline/YSX/R] 48618  [2020-12-18 21:56:20][root][125.33.4.125]git add utilities.R 
+[/root/pipeline/YSX/R] 48619  [2020-12-18 21:56:54][root][125.33.4.125]git commit -m 'temp solution of normalizepath'
+[/root/pipeline/YSX/R] 48620  [2020-12-18 21:57:00][root][125.33.4.125]git push -u origin develop
+[/root/pipeline/YSX/R] 48621  [2020-12-18 21:57:30][root][125.33.4.125]ltr
+[/root/pipeline/YSX/R] 48622  [2020-12-18 21:57:34][root][125.33.4.125]vim utilities.R 
