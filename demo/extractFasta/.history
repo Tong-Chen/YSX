@@ -1,9 +1,0 @@
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/extractFasta] 44866  [2020-10-01 21:50:40][root][111.192.244.217]cd extractFasta/
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/extractFasta] 44867  [2020-10-01 21:50:41][root][111.192.244.217]ls
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/extractFasta] 44868  [2020-10-01 21:50:50][root][111.192.244.217]vim Human.fa
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/extractFasta] 44868  [2020-10-01 21:50:50][root][111.192.244.217]vim Human.fa
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/extractFasta] 44869  [2020-10-01 23:54:10][root][111.192.244.217]grep '>' Human.fa | sed 's/>//' >Human.id
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/extractFasta] 44870  [2020-10-01 23:54:12][root][111.192.244.217]vim Human.fa
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/extractFasta] 44870  [2020-10-01 23:54:12][root][111.192.244.217]vim Human.fa
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/extractFasta] 44871  [2020-10-02 00:11:39][root][111.192.244.217]vim Human.fa 
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/extractFasta] 44872  [2020-10-02 00:11:44][root][111.192.244.217]vim Human.id 

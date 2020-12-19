@@ -1,4 +1,0 @@
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/Bugbase]  2217  [2020-12-19 17:08:16][sunfuxiang][125.33.4.125]cd Bugbase/
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/Bugbase]  2218  [2020-12-19 17:08:22][sunfuxiang][125.33.4.125]cp ../FAPROTAX/metadata.txt 
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/Bugbase]  2219  [2020-12-19 17:08:25][sunfuxiang][125.33.4.125]cp ../FAPROTAX/metadata.txt .
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/Bugbase]  2220  [2020-12-19 17:45:20][sunfuxiang][125.33.4.125]rz -E

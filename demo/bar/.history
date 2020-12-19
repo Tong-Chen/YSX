@@ -1,7 +1,0 @@
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/bar]  4333  [2020-08-29 03:39:45][fanmingjie][111.199.189.203]cd /var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/bar/
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/bar]  4334  [2020-08-29 03:39:45][fanmingjie][111.199.189.203]ls
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/bar]  4335  [2020-08-29 03:40:14][fanmingjie][111.199.189.203]mv ../exprTable.txt  .
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/bar]  4336  [2020-08-29 03:40:15][fanmingjie][111.199.189.203]ls
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/bar]  4727  [2020-09-11 20:09:44][fanmingjie][221.221.104.240]cd ../bar/
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/bar]  4728  [2020-09-11 20:09:45][fanmingjie][221.221.104.240]ls
-[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/bar]  4729  [2020-09-11 20:09:48][fanmingjie][221.221.104.240]sz exprTable.txt 
