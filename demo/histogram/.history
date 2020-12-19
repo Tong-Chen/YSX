@@ -1,0 +1,16 @@
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/histogram]  4454  [2020-09-01 20:40:16][fanmingjie][125.33.6.148]cd histogram/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/histogram]  4455  [2020-09-01 20:40:17][fanmingjie][125.33.6.148]pwd 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/histogram]  4653  [2020-09-08 14:29:27][fanmingjie][125.33.15.95]cd histogram/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/histogram]  4654  [2020-09-08 14:29:29][fanmingjie][125.33.15.95]pwd 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/histogram]  4655  [2020-09-08 14:29:57][fanmingjie][125.33.15.95]ls 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/histogram]  4656  [2020-09-08 14:30:06][fanmingjie][125.33.15.95]ls
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/histogram]  4657  [2020-09-08 14:30:23][fanmingjie][125.33.15.95]mv exprMat.txt histogram_demo3.txt
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/histogram]  4730  [2020-09-11 20:31:30][fanmingjie][221.221.104.240]cd ../histogram/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/histogram]  4731  [2020-09-11 20:31:31][fanmingjie][221.221.104.240]ls
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/histogram]  4732  [2020-09-11 20:31:36][fanmingjie][221.221.104.240]sz histogram_demo3.txt
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/histogram]  2184  [2020-11-20 11:02:39][sunfuxiang][125.33.3.185]cd /var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/histogram/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/histogram]  2185  [2020-11-20 11:02:48][sunfuxiang][125.33.3.185]cat histogram_demo3.txt 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/histogram]  2186  [2020-11-20 11:02:58][sunfuxiang][125.33.3.185]head histogram_demo3.txt 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/histogram]  2187  [2020-11-20 11:03:10][sunfuxiang][125.33.3.185]less -S  histogram_demo3.txt 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/histogram]  2188  [2020-11-20 11:04:26][sunfuxiang][125.33.3.185]head -n3 histogram_demo3.txt |cat -A
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/histogram]  2189  [2020-11-20 11:04:46][sunfuxiang][125.33.3.185]head -n15 histogram_demo3.txt 

@@ -1,0 +1,10 @@
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/venn]  4734  [2020-09-14 15:07:42][fanmingjie][221.221.104.240]cd /var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/venn/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/venn]  4735  [2020-09-14 15:07:43][fanmingjie][221.221.104.240]ls
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/venn]  4736  [2020-09-14 15:07:45][fanmingjie][221.221.104.240]sz venn_demo1.txt 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/venn]  2181  [2020-11-19 15:00:40][sunfuxiang][125.33.3.185]cd system_file/venn
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/venn]  2182  [2020-11-19 15:00:42][sunfuxiang][125.33.3.185]ls
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/venn]  2183  [2020-11-19 15:00:51][sunfuxiang][125.33.3.185]cat venn_demo1.txt 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/venn]  5912  [2020-12-17 20:56:23][fanmingjie][125.33.4.125]cd venn/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/venn]  5913  [2020-12-17 20:56:24][fanmingjie][125.33.4.125]ls
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/venn]  5914  [2020-12-17 20:56:28][fanmingjie][125.33.4.125]sz venn_demo1.txt 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/venn]  5915  [2020-12-17 21:06:30][fanmingjie][125.33.4.125]ls -ltr

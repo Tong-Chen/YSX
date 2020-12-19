@@ -1,0 +1,22 @@
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/boxplot] 42469  [2020-08-17 15:24:44][root][61.148.243.203]cd boxplot/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/boxplot] 42470  [2020-08-17 15:24:45][root][61.148.243.203]ltr
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/boxplot] 42492  [2020-08-17 18:13:41][root][125.33.12.149]cd boxplot/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/boxplot] 42493  [2020-08-17 18:14:22][root][125.33.12.149]cp ~/pipeline/YSX/vignettes/boxplot_singlecell.txt .
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/boxplot] 42494  [2020-08-17 18:28:28][root][125.33.12.149]echo "f:m:x:y:q:r:w:l:a:L:c:d:C:j:s:n:R:S:p:M:v:V:u:I:J:k:F:e:E:X:Y:t:N:W:U:A:g:G:Z:z:b:B:D:o:O" | tr ':' '\n' | sort
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/boxplot]  4791  [2020-09-21 20:57:59][fanmingjie][221.221.107.97]cd boxplot/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/boxplot]  4792  [2020-09-21 20:58:00][fanmingjie][221.221.107.97]ls
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/user/visitors/boxplot]  4792  [2020-09-21 20:58:00][fanmingjie][221.221.107.97]ls
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot] 45358  [2020-10-15 00:56:40][root][111.192.245.56]cd boxplot/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot] 45359  [2020-10-15 00:56:47][root][111.192.245.56]less alpha.txt 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot] 45360  [2020-10-15 01:08:36][root][111.192.245.56]less metadata.txt 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot] 45361  [2020-10-15 01:28:57][root][111.192.245.56]vim ~/pipeline/cloud_config/boxplot_input.json 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot]  5740  [2020-12-09 19:16:56][fanmingjie][125.33.20.191]cd boxplot/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot]  5741  [2020-12-09 19:16:57][fanmingjie][125.33.20.191]ls
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot]  5742  [2020-12-09 19:17:06][fanmingjie][125.33.20.191]sz boxplot_singlecell.txt
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot]  5753  [2020-12-09 22:32:53][fanmingjie][125.33.20.191]cd boxplot/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot]  5754  [2020-12-09 22:32:53][fanmingjie][125.33.20.191]ls
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot]  5755  [2020-12-09 22:33:00][fanmingjie][125.33.20.191]rz -E
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot]  5765  [2020-12-10 10:36:33][fanmingjie][125.33.20.191]cd boxplot/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot]  5766  [2020-12-10 10:36:33][fanmingjie][125.33.20.191]ls
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot]  5767  [2020-12-10 10:36:39][fanmingjie][125.33.20.191]rm boxplot_singlecell2.txt 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/boxplot]  5768  [2020-12-10 10:36:47][fanmingjie][125.33.20.191]rz -E

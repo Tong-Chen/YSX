@@ -1,0 +1,7 @@
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/pca]  6019  [2020-12-18 18:19:03][fanmingjie][125.33.4.125]cd pca/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/pca]  6020  [2020-12-18 18:19:10][fanmingjie][125.33.4.125]rz -E
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/pca]  6021  [2020-12-18 18:19:14][fanmingjie][125.33.4.125]ls
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/pca]  6078  [2020-12-18 18:43:07][fanmingjie][125.33.4.125]cd pca/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/pca]  6079  [2020-12-18 18:43:08][fanmingjie][125.33.4.125]ls
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/pca]  6080  [2020-12-18 18:43:11][fanmingjie][125.33.4.125]ls -ltr
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/pca]  6081  [2020-12-18 18:43:19][fanmingjie][125.33.4.125]sz pca.txt.pca.pdf

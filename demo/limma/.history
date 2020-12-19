@@ -1,0 +1,30 @@
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45066  [2020-10-07 08:48:10][root][125.33.15.48]cd limma/
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45067  [2020-10-07 08:48:13][root][125.33.15.48]rz
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45068  [2020-10-07 08:48:42][root][125.33.15.48]less exprTable.txt 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45069  [2020-10-07 08:48:48][root][125.33.15.48]rm -f exprTable.txt 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45070  [2020-10-07 08:48:50][root][125.33.15.48]rz
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45070  [2020-10-07 08:48:50][root][125.33.15.48]rz
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45071  [2020-10-07 08:52:22][root][125.33.15.48]ltr
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45072  [2020-10-07 08:52:30][root][125.33.15.48]mv ehbio_trans.Count_matrix.xls ehbio_trans.Count_matrix.txt
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45073  [2020-10-07 09:14:31][root][125.33.15.48]ls
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45074  [2020-10-07 09:20:59][root][125.33.15.48]sed 's/\t/\\t/' sampleFile2.txt
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45075  [2020-10-07 09:21:04][root][125.33.15.48]sed 's/\t/\\t/g' sampleFile2.txt
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45076  [2020-10-07 09:21:41][root][125.33.15.48]cut -f 1,2,3,5 sampleFile2.txt | sed 's/\t/\\t/g' | tr '\n' ';'
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45077  [2020-10-07 09:21:50][root][125.33.15.48]cut -f 1,2,3,5 sampleFile2.txt | sed 's/\t/\\t/g' | tr '\n' ';' | sed 's/;/\\n/'
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45078  [2020-10-07 09:21:53][root][125.33.15.48]cut -f 1,2,3,5 sampleFile2.txt | sed 's/\t/\\t/g' | tr '\n' ';' | sed 's/;/\\n/g'
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45091  [2020-10-07 09:46:58][root][221.221.106.194]cd /var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45092  [2020-10-07 09:47:02][root][221.221.106.194]ltr
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45093  [2020-10-07 09:47:17][root][221.221.106.194]head sampleFile2.txt Microarray_metadata.tsv 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45094  [2020-10-07 09:50:40][root][221.221.106.194]less ../../Tools_file/limma.r 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45095  [2020-10-07 09:50:50][root][221.221.106.194]vim ../../Tools_file/limma.r 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45095  [2020-10-07 09:50:50][root][221.221.106.194]vim ../../Tools_file/limma.r 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45096  [2020-10-07 09:54:33][root][221.221.106.194]../../Tools_file/limma.r 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45097  [2020-10-07 09:59:51][root][221.221.106.194]vim ../../Tools_file/limma.r 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45098  [2020-10-07 10:01:26][root][221.221.106.194]ltr
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45099  [2020-10-07 10:01:40][root][221.221.106.194]cut -f 1 Microarray_metadata.tsv >Microarray_compare.tsv
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45100  [2020-10-07 10:01:42][root][221.221.106.194]vim Microarray_compare.tsv
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45101  [2020-10-07 10:01:54][root][221.221.106.194]cut -f 2 Microarray_metadata.tsv | sort -u >Microarray_compare.tsv
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45102  [2020-10-07 10:01:55][root][221.221.106.194]vim Microarray_compare.tsv
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45103  [2020-10-07 10:03:32][root][221.221.106.194]sed 's/\t/\\t/g' Microarray_compare.tsv | tr '\n' ';' | sed 's/;/\\n/g'
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45104  [2020-10-07 10:08:14][root][221.221.106.194]vim ../../Tools_file/limma.r 
+[/var/www/html/Cloud_Platform/Cloud_Platform/public/system_file/limma] 45104  [2020-10-07 10:08:14][root][221.221.106.194]vim ../../Tools_file/limma.r 
