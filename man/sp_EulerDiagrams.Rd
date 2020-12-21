@@ -20,6 +20,7 @@ sp_EulerDiagrams(
   lty = 1,
   labels_font = 1,
   saveplot = NULL,
+  saveppt = FALSE,
   ...
 )
 }
@@ -61,6 +62,8 @@ order of each set.}
 \item{labels_font}{Font size for labels in Euler plot. Default \code{1}.}
 
 \item{saveplot}{Save plot to given file "a.pdf", "b.png".}
+
+\item{saveppt}{Output PPT format.}
 
 \item{...}{Other parameters given to base_plot_save}
 }

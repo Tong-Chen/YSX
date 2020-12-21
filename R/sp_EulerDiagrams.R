@@ -78,6 +78,7 @@ sp_EulerDiagrams <- function (data,
                               lty = 1,
                               labels_font = 1,
                               saveplot = NULL,
+                              saveppt = FALSE,
                               ...) {
 
   # library(eulerr)
@@ -143,6 +144,19 @@ sp_EulerDiagrams <- function (data,
     base_plot_save(saveplot, ...)
     print(a)
     dev.off()
+  }
+
+  if (saveppt){
+    p<-plot(
+      Euler,
+      quantities = list(type = type, font = font_quantities),
+      fill = fill_color,
+      legend = list(side = legend.position),
+      edges = list(lty = lty),
+      labels = list(font = labels_font)
+    )
+    eoffice::topptx(p,filename = paste0(saveplot,".pptx"))
+    # dev.off()
   }
   a
 }

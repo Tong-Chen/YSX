@@ -196,3 +196,7 @@
 [/root/pipeline/YSX/R] 49916  [2020-12-21 21:44:21][root][125.33.4.125]grep 'eoffice::topptx' *.R
 [/root/pipeline/YSX/R] 49917  [2020-12-21 21:45:03][root][125.33.4.125]#vim sp_pheatmap.R
 [/root/pipeline/YSX/R] 49918  [2020-12-21 21:45:07][root][125.33.4.125]vim flowerplot.R 
+[/root/pipeline/YSX/R] 49919  [2020-12-21 21:46:49][root][125.33.4.125]../../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 49920  [2020-12-21 21:48:28][root][125.33.4.125]vim flowerplot.R 
+[/root/pipeline/YSX/R] 49921  [2020-12-21 21:49:54][root][125.33.4.125]vim `which splot_flower.sh`
+[/root/pipeline/YSX/R] 49922  [2020-12-21 22:00:19][root][125.33.4.125]git pull
