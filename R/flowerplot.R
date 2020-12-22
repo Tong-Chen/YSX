@@ -96,7 +96,7 @@ flower_plot <- function(input, sep="\t", row.names=NULL, header=T,
                       start=start, a=a, b=b, r=r,
                       group_color=group_color,
                       label=label,common_color=common_color)
-    eoffice::topptx(p, filename = paste0(saveplot,".pptx"))
+    eoffice::topptx(eoffice::convertplot(p), filename = paste0(saveplot,".pptx"))
     dev.off()
   }
 
