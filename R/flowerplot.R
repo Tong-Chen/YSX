@@ -91,12 +91,12 @@ flower_plot <- function(input, sep="\t", row.names=NULL, header=T,
     dev.off()
   }
   if (saveppt){
-    p = flower_plot_inner(sample=sample,
+    p = eoffice::convertplot(flower_plot_inner(sample=sample,
                       total_num=total_num, core_num=core_num,
                       start=start, a=a, b=b, r=r,
                       group_color=group_color,
-                      label=label,common_color=common_color)
-    eoffice::topptx(eoffice::convertplot(p), filename = paste0(saveplot,".pptx"))
+                      label=label,common_color=common_color))
+    eoffice::topptx(p, filename = paste0(saveplot,".pptx"))
     dev.off()
   }
 
