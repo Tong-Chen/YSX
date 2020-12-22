@@ -91,6 +91,7 @@ flower_plot <- function(input, sep="\t", row.names=NULL, header=T,
     dev.off()
   }
   if (saveppt){
+	  library(eoffice)
     flower_plot_inner_ <- function () {
 		flower_plot_inner(sample=sample,
                       total_num=total_num, core_num=core_num,
@@ -99,7 +100,7 @@ flower_plot <- function(input, sep="\t", row.names=NULL, header=T,
                       label=label,common_color=common_color)
 	}
     #p <- recordPlot()
-    eoffice::topptx(eoffice::convertplot(flower_plot_inner_()), filename = paste0(saveplot,".pptx"))
+    eoffice::topptx(convertplot(flower_plot_inner_()), filename = paste0(saveplot,".pptx"))
     dev.off()
   }
 
