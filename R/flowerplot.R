@@ -93,14 +93,14 @@ flower_plot <- function(input, sep="\t", row.names=NULL, header=T,
   if (saveppt){
 	  library(eoffice)
 	  library(ggplotify)
-    flower_plot_inner_ <- function () {
-		flower_plot_inner(sample=sample,
+	  plot.new()
+	  flower_plot_inner(sample=sample,
                       total_num=total_num, core_num=core_num,
                       start=start, a=a, b=b, r=r,
                       group_color=group_color,
                       label=label,common_color=common_color)
-	}
-    p <- as.ggplot(as.grob(flower_plot_inner_()))
+	 p <- recordPlot()
+     p <- as.ggplot(as.grob(p))
     eoffice::topptx(p, filename = paste0(saveplot,".pptx"))
     dev.off()
   }
