@@ -475,38 +475,36 @@ sp_boxplot <- function(data,
     # print(formula)
     model = aov(formula, data = data)
     # print(model)
-    # if (length(unique(data$combine__grp__for__statistis_sp)) == 2) {
-    #   library(agricolae)
-    #   out = LSD.test(model, "combine__grp__for__statistis_sp", p.adj = "none")
-    #   # print(out)
-    #   LSD.test_table = as.data.frame(out$statistics)
-    #   stat = out$groups
-    #   data$stat = stat[as.character(data$combine__grp__for__statistis_sp), ]$groups
-    #
-    # } else{
-    Tukey_HSD = TukeyHSD(model, ordered = TRUE, conf.level = 0.95)
-    # return(Tukey_HSD)
-    Tukey_HSD_table = as.data.frame(Tukey_HSD$combine__grp__for__statistis_sp)
-	#print(Tukey_HSD$combine__grp__for__statistis_sp)
-	
+	Tukey_HSD = TukeyHSD(model, ordered = TRUE, conf.level = 0.95)
+	# return(Tukey_HSD)
+	Tukey_HSD_table = as.data.frame(Tukey_HSD$combine__grp__for__statistis_sp)
+	suppressWarnings(sp_writeTable(Tukey_HSD_table, file = paste0(filename, ".significance.txt")))
+
     if (length(unique(data$combine__grp__for__statistis_sp)) == 2) {
-		Tukey.levels = Tukey_HSD$combine__grp__for__statistis_sp[, 4, drop=F]
-	} else {
-		Tukey.levels = Tukey_HSD$combine__grp__for__statistis_sp[, 4]
-	}
-	
-	print(Tukey.levels)
-    Tukey.labels = data.frame(multcompLetters(Tukey.levels)['Letters'])
-	print(Tukey.labels)
-    Tukey.labels$group = rownames(Tukey.labels)
-    Tukey.labels = Tukey.labels[order(Tukey.labels$group), ]
-	print(Tukey.labels)
-    data$stat = Tukey.labels[as.character(data$combine__grp__for__statistis_sp),]$Letters
-    print(data)
-
-    suppressWarnings(sp_writeTable(Tukey_HSD_table, file = paste0(filename, ".significance.txt")))
-
-    # }
+       library(agricolae)
+       out = LSD.test(model, "combine__grp__for__statistis_sp", p.adj = "none")
+       # print(out)
+       LSD.test_table = as.data.frame(out$statistics)
+       stat = out$groups
+       data$stat = stat[as.character(data$combine__grp__for__statistis_sp), ]$groups
+    
+     } else{
+		# Tukey_HSD = TukeyHSD(model, ordered = TRUE, conf.level = 0.95)
+		# return(Tukey_HSD)
+		# Tukey_HSD_table = as.data.frame(Tukey_HSD$combine__grp__for__statistis_sp)
+		#print(Tukey_HSD$combine__grp__for__statistis_sp)
+		
+		if (length(unique(data$combine__grp__for__statistis_sp)) == 2) {
+			Tukey.levels = Tukey_HSD$combine__grp__for__statistis_sp[, 4, drop=F]
+		} else {
+			Tukey.levels = Tukey_HSD$combine__grp__for__statistis_sp[, 4]
+		}
+		
+		Tukey.labels = data.frame(multcompLetters(Tukey.levels)['Letters'])
+		Tukey.labels$group = rownames(Tukey.labels)
+		Tukey.labels = Tukey.labels[order(Tukey.labels$group), ]
+		data$stat = Tukey.labels[as.character(data$combine__grp__for__statistis_sp),]$Letters
+    }
 
     max = max(data[, c(yvariable)])
     min = min(data[, yvariable])
