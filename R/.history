@@ -237,3 +237,5 @@
 [/root/pipeline/YSX/R] 50201  [2020-12-22 22:26:46][root][125.33.4.125]vim sp_boxplot.R 
 [/root/pipeline/YSX/R] 50202  [2020-12-22 22:27:09][root][125.33.4.125]../../bin/bash/install_YSX.sh 
 [/root/pipeline/YSX/R] 50203  [2020-12-22 22:27:52][root][125.33.4.125]vim sp_boxplot.R 
+[/root/pipeline/YSX/R] 50204  [2020-12-22 22:28:05][root][125.33.4.125]../../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 50205  [2020-12-22 22:29:00][root][125.33.4.125]vim sp_boxplot.R 
