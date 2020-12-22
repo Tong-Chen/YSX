@@ -487,15 +487,22 @@ sp_boxplot <- function(data,
     Tukey_HSD = TukeyHSD(model, ordered = TRUE, conf.level = 0.95)
     # return(Tukey_HSD)
     Tukey_HSD_table = as.data.frame(Tukey_HSD$combine__grp__for__statistis_sp)
-	print(Tukey_HSD$combine__grp__for__statistis_sp)
-    Tukey.levels = Tukey_HSD$combine__grp__for__statistis_sp[, 4, drop=F]
+	#print(Tukey_HSD$combine__grp__for__statistis_sp)
+	
+    if (length(unique(data$combine__grp__for__statistis_sp)) == 2) {
+		Tukey.levels = Tukey_HSD$combine__grp__for__statistis_sp[, 4, drop=F]
+	} else {
+		Tukey.levels = Tukey_HSD$combine__grp__for__statistis_sp[, 4]
+	}
+	
 	print(Tukey.levels)
     Tukey.labels = data.frame(multcompLetters(Tukey.levels)['Letters'])
 	print(Tukey.labels)
     Tukey.labels$group = rownames(Tukey.labels)
     Tukey.labels = Tukey.labels[order(Tukey.labels$group), ]
+	print(Tukey.labels)
     data$stat = Tukey.labels[as.character(data$combine__grp__for__statistis_sp),]$Letters
-    # print(data)
+    print(data)
 
     suppressWarnings(sp_writeTable(Tukey_HSD_table, file = paste0(filename, ".significance.txt")))
 
