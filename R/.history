@@ -217,3 +217,8 @@
 [/root/pipeline/YSX/R] 50182  [2020-12-22 22:08:35][root][125.33.4.125]../../bin/bash/install_YSX.sh 
 [/root/pipeline/YSX/R] 50183  [2020-12-22 22:09:35][root][125.33.4.125]vim flowerplot.R 
 [/root/pipeline/YSX/R] 50183  [2020-12-22 22:09:35][root][125.33.4.125]vim flowerplot.R 
+[/root/pipeline/YSX/R] 50184  [2020-12-22 22:11:01][root][125.33.4.125]../../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 50185  [2020-12-22 22:11:42][root][125.33.4.125]vim flowerplot.R 
+[/root/pipeline/YSX/R] 50186  [2020-12-22 22:16:31][root][125.33.4.125]git pull
+[/root/pipeline/YSX/R] 50187  [2020-12-22 22:16:56][root][125.33.4.125]../../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 50188  [2020-12-22 22:17:04][root][125.33.4.125]vim flowerplot.R 
