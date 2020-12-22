@@ -487,6 +487,7 @@ sp_boxplot <- function(data,
     Tukey_HSD = TukeyHSD(model, ordered = TRUE, conf.level = 0.95)
     # return(Tukey_HSD)
     Tukey_HSD_table = as.data.frame(Tukey_HSD$combine__grp__for__statistis_sp)
+	print(Tukey_HSD$combine__grp__for__statistis_sp)
     Tukey.levels = Tukey_HSD$combine__grp__for__statistis_sp[, 4]
 	print(Tukey.levels)
     Tukey.labels = data.frame(multcompLetters(Tukey.levels)['Letters'])

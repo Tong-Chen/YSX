@@ -233,3 +233,5 @@
 [/root/pipeline/YSX/R] 50197  [2020-12-22 22:22:30][root][125.33.4.125]git push -u origin develop
 [/root/pipeline/YSX/R] 50198  [2020-12-22 22:23:12][root][125.33.4.125]ltr
 [/root/pipeline/YSX/R] 50199  [2020-12-22 22:23:16][root][125.33.4.125]vim sp_boxplot.R 
+[/root/pipeline/YSX/R] 50200  [2020-12-22 22:26:14][root][125.33.4.125]../../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 50201  [2020-12-22 22:26:46][root][125.33.4.125]vim sp_boxplot.R 
