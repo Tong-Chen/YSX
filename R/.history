@@ -222,3 +222,5 @@
 [/root/pipeline/YSX/R] 50186  [2020-12-22 22:16:31][root][125.33.4.125]git pull
 [/root/pipeline/YSX/R] 50187  [2020-12-22 22:16:56][root][125.33.4.125]../../bin/bash/install_YSX.sh 
 [/root/pipeline/YSX/R] 50188  [2020-12-22 22:17:04][root][125.33.4.125]vim flowerplot.R 
+[/root/pipeline/YSX/R] 50189  [2020-12-22 22:17:22][root][125.33.4.125]../../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 50190  [2020-12-22 22:18:33][root][125.33.4.125]vim flowerplot.R 
