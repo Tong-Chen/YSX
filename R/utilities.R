@@ -1030,21 +1030,22 @@ sp_ggplot_layout <-
 			 # added for abnormal pdf output
 			 useDingbats = FALSE,
              ...)
+	
+	  cwd = getwd()
+	  #print(cwd)
+	  #print(filename)
+	  if(grepl("Cloud_Platform", cwd)){
+	  	cwd = "/var/www/html/Cloud_Platform//Cloud_Platform/public/"
+	    # filename_ = basename(filename)
+		filename = paste0(cwd, filename)
+		#print(filename)
+	  }
       if (saveppt){
 	  # print(filename)
 	  # print(dirname(filename))
 	  # print(getSrcDirectory(function(x) {x}))
 	  # print(dirname(sys.frame(1)$ofile))
 	  # normalizePath(paste0(getwd(),dirname(filename),sep="/"))
-	  cwd = getwd()
-	  print(cwd)
-	  print(filename)
-	  if(grepl("Cloud_Platform", cwd)){
-	  	cwd = "/var/www/html/Cloud_Platform//Cloud_Platform/public/"
-	    # filename_ = basename(filename)
-		filename = paste0(cwd, filename)
-		print(filename)
-	  }
       eoffice::topptx(p, filename = paste0(filename,".pptx"),
              width = width, height = height)
       }

@@ -245,3 +245,8 @@
 [/root/pipeline/YSX/R] 50207  [2020-12-22 22:32:57][root][125.33.4.125]vim sp_boxplot.R 
 [/root/pipeline/YSX/R] 50208  [2020-12-22 22:48:12][root][125.33.4.125]../../bin/bash/install_YSX.sh 
 [/root/pipeline/YSX/R] 50209  [2020-12-22 22:51:36][root][125.33.4.125]vim sp_boxplot.R 
+[/root/pipeline/YSX/R] 50210  [2020-12-22 22:54:16][root][125.33.4.125]../../bin/bash/install_YSX.sh 
+[/root/pipeline/YSX/R] 50211  [2020-12-22 22:55:40][root][125.33.4.125]git add sp_boxplot.R 
+[/root/pipeline/YSX/R] 50212  [2020-12-22 22:55:57][root][125.33.4.125]git commit 'statistics table'
+[/root/pipeline/YSX/R] 50213  [2020-12-22 22:56:14][root][125.33.4.125]git commit -m 'statistics table'
+[/root/pipeline/YSX/R] 50214  [2020-12-22 22:56:22][root][125.33.4.125]git push -u origin develop
