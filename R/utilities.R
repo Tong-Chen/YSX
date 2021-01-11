@@ -463,9 +463,10 @@ mixedToFloat <- function(x) {
 #' generate_color_list("Set3", 5)
 #'
 
-generate_color_list <- function(color, number, alpha = 1) {
+generate_color_list <- function(color, number, alpha = 1, constantColor=F) {
   color = color[color!="None" & color !=""]
   color_len = length(color)
+
   if (color_len == 1) {
     brewer = rownames(RColorBrewer::brewer.pal.info)
     if (color %in% brewer) {
@@ -481,12 +482,25 @@ generate_color_list <- function(color, number, alpha = 1) {
           colorRampPalette(RColorBrewer::brewer.pal(3, color))(number)
       }
     } else{
-      colorL <- rep(color, number)
+      if(constantColor){
+        colorL <- c(color, rep("gray23",number-1))
+      } else {
+        colorL <- rep(color, number)
+      }
     }
   } else if (color_len == number) {
     colorL = color
   } else{
-    colorL = colorRampPalette(color)(number)
+    if(constantColor) {
+      if ((number - color_len) < 0) {
+        colorL <- color[1:number]
+      } else{
+        colorL <- c(color, rep("gray23", number - color_len))
+      }
+    } else {
+      colorL = colorRampPalette(color)(number)
+    }
+
   }
   return(rgb(
     t(col2rgb(colorL)),
@@ -1030,7 +1044,7 @@ sp_ggplot_layout <-
 			 # added for abnormal pdf output
 			 useDingbats = FALSE,
              ...)
-	
+
 	  cwd = getwd()
 	  #print(cwd)
 	  #print(filename)
