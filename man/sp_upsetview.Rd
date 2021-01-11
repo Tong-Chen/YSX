@@ -24,6 +24,8 @@ sp_upsetview(
   saveplot = NULL,
   debug = FALSE,
   saveppt = FALSE,
+  main_bar_color_vector = "gray23",
+  constantColor = T,
   ...
 )
 }
