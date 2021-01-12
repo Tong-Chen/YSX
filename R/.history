@@ -250,3 +250,7 @@
 [/root/pipeline/YSX/R] 50212  [2020-12-22 22:55:57][root][125.33.4.125]git commit 'statistics table'
 [/root/pipeline/YSX/R] 50213  [2020-12-22 22:56:14][root][125.33.4.125]git commit -m 'statistics table'
 [/root/pipeline/YSX/R] 50214  [2020-12-22 22:56:22][root][125.33.4.125]git push -u origin develop
+[/root/pipeline/YSX/R] 50674  [2021-01-12 21:12:16][root][125.33.5.166]cd R
+[/root/pipeline/YSX/R] 50675  [2021-01-12 21:12:17][root][125.33.5.166]ltr
+[/root/pipeline/YSX/R] 50676  [2021-01-12 21:12:20][root][125.33.5.166]vim sp_upsetView.R 
+[/root/pipeline/YSX/R] 50677  [2021-01-12 21:13:16][root][125.33.5.166]R

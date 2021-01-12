@@ -7,84 +7,116 @@
 sp_boxplot(
   data,
   melted = FALSE,
-  xvariable = "",
-  value = "",
-  variable = "",
+  xvariable = NULL,
+  yvariable = NULL,
+  legend_variable = NULL,
   statistics = FALSE,
   xtics_angle = 0,
-  level_i = c(),
-  legend_cut = NULL,
-  x_level = c(),
-  x_cut = NULL,
-  scaleY = FALSE,
+  legend_variable_order = NULL,
+  legend_variable_cut = NULL,
+  xvariable_order = NULL,
+  xvariable_cut = NULL,
+  group_variable_for_line = NULL,
+  group_variable_order_for_line = NULL,
   y_add = 0,
-  scaleY_x = "scale_y_log10()",
+  yaxis_scale_mode = NULL,
   notch = FALSE,
   par = NULL,
   outlier = FALSE,
   out_scale = 1.05,
   legend.position = "right",
-  color_v = NULL,
+  manual_color_vector = NULL,
   violin = FALSE,
   violin_nb = FALSE,
   scale_violin = "width",
   ID_var = c(),
   jitter = FALSE,
   jitter_bp = FALSE,
+  dotplot = FALSE,
+  dotplot_bp = FALSE,
   colormodel = "srgb",
   coordinate_flip = FALSE,
-  facet = "NoMeAnInGTh_I_n_G_s",
-  facet_level = NULL,
+  facet_variable = NULL,
+  facet_variable_order = NULL,
   x_label = NULL,
   y_label = NULL,
   title = NULL,
-  nrow = NULL,
-  ncol = NULL,
-  scales = "fixed",
-  gene = NULL,
-  sampleGroup = NULL,
+  facet_nrow = NULL,
+  facet_ncol = NULL,
+  facet_singlecell_style = F,
+  facet_scales = "fixed",
+  metadata = NULL,
+  debug = F,
+  filename = NULL,
+  extra_ggplot2_cmd = NULL,
   ...
 )
 }
 \arguments{
-\item{data}{Data file (with header line, the first row is the colname, tab seperated. Multiple formats are allowed and described above)}
+\item{data}{Data file (with header line, the first row is the colname,
+tab seperated. Multiple formats are allowed and described above)}
 
-\item{melted}{When FALSE, it will skip preprocess. Default FALSE.}
+\item{melted}{When TRUE, meaning a long format matrix is supplied to \code{data}.
+function will skip preprocess. Default FALSE.}
 
-\item{xvariable}{The column represents the digital values.}
+\item{xvariable}{The column represents the x-axis values. For unmelted data, the program
+will use first column as x-variable. If one want to use first row of unmelted data
+as x-variable, please specify \code{variable} here (which is an inner name).
+Or if one want to use other columns in \code{metadata}.}
 
-\item{value}{The column represents the digital values. This parameter can only be set when \code{melted} is FALSE.}
+\item{yvariable}{The column represents the digital values.
+For unmelted data, the program
+will use \code{value} as y-variable (which is an inner name).
+This parameter can only be set when \code{melted} is TRUE.}
 
-\item{variable}{The column represents the variable information, meaning legend_variable.}
+\item{legend_variable}{The column represents the legend information.
+Default \code{xvariable} if not specified.}
 
-\item{xtics_angle}{Rotation angle for x-axis value. Default 0.}
+\item{xtics_angle}{Rotation angle for a-axis. Default 0.}
 
-\item{level_i}{Levels for legend variable. Default data order,accept input like c('TP16','TP22','TP23') for variable column.}
+\item{legend_variable_order}{Levels for legend variable.
+Default data order, accept a vector like c('TP16','TP22','TP23') for \code{legend_variable} column.}
 
-\item{legend_cut}{Self-define intervals for legend variable when legend is continuous numbers.}
+\item{legend_variable_cut}{Self-define intervals for legend variable when
+values in \code{legend_variable} column is continuous numbers.}
 
-\item{x_level}{Levels for x-axis variable. Default data order, accept input like c('g','a','j','x','s','c','o','u') for Set column.}
+\item{xvariable_order}{xvariable_order Levels for x-axis variable. Default data order, accept input like c('g','a','j','x','s','c','o','u') for Set column.}
 
-\item{x_cut}{Self-define intervals for x-axis variable.}
+\item{xvariable_cut}{sxvariable_cut Self-define intervals for x-axis variable.}
 
-\item{scaleY}{Scale y axis. Default FALSE.  Accept TRUE. Also if the supplied number after \code{y_add} is not 0, this parameter will be set to TRUE}
+\item{group_variable_for_line}{Specify the group of points to line together (one column name).}
 
-\item{y_add}{A number to add if scale is used. Default 0.}
+\item{group_variable_order_for_line}{Levels for group variable for lines.}
 
-\item{scaleY_x}{If scale is TRUE, give the following scale_y_log10() (default), coord_trans(y="log10"), scale_y_continuous(trans=log2_trans()), coord_trans(y="log2"),
-or other legal command for ggplot2).}
+\item{y_add}{A number to add if log scale is used.
+Default 0 meaning the minimum non-zero value would be used.}
+
+\item{yaxis_scale_mode}{Give the following \code{scale_y_log10()},
+\code{coord_trans(y="log10")}, or other legal command for ggplot2 or
+simply \code{log2} to set the scale way.}
 
 \item{notch}{Using notch (sand clock shape) or not. Default FALSE.}
 
-\item{outlier}{Exclude outliers. Exclude outliers or not, default FALSE means not.}
+\item{outlier}{Exclude outliers. Exclude outliers or not, default `FALSE`` means keeping outliers.}
 
-\item{out_scale}{The scales for you want to zoom in to exclude outliers. Default 1.05. No recommend to change unless you know what you are doing.}
+\item{out_scale}{The scales for one want to set to exclude outliers.
+Default 1.05. No recommend to change unless you know what you are doing.}
 
 \item{legend.position}{Position of legend, accept top, bottom, left, right, none or c(0.8,0.8).}
 
-\item{color_v}{Manually set colors for each box. Default NULL, meaning using ggplot2 default.}
+\item{manual_color_vector}{Manually set colors for each geom.
+Default NULL, meaning using ggplot2 default.
+Colors like c('red', 'blue', '#6181BD') (number of colors not matter) or
+a RColorBrewer color set like  "BrBG"     "PiYG"     "PRGn"     "PuOr"
+"RdBu"     "RdGy"     "RdYlBu"   "RdYlGn"  "Spectral" "Accent"
+"Dark2"    "Paired"   "Pastel1"  "Pastel2"  "Set1"
+"Set2"    "Set3"     "Blues"    "BuGn"     "BuPu"
+"GnBu"     "Greens"   "Greys"    "Oranges" "OrRd"     "PuBu"
+"PuBuGn"   "PuRd"     "Purples"  "RdPu"     "Reds"
+"YlGn"    "YlGnBu"   "YlOrBr"   "YlOrRd"
+(check http://www.sthda.com/english/wiki/colors-in-r for more).}
 
-\item{violin}{Do violin plot instead of boxplot.}
+\item{violin}{Do violin plot plus inner boxplot.}
 
 \item{violin_nb}{Do violin plot without inner boxplot.}
 
@@ -93,47 +125,60 @@ if "area", all violins have the same area (before trimming the tails).
 If "count", areas are scaled proportionally to the number of observations.
 If "width", all violins have the same maximum width. 'equal' is also accepted.}
 
-\item{ID_var}{Other columns you want to treat as ID variable columns except the one given to \code{xvariable}.}
+\item{ID_var}{Other columns one want to treat as ID variable columns
+except the one given to \code{xvariable}.}
 
 \item{jitter}{Do jitter plot instead of boxplot.}
 
-\item{jitter_bp}{Do jitter plot overlay with violinplot or boxplot or both.}
+\item{jitter_bp}{Do jitter plot overlay with violin plot or boxplot or both.}
 
-\item{coordinate_flip}{Rotate the plot from vertical to horizontal. Usefull for plots with many values or very long labels at X-axis}
+\item{dotplot}{Do dotplot plot instead of boxplot.}
 
-\item{facet}{Wrap plots by given column. This is used to put multiple plot in one picture. Used when \code{melted} is FALSE, normally a string set should be suitable for this parameter.}
+\item{dotplot_bp}{Do dotplot plot overlay with violin plot or boxplot or both.}
 
-\item{facet_level}{The levels of wrapping to set the order of each group.}
+\item{coordinate_flip}{Rotate the plot from vertical to horizontal.
+Usefull for plots with many values or very long labels at X-axis}
 
-\item{x_label}{Xlab label.Default NULL.}
+\item{facet_variable}{Wrap plots by given column (one of column names should be specified).
+This is used to put multiple plot in one picture.}
 
-\item{y_label}{Ylab label.Default NULL.}
+\item{facet_variable_order}{The levels of wrapping to set the order of each group.}
+
+\item{x_label}{Xlab label.}
+
+\item{y_label}{Ylab label.}
 
 \item{title}{Title of picture.}
 
-\item{nrow}{The number of rows one want when \code{melted} is used. Default NULL.}
+\item{facet_nrow}{The number of rows one want when \code{facet} is used. Default NULL.}
 
-\item{ncol}{The number of columns one want when \code{melted} is used. Default NULL.}
+\item{facet_ncol}{The number of columns one want when \code{facet} is used. Default NULL.}
 
-\item{scales}{Paramter for scales for facet. Optional, only used when \code{x_level} is given. Default each
-inner graph use same scale (x,y range).
-'free' (variable x, y ranges for each sub-plot), 'free_x' (variable x ranges for each sub-plot), 'free_y'  is accepted.}
+\item{facet_singlecell_style}{Use specified style for showing single cell gene expression profile. Default FALSE.}
 
-\item{gene}{Giving one gene ID to do boxplot specifically for this gene. Default FALSE, accept a string.}
+\item{facet_scales}{Paramter for scales for facet. Default \code{fixed} meaning each inner graph
+use same scale (x,y range), \code{free} (variable x, y ranges for each sub-plot),
+\code{free_x} (variable x ranges for each sub-plot), \code{free_y} (variable y ranges for each sub-plot).}
 
-\item{sampleGroup}{Giving a sampleGroup file with format specified above to tell the group information for each sample.}
+\item{metadata}{Giving a metadata file with format specified in example
+to tell the group information for each sample.}
 
-\item{...}{}
+\item{filename}{Output picture to given file.}
+
+\item{extra_ggplot2_cmd}{Extra ggplot2 commands (currently unsupported)}
+
+\item{...}{Parametes given to \code{sp_ggplot_layout}}
 }
 \value{
 A ggplot2 object
 }
 \description{
-Generating box plot
+\code{metadata}
 }
 \examples{
 
-box_test_data <- data.frame(ID = letters[1:4], Gene = letters[c(8,8,9,9,10,10,11,11)], Expr = runif(16))
+box_test_data <- data.frame(ID = letters[1:4],
+Gene = letters[c(8,8,9,9,10,10,11,11)], Expr = runif(16))
 sp_boxplot(data = box_test_data, xvariable = "ID", value = "Expr", variable ="Gene")
 
 ## Not run:
