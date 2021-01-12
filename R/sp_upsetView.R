@@ -171,10 +171,14 @@ sp_upsetview <- function (data,
   # }
 
 
-
   if (main_bar_color_vector != "gray23") {
+    if (!is.na(nintersects)){
+      main_bar_color_vector <-
+        generate_color_list(main_bar_color_vector, nintersects,
+                            alpha = 1, constantColor = T)
+    }
     main_bar_color_vector <-
-        generate_color_list(main_bar_color_vector, number,
+        generate_color_list  (main_bar_color_vector, number,
                             alpha = 1, constantColor = T)
   }
 

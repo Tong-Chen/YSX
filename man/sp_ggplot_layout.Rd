@@ -9,35 +9,24 @@ sp_ggplot_layout(
   xtics_angle = 0,
   legend.position = "right",
   extra_ggplot2_cmd = NULL,
-  filename = NULL,
+  file_name = NULL,
   x_label = NULL,
   y_label = NULL,
   title = NULL,
   coordinate_flip = FALSE,
-  ylim = NULL,
-  width = 12,
-  height = 6.18,
-  fontname = "",
-  base_font_size = 10,
-  additional_theme = NULL,
-  zoom_split = FALSE,
-  zoom_xlim = NULL,
-  zoom_ylim = NULL,
-  saveppt = FALSE,
-  savehtml = FALSE,
   ...
 )
 }
 \arguments{
 \item{p}{A ggplot2 object}
 
-\item{xtics_angle}{Rotation angle for a-axis. Default 0.}
+\item{xtics_angle}{Rotation angle for a-axis}
 
 \item{legend.position}{Position of legend, accept top, bottom, left, right, none or c(0.8,0.8).}
 
-\item{extra_ggplot2_cmd}{Extra ggplot2 commands (currently unsupported)}
+\item{extra_ggplot2_cmd}{ggplot2 commands}
 
-\item{filename}{Output picture to given file.}
+\item{file_name}{Output ggplot2 object to given file.}
 
 \item{x_label}{Xlab label.}
 
@@ -46,20 +35,6 @@ sp_ggplot_layout(
 \item{title}{Title of picture.}
 
 \item{coordinate_flip}{Flip cartesian coordinates so that horizontal becomes vertical, and vertical, horizontal. This is primarily useful for converting geoms and statistics which display y conditional on x, to x conditional on y.}
-
-\item{width}{Picture width (units: cm)}
-
-\item{height}{Picture height (units: cm)}
-
-\item{zoom_split}{If both x and y is given, should each axis zoom be shown separately as well? Defaults to FALSE.}
-
-\item{zoom_xlim}{Specific zoom ranges for x axis.}
-
-\item{zoom_ylim}{Specific zoom ranges for y axis.}
-
-\item{saveppt}{Output PPT format.}
-
-\item{savehtml}{Save the images as HTML files.}
 
 \item{...}{Extra parameters to \code{\link[ggplot2]{ggsave}}.}
 }
